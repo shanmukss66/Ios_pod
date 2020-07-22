@@ -1,27 +1,18 @@
-#container {
-  text-align: center;
 
+
+.mainimg{
+   height: 33.3%;
+   width: 100%;
+   
+   
+}
+.logodiv{
+  width: 29.5%;
+  height: 18.1%;
+  opacity: 0.83;
+  border-radius: 5px;
+  background-color: #ffffff;
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  left: 33.5%;
+  top:6.2%;
 }
