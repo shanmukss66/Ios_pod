@@ -7,7 +7,7 @@ import { InvoicePage } from '../invoice/invoice.page';
 const routes: Routes = [
   {
     path: '',
-    component: InvoicePage,
+    component: SigninPage,
   }
   // {
   //   path:'invoice',

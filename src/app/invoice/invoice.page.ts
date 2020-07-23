@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-invoice',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoicePage implements OnInit {
 
-  constructor() { }
+  constructor(private alertController:AlertController, private addEventListener:EventListener ) { }
 
   ngOnInit() {
   }
+   
+  
 
+  
 }

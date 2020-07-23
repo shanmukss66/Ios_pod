@@ -106,7 +106,7 @@
   background-color: #4452c6;
 }
 .pending{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 3.2vw;
   font-weight: 600;
   font-stretch: normal;
@@ -120,27 +120,27 @@
   top: 2.5%;
 }
 .card-header{
-    width: 99.7;
+    width: 100%;
     height: 27.6%;
     background-color: #f5f4f4;
 }
 .card{
-    width: 90%;
-    height: 25.5%;
-    border-radius: 1vw;
+    width: 93%;
+    height: 25%;
+    border-radius: 1.3vw;
     position: absolute;
-    left: 3.5%;
-    top: 4.3%;
+    left: 1%;
+    top: 2.3%;
     
 
 }
 .card-div{
-    height: 64.8%;
-    width: 87%;
+    height: 92.5%;
+    width: 100%;
     position: absolute;
-   
+  
     top: 7%;
-    left: 3.5%;
+    
     
 }
 
@@ -175,7 +175,7 @@
 }
 .cardbody{
     width: 100%;
-    height:42%;
+    height:38%;
     border-bottom: 2px solid #d5d5d5 ;
    
 }
@@ -283,7 +283,7 @@
 
 .view-txt{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 2.4vw;
+    font-size: 3vw;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -294,17 +294,17 @@
 }
 
 .confirm{
-    width: 27%;
-    height: 17.2%;
+    width: 28%;
+    height: 22.2%;
     position: absolute;
-    left: 68.1%;
-    top: 48%;
+    left: 67%;
+    top: 47%;
     border-radius: 5px;
    background-color: #4452c6;
 }
 .con-txt{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 2.4vw;
+    font-size: 3vw;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -313,13 +313,13 @@
     text-align: center;
     color: #ffffff;
     position: absolute;
-    top: 25%;
-    left:42% ;
+    top: 28.5%;
+    left:35% ;
 }
 .tick{
-    width: 11.3%;
-    height: 40.8%;
+    width: 13.3%;
+    height: 42.8%;
     position: absolute;
     top: 29.2%;
-    left: 21.8%;
+    left: 17%;
 }

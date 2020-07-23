@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'invoice',
     loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule)
   },
+  {
+    path: 'charts',
+    loadChildren: () => import('./charts/charts.module').then( m => m.ChartsPageModule)
+  },
 ];
 
 @NgModule({
