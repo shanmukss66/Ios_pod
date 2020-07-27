@@ -1,9 +1,82 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>charts</ion-title>
-  </ion-toolbar>
-</ion-header>
+<body style="overflow: auto;">
+  <ion-header class="header">
+    <ion-label class="name">Hello Casandra Mariya,</ion-label>
+    <ionlabel class="A-and-P">Approved and Pending Tickets</ionlabel>
+    <img class="bell" src="../../assets/img/bell.svg"><div class="noti-number">9</div>
+    <img class="pic" src="../../assets/img/user (1)@3x.png">
+  </ion-header>
+  
+  <ion-content>
+    <ion-card class="card" >
+      <ion-card-header class="card-header">
+          <ion-label class="title">APPROVED / PENDING INVOICES</ion-label>
+          <div class="history"><ion-label class="history-txt">PAST 7 DAYS</ion-label></div>
+          
+      </ion-card-header>
+      <ion-card-content style="height:100%; width: 100%; ">
+        
+       <div style="height: 100%; width: 50%; float: left; padding-top: 15%;">
+        <canvas   #doughnutCanvas ></canvas>
+       </div>  
+         
+        <div  style="height: 100%; width: 50%; float: right; ">
+         <div style="width:100%; height: 42%; ">
+          
+          <span class="dot1"></span>
+          <ion-label class="dot1-txt">INVOICE DISPATCHED</ion-label>
+          <span class="dot2"></span>
+          <ion-label class="dot2-txt">POD CONFIRMED</ion-label>
+        </div>
 
-<ion-content>
-
-</ion-content>
+         <div style="width:100%; height: 58%; padding-top: 15%;">
+          <ion-label for="prog1">Approved</ion-label>
+          <ion-progress-bar style="color: #fb7800;" id="prog1" value="0.7"></ion-progress-bar><br>
+          <ion-label for="prog2">Pending</ion-label>
+          <ion-progress-bar style="color:#4452c6;" id="prog2" value="0.3"></ion-progress-bar><br>
+        </div>
+        </div> 
+      
+        
+        
+       
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card class="card-2">
+      <ion-card-header class="card-header">
+          <ion-label class="title">DELIVERY STATUS</ion-label>
+          <div class="history"><ion-label class="history-txt">PAST 7 DAYS</ion-label></div>
+          
+      </ion-card-header>
+      
+        <ion-card-content style="height:100%; width: 100%; ">
+        
+          <div style="height: 100%; width: 50%; float: left; padding-top: 20%;">
+           <canvas   #doughnutCanvas1 ></canvas>
+          </div>  
+            
+           <div  style="height: 100%; width: 50%; float: right; ">
+            <div style="width:100%; height: 43%; ">
+              <span class="dot3"></span>
+              <ion-label class="dot3-txt">ON-TIME DELIVERY</ion-label>
+              <span class="dot4"></span>
+              <ion-label class="dot4-txt">LATE DELIVERY</ion-label>
+            </div>
+            <div style="width:100%; height: 57%; padding-top: 20%;">
+              <ion-label for="prog3">Total Deliveries</ion-label><br>
+              <ion-label for="prog3"><ion-label for="prog3" style="color:#51dd96;">226</ion-label>/340</ion-label>
+              <ion-progress-bar color="success"  id="prog3" value="0.7"></ion-progress-bar><br>
+              
+            </div>
+           </div> 
+         
+           
+           
+          
+         
+        
+      </ion-card-content>
+    </ion-card> 
+  </ion-content>
+  
+</body>

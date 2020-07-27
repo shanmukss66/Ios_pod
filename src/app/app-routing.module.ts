@@ -23,6 +23,14 @@ const routes: Routes = [
     path: 'charts',
     loadChildren: () => import('./charts/charts.module').then( m => m.ChartsPageModule)
   },
+  {
+    path: 'description',
+    loadChildren: () => import('./description/description.module').then( m => m.DescriptionPageModule)
+  },
+  {
+    path: 'alertbox',
+    loadChildren: () => import('./alertbox/alertbox.module').then( m => m.AlertboxPageModule)
+  },
 ];
 
 @NgModule({

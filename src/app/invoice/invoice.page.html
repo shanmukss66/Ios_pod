@@ -11,19 +11,19 @@
    <ion-label class="pending">Pending (10)</ion-label>
    <div class="ul-2" [hidden]="true"></div>
   <div class="card-div">
-    <ion-card class="card" (click)="handleButtonClick()">
+    <ion-card  *ngFor="let d of data" class="card">
       <ion-card-header class="card-header"><ion-label class="invoiceno">INVOICE NO: </ion-label ><ion-label class="num">7538982</ion-label></ion-card-header>
       <ion-card-content style="padding: 0%; width: 100%; height: 100%;">
         <div class="cardbody">
             <ion-label class="vehicle">Vehicle No:</ion-label>
             <ion-label class="vehicleno">TN 66 A 1278</ion-label>
             <ion-label class="eway"> Ewaybill No:</ion-label>
-            <ion-label class="ewaybill">#74736434</ion-label>
+            <ion-label class="ewaybill">{{d.key1}}</ion-label>
             <ion-label class="outbound">Outbound Delivery:</ion-label>
             <ion-label class="outbounddelivery">877932</ion-label>
         </div>
         <div>
-         <button class="view"><ion-label class="view-txt">View Details</ion-label></button>
+         <button class="view" (click)="handleButtonClick()" ><ion-label class="view-txt">View Details</ion-label></button>
          <button class="confirm"><ion-label class="con-txt">Confirm</ion-label>
         <img class="tick" src="../../assets/img/tick (3).svg">
         </button>
@@ -31,6 +31,5 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <ion-alert-controller>
-  </ion-alert-controller>
+  
 </ion-content>

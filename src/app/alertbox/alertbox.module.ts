@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChartsPageRoutingModule } from './charts-routing.module';
-import {ChartsModule} from 'ng2-charts';
-import { ChartsPage } from './charts.page';
+import { AlertboxPageRoutingModule } from './alertbox-routing.module';
+
+import { AlertboxPage } from './alertbox.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChartsModule,
-    ChartsPageRoutingModule,
-    
+    AlertboxPageRoutingModule
   ],
-  declarations: [ChartsPage]
+  declarations: [AlertboxPage]
 })
-export class ChartsPageModule {}
+export class AlertboxPageModule {}
