@@ -12,6 +12,6 @@ export class SigninPage implements OnInit {
   ngOnInit() {
   }
   onClick(){
-    this.router.navigate(['/invoice'])
+    this.router.navigate(['/charts'])
   }
 }

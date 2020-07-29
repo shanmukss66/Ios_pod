@@ -7,127 +7,125 @@
 </ion-header>
 
 <ion-content>
-  <ion-card class="maincard">
-    <ion-card-header class="maincard-header">
-      <div class="headerline"></div>
-      <div class="headingbox">
-        <ion-label class="heading">INVOICE</ion-label>
-      </div>
-      <div class="invoicedescription">
-        <ion-grid>
-          <ion-row>
-            <ion-col class="invoicedet">
-              <ion-label>INVOICE NO:</ion-label>
-            </ion-col>
-            <ion-col class="invoicedet">
-              <ion-label>INVOICE DT:</ion-label>
-            </ion-col>
-            <ion-col class="invoicedet">
-              <ion-label>INVOICE TYPE:</ion-label>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="invoicedet-1">
-              <ion-label>#846593</ion-label>
-            </ion-col>
-            <ion-col class="invoicedet-1">
-              <ion-label>23/06/1717</ion-label>
-            </ion-col>
-            <ion-col class="invoicedet-1">
-              <ion-label>Test</ion-label>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </div>
-    </ion-card-header>
+  <div
+    style="width: 100%; height: 100%; display: flex; align-items: flex-start; justify-content: center; margin-top: 5%;">
+    <ion-card class="maincard">
+      <ion-card-header class="maincard-header">
+        <div class="headerline"></div>
+        <div class="headingbox">
+          <ion-label class="heading">INVOICE</ion-label>
+        </div>
+        <div class="invoicedescription">
+          <div>
+            <ion-label class="invoice">INVOICE NO:</ion-label><br>
+            <ion-label class="invoiceno">#846593</ion-label>
 
 
-    <ion-card-content style="padding:0%">
-      <div>
-        <ion-grid>
-          <ion-row>
-            <ion-grid>
-              <ion-row>
-                <ion-col style="text-align: center; padding-top: 10%;">
-                  <img src="../../assets/img/truck (2).svg" class="truck-2"><br>
+          </div>
+          <div>
 
-                  <ion-label>Vehicle ID</ion-label><br>
-                  <ion-label>#846593:</ion-label>
-                </ion-col>
-                <ion-col style="text-align: center; padding-top: 10%;">
-                  <img src="../../assets/img/send (2).svg" class="send-2"><br>
-                  <ion-label>Forward Agent</ion-label><br>
-                  <ion-label>Walmart</ion-label>
-                </ion-col>
-                <ion-col style="text-align: center; padding-top: 10%;">
-                  <img src="../../assets/img/invoice (2).svg" class="invoice-2"><br>
-                  <ion-label>Ewaybill No:</ion-label><br>
-                  <ion-label>436892</ion-label>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-row>
-        </ion-grid>
-      </div>
+            <ion-label class="invoice">INVOICE DT:</ion-label><br>
 
-      <div style="border-top: 2px solid #e2e2e2;">
-        <ion-grid style="padding:0%">
-          <ion-row>
-            <ion-col style="text-align: center; padding-top: 5%;padding-bottom:5% ; border-right: 2px solid #e2e2e2;border-bottom: 2px solid #e2e2e2;">
-              <img src="../../assets/img/shipping-and-delivery (3).svg" class="invoice-2"><br>
-              <ion-label>FREIGHT ORDER:</ion-label><br>
-              <ion-label>436892</ion-label>
-            </ion-col>
-            <ion-col style="text-align: center; padding-top: 5%;padding-bottom:5%;border-bottom: 2px solid #e2e2e2;">
-              <img src="../../assets/img/calendar.svg" class="invoice-2"><br>
-              <ion-label>FREIGHT ORDER DT:</ion-label><br>
-              <ion-label>436892</ion-label>
-            </ion-col>
-          </ion-row>
-          <ion-row style="padding:0%">
-            <ion-col style="text-align: center; padding-top: 5%;padding-bottom:5%; ">
-              <img src="../../assets/img/robot.svg" class="invoice-2"><br>
-              <ion-label>PLANT:</ion-label><br>
-              <ion-label>436892</ion-label>
-            </ion-col>
-            <ion-col style="text-align: center; padding-top: 5%;padding-bottom:5%; border-left: 2px solid #e2e2e2;">
-              <img src="../../assets/img/organization.svg" class="invoice-2"><br>
-              <ion-label>ODIN:</ion-label><br>
-              <ion-label>436892</ion-label>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
+            <ion-label class="invoiceno">23/06/2020</ion-label>
 
-    </ion-card-content>
-  </ion-card>
-  <div class="lastheading">
-    <ion-label class="item-det">Invoice Item Details</ion-label><br>
 
-    <div class="underline"></div>
+          </div>
 
-  </div>
+          <div>
+            <ion-label class="invoice">INVOICE TYPE:</ion-label><br>
+            <ion-label class="invoiceno">Test</ion-label>
+          </div>
 
-  <div class="downmaingrid">
-    <div style="width: 100%;height: 50%; border-bottom: 2px solid #e2e2e2; ">
-      <div class="downgrid-1">
-        <img src="../../assets/img/to-do-list.png" class="invoice-21"><br>
-              <ion-label>ODIN:</ion-label><br>
-              <ion-label>436892</ion-label>
-      </div>
+        </div>
+      </ion-card-header>
+
+
+      <ion-card-content style="height: 100%; width: 100%; padding: 0%;">
+        <div
+          style="width: 100%; height: 25%; display: flex; justify-content: space-around; align-items: center; border-bottom: 1.5px #e2e2e2 solid">
+          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <img class="div1img" src="../../assets/img/truck (2).svg">
+            <ion-label class="div1txt" for="a1">Vehicle ID</ion-label>
+            <ion-label class="div1det" id="a1">#846593</ion-label>
+          </div>
+
+          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <img class="div1img" src="../../assets/img/send (2).svg">
+            <ion-label class="div1txt" for="a2">Forward Agent</ion-label>
+            <ion-label class="div1det" id="a2">Walmart</ion-label>
+          </div>
+
+          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <img class="div1img" src="../../assets/img/invoice (2).svg">
+            <ion-label class="div1txt" for="a3">Ewaybill No:</ion-label>
+            <ion-label class="div1det" id="a3">436892</ion-label>
+          </div>
+
+
+
+        </div>
+        <div fxLayout="column" style="height: 75%; width: 100%; ">
+          <div fxLayout="row" fxFlex="33" style="border-bottom: 1.5px #e2e2e2 solid;">
+            <div fxLayout="row" fxFlex fxLayoutGap="20px">
+              <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img"
+                  src="../../assets/img/shipping-and-delivery (3).svg"></div>
+              <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column">
+                <ion-label class="div1txt">FREIGHT ORDER:</ion-label>
+                <ion-label class="div1det">#846593</ion-label>
+              </div>
+            </div>
+
+
+
+            <div fxLayout="row" fxFlex fxLayoutGap="20px" style="border-left: 1.5px #e2e2e2 solid;">
+              <div fxFlex="40" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/calendar.svg">
+              </div>
+              <div fxFlex="60" fxLayoutAlign="center start" fxLayout="column">
+                <ion-label class="div1txt">FREIGHT ORDER DT:</ion-label>
+                <ion-label class="div1det">26/06/2020</ion-label>
+              </div>
+            </div>
+
+          </div>
+
+
+
+
+
+          <div fxLayout="row" fxFlex="33">
+
+            <div fxLayout="row" fxFlex fxLayoutGap="20px">
+              <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/robot.svg"></div>
+              <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column">
+                <ion-label class="div1txt">PLANT:</ion-label>
+                <ion-label class="div1det">38979</ion-label>
+              </div>
+            </div>
+
+
+
+            <div fxLayout="row" fxFlex fxLayoutGap="20px" style="border-left: 1.5px #e2e2e2 solid;">
+              <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/organization.svg">
+              </div>
+              <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column">
+                <ion-label class="div1txt">ODIN:</ion-label>
+                <ion-label class="div1det">980893</ion-label>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <div>
       
-      <div class="downgrid-2">
-        <img src="../../assets/img/number.svg" class="invoice-22"><br>
-              <ion-label>ODIN:</ion-label><br>
-              <ion-label>436892</ion-label>
-      </div>
     </div>
 
-    <div  class="downgrid-3">
-      <img src="../../assets/img/boxes.svg" class="invoice-22"><br>
-              <ion-label>ODIN:</ion-label><br>
-              <ion-label>436892</ion-label>
-    </div>
   </div>
+
+
+
+
 </ion-content>

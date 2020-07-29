@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-invoice',
@@ -9,7 +10,7 @@ import { AlertController } from '@ionic/angular';
 export class InvoicePage implements OnInit {
  button;
  data=[];
-  constructor(private alertController:AlertController ) { }
+  constructor(private alertController:AlertController, private router:Router ) { }
 
   ngOnInit() {
    this.data=[{
@@ -78,5 +79,10 @@ buttons:[{
 
   })
   await alert.present();  
+  }
+
+
+  onClicknavigate(){
+     this.router.navigate(['/description'])
   }
 }

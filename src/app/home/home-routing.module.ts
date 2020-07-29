@@ -5,11 +5,12 @@ import { SigninPage } from '../signin/signin.page';
 import { InvoicePage } from '../invoice/invoice.page';
 import { ChartsPage } from '../charts/charts.page';
 import { DescriptionPage } from '../description/description.page';
+import { TabletModePage } from '../tablet-mode/tablet-mode.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: InvoicePage,
+    component: SigninPage,
   }
   // {
   //   path:'invoice',

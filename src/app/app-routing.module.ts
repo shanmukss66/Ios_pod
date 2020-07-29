@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'alertbox',
     loadChildren: () => import('./alertbox/alertbox.module').then( m => m.AlertboxPageModule)
   },
+  {
+    path: 'tablet-mode',
+    loadChildren: () => import('./tablet-mode/tablet-mode.module').then( m => m.TabletModePageModule)
+  },
 ];
 
 @NgModule({

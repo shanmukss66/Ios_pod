@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Chart } from 'chart.js';
+import {Router} from '@angular/router'
 import { MultiDataSet, Label } from 'ng2-charts';
 @Component({
   selector: 'app-charts',
@@ -14,7 +15,7 @@ export class ChartsPage implements OnInit {
   doughnutChart1: any;
   
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
    
@@ -75,5 +76,7 @@ export class ChartsPage implements OnInit {
     });
   }
   // events
- 
+  onCLicknavigate(){
+    this.router.navigate(['/invoice'])
+  }
 }
