@@ -7,8 +7,9 @@
 </ion-header>
 
 <ion-content>
+  <div style="width: 100%; height: 100%; display: flex; justify-content: space-around; align-items:center ; flex-direction: column;">
   <div
-    style="width: 100%; height: 100%; display: flex; align-items: flex-start; justify-content: center; margin-top: 5%;">
+    style="width: 100%; height: 55%; display: flex; align-items: flex-start;justify-content: center; margin-top: 5%;">
     <ion-card class="maincard">
       <ion-card-header class="maincard-header">
         <div class="headerline"></div>
@@ -119,12 +120,50 @@
         </div>
       </ion-card-content>
     </ion-card>
-    <div>
-      
-    </div>
+   
 
   </div>
+  <div style="width: 89.2%; height: 7%;  display: flex; justify-content: flex-start; align-items:center;">
+      <div>
+        <ion-label class="invoice_item_details">Invoice Item Details</ion-label>
+        <div  style="height: 5px; width: 158px; background-color: #4452c6; border-radius: 6px;"></div>
+      </div>
+  </div>
+  <div style="width: 89.2%; height: 23%;box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16); ;border:  1.5px #e2e2e2 solid; border-radius:8px ; " fxLayout="column" >
+       <div fxLayout="row" fxFlex="50" style="border-bottom:  1.5px #e2e2e2 solid;">
+         <div fxFlex="50" fxFlex fxLayoutGap="20px">
+           <div fxFlex="35" fxLayoutAlign="end center" style="border-left:#4452c6 4px solid ;">
+            <img src="../../assets/img/to-do-list.png">
+           </div>
+           <div fxFlex="65" fxLayoutAlign="center start" fxLayout="column">
+            <ion-label class="div1txt">ITEMS:</ion-label>
+            <ion-label class="div1det">000010</ion-label>
+           </div>
+         </div>
 
+
+
+         <div fxFlex="50" fxFlex fxLayoutGap="20px" style="border-left:  1.5px #e2e2e2 solid;">
+          <div fxFlex="35" fxLayoutAlign="end center">
+            <img src="../../assets/img/number.svg">
+           </div>
+           <div fxFlex="65" fxLayoutAlign="center start" fxLayout="column">
+            <ion-label class="div1txt">QUANTITY:</ion-label>
+            <ion-label class="div1det">10 NOS</ion-label>
+           </div>
+         </div>
+       </div>
+       <div fxFlex="50" fxLayoutGap="20px" >
+        <div fxFlex="18.5" fxLayoutAlign="end center">
+          <img src="../../assets/img/boxes.svg">
+         </div>
+         <div fxFlex="81.5" fxLayoutAlign="center start" fxLayout="column">
+          <ion-label class="div1txt">MATERIAL:</ion-label>
+          <ion-label class="div1det">AAM-CR-AR150TN54 - AM CR150 - N(36) </ion-label>
+         </div>
+       </div>
+  </div>
+</div>
 
 
 
