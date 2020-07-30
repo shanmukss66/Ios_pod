@@ -25,8 +25,8 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 .my-custom-class .alert-wrapper {
-    min-width: 77.86666666666666vw ;
-    min-height: 38.07796101949025vh;
+    min-width: 77.9% ;
+    min-height: 44.1%;
     
     max-height:98vw ;
     border-radius: 8px ;
@@ -38,41 +38,41 @@
   left: 11.066666666666666vw;
   
   .scan-btn{
-   width: 26.13333333333333vw;
-    height: 3.7481259370314843vh;
+   width: 38%;
+    height: 8%;
   border-radius: 8px;
   border: solid 2px #4452c6;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
   position: absolute;
-  top: 23.08545727136432vh;
-  left: 7.133333333333333vw;
+  top: 72%;
+  left: 10.6%;
 }
 .invoice-btn{
-  width: 26.13333333333333vw;
-  height: 3.7481259370314843vh;
+  width: 38%;
+    height: 8%;
   border-radius: 8px;
   border: solid 1px #cccccc;
-  border-left: 12px #abf7b9 solid;
+  border-left: 8px #abf7b9 solid;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: space-around;
   position: absolute;
-  top: 23.08545727136432vh;
-  left: 44.133333333333333vw;
+  top: 72%;
+  left: 55.5%;
 }
 .submit{
-  width: 26.13333333333333vw;
-  height: 3.7481259370314843vh;
+  width: 38%;
+    height: 8%;
     border-radius: 5px;
   background-color: #4452c6;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
     position: absolute;
-    top: 81.5%;
-    left: 30.5%;
+    top: 87.5%;
+    left: 30%;
     color: white;
 }
 
@@ -80,7 +80,7 @@
   
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: space-around;
  
 }
   

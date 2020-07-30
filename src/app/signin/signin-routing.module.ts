@@ -5,7 +5,7 @@ import { SigninPage } from './signin.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: '/signin',
     component: SigninPage
   }
 ];
