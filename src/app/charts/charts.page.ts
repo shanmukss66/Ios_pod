@@ -76,7 +76,7 @@ export class ChartsPage implements OnInit {
     });
   }
   // events
-  onCLicknavigate(){
+  onCLickTo(){
     this.router.navigate(['/invoice'])
   }
 }
