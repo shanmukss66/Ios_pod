@@ -1,6 +1,6 @@
 <body style="overflow: auto;">
   <ion-header class="header">
-    <ion-label class="name">Hello Casandra Mariya,</ion-label>
+    <ion-label class="name">Hello {{displayname}}</ion-label>
     <ionlabel class="A-and-P">Approved and Pending Tickets</ionlabel>
     <img class="bell" src="../../assets/img/bell.svg">
     <div class="noti-number">9</div>
@@ -8,9 +8,10 @@
 
   </ion-header>
 
-  <ion-content>
-    <div style="width: 100% ; height: 100%; margin-top: 10%;" fxLayoutAlign="start center" fxLayoutGap="30px"  fxLayout="column">
-      <ion-card  class="card" (click)="onCLickTo()">
+  <ion-content  >
+    <div style="width: 100% ; height: 100%; margin-top: 10%;" fxLayoutAlign="start center" fxLayoutGap="30px"
+      fxLayout="column">
+      <ion-card class="card" (click)="onCLickTo()">
         <ion-card-header style="height: 19%; width: 100%; border-bottom:2px solid  #e2e2e2;" fxLayout="row">
           <div fxFlex="55" fxLayoutAlign="start center">
             <ion-label class="title">APPROVED / PENDING INVOICES</ion-label>
@@ -18,7 +19,7 @@
           <div fxFlex>
 
           </div>
-          <div fxFlex="20"    style="background-color: #e2e2e2; height: 90%;" fxLayoutAlign="center center">
+          <div fxFlex="20" style="background-color: #e2e2e2; height: 90%;" fxLayoutAlign="center center">
             <ion-label style="font-size: 1.6vw;">PAST 7 DAYS</ion-label>
           </div>
           <div fxFlex="5" fxLayoutAlign="center center">
@@ -49,17 +50,19 @@
               </div>
 
 
-              <div fxFlex="60" fxLayout="column" fxLayoutGap="15px">
-                <div fxFlex="20"></div>
+              <div fxFlex="70" fxLayout="column" fxLayoutGap="15px">
+                <div fxFlex="10"></div>
                 <div>
-                  <ion-label>Total Deliveries  (70%)</ion-label>
+                  <ion-label>Approved ({{invoicechartdata.ConfirmedInvoices}}/{{invoicechartdata.TotalInvoices}})
+                  </ion-label>
 
-                  <ion-progress-bar color="success" id="prog1" value="0.7"></ion-progress-bar>
+                  <ion-progress-bar color="success" id="prog1" value="{{confirmedinvoices}}"></ion-progress-bar>
                 </div>
                 <div>
-                  <ion-label>Pending  (30%)</ion-label>
+                  <ion-label>Pending ({{invoicechartdata.PendingInvoices}}/{{invoicechartdata.TotalInvoices}})
+                  </ion-label>
 
-                  <ion-progress-bar color="success" id="prog2" value="0.3"></ion-progress-bar>
+                  <ion-progress-bar color="success" id="prog2" value="{{pendinginvoices}}"></ion-progress-bar>
                 </div>
               </div>
 
@@ -112,11 +115,14 @@
 
               <div fxFlex="60" fxLayout="column" fxLayoutGap="15px">
                 <div fxFlex="20"></div>
-               
+
                 <div fxLayout="column">
                   <ion-label>Total Deliveries</ion-label>
-                  <ion-label><ion-label style="color: #51dd96;">226</ion-label>/340</ion-label>
-                  <ion-progress-bar color="success" id="prog3" value="0.3"></ion-progress-bar>
+                  <ion-label>
+                    <ion-label style="color: #51dd96;">{{this.deliverychartdata.InLineDelivery}}</ion-label>
+                    /{{this.deliverychartdata.TotalDelivery}}
+                  </ion-label>
+                  <ion-progress-bar color="success" id="prog3" value="{{inline}}"></ion-progress-bar>
                 </div>
               </div>
 

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonSlides } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { TokenResponse } from '../models/TokenResponse.model';
+import { InvoiceHeaderDetail } from '../models/InvoiceHeaderDetail.model';
 
 @Component({
   selector: 'app-invoice',
@@ -9,20 +11,35 @@ import { Router } from '@angular/router';
 })
 export class InvoicePage implements OnInit {
  button;
- data=[];
-  constructor(private alertController:AlertController, private router:Router ) { }
+ approvedinvoicedata:InvoiceHeaderDetail [];
+ pendinginvoicedata:InvoiceHeaderDetail [];
+ segment=0;
+ ewaybillno:string="";
+ userdetails:TokenResponse = new TokenResponse();
+ @ViewChild('slides', { static: true }) slider: IonSlides;  
+  constructor(private alertController:AlertController, private router:Router ,private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-   this.data=[{
-      'key1':"hello",
-      'key2': "surya"
-    },
-    {
-     'key1':"hai",
-     'key2': "sriram"
-    }
-   ]
+    this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
+   this.activatedRoute.data.subscribe((x :{pending:any})=>{
+    console.log(x.pending);
+    this.pendinginvoicedata=x.pending;
+    
+   })
+   this.activatedRoute.data.subscribe((y:{approved:any})=>{
+     console.log(y.approved);
+     this.approvedinvoicedata=y.approved;
+     
+   })
   }
+
+
+  async segmentChanged(ev: any) {  
+    await this.slider.slideTo(this.segment);  
+  }  
+  async slideChanged() {  
+    this.segment = await this.slider.getActiveIndex();  
+  }  
    
   
   
@@ -82,7 +99,7 @@ buttons:[{
   }
 
 
-  onClicknavigate(){
-     this.router.navigate(['/description'])
+  onClicknavigate(x){
+     this.router.navigate(['/description' ,JSON.stringify(this.userdetails) , JSON.stringify(x)  ])
   }
 }

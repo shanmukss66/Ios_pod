@@ -1,9 +1,25 @@
-<ion-header class="header">
-  <ion-label class="name">Hello Casandra Mariya,</ion-label>
-  <ionlabel class="A-and-P">Approved and Pending Tickets</ionlabel>
-  <img class="bell" src="../../assets/img/bell.svg"><div class="noti-number">9</div>
-  <img class="pic" src="../../assets/img/user (1)@3x.png">
-</ion-header>
-  <ion-content>
-    
-  </ion-content>
+
+
+<ion-content>
+  
+  <img class="mainimg" src="../../assets/img/imgpsh_mobile_save-1.png"> 
+    <div class="logodiv">
+      <img class="logotxt" src="../../assets/img/Image 1@3x.png">
+    </div>
+    <ion-label class="welcome">Welcome!</ion-label>
+    <ion-label class="signin">Sign in to your Account</ion-label>
+    <form [formGroup]="reactive_signin" (ngSubmit)="onClickSubmit()">
+    <fieldset class="userfeild">
+      <legend class="Username">Username</legend>
+      <ion-input type="text" formControlName="username" required class="userinput"></ion-input>
+      <img src="../../assets/img/user (1)@3x.png" class="userlogo">
+    </fieldset>
+
+    <fieldset class="passfeild">
+      <legend class="password">Password</legend>
+      <ion-input type="password" formControlName="password" required class="passinput"></ion-input>
+      <img src="../../assets/img/eye@3x.png" class="passlogo">
+    </fieldset>
+    <button  type="submit"  class="btn">Login</button>
+  </form>
+</ion-content>

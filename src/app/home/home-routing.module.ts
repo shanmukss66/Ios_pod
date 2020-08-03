@@ -10,7 +10,7 @@ import { TabletModePage } from '../tablet-mode/tablet-mode.page';
 const routes: Routes = [
   {
     path: '',
-    component: SigninPage,
+    component: HomePage,
   }
   // {
   //   path:'invoice',

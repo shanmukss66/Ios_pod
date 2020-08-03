@@ -8,7 +8,7 @@
     </div>
     <ion-label class="welcome">Welcome!</ion-label>
     <ion-label class="signin">Sign in to your Account</ion-label>
-    <form [formGroup]="reactive_signin" (ngSubmit)="onClickSubmit()">
+    <form [formGroup]="reactive_signin">
     <fieldset class="userfeild">
       <legend class="Username">Username</legend>
       <ion-input type="text" formControlName="username" required class="userinput"></ion-input>
