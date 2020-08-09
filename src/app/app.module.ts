@@ -11,11 +11,15 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PendingdailogComponent } from './pendingdailog/pendingdailog.component';
+import { DescriptiondailogComponent } from './descriptiondailog/descriptiondailog.component';
+import { PopoverComponent } from './popover/popover.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [BrowserModule, ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule],
+  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent],
+  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent],
+  imports: [BrowserModule, ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule, BrowserAnimationsModule],
   providers: [
     StatusBar,
     SplashScreen,

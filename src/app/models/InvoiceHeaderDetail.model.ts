@@ -7,7 +7,7 @@ export class InvoiceHeaderDetail{
       INV_TYPE:string ;
       CUSTOMER:string ;
       CUSTOMER_NAME:string ;
-      ODIN:string ;
+      ODIN:number ;
       VEHICLE_NO:string ;
       VEHICLE_CAPACITY:string ;
       POD_DATE:string ;
@@ -17,7 +17,7 @@ export class InvoiceHeaderDetail{
       LR_DATE:string ;
       FWD_AGENT:string ;
       CARRIER:string ;
-      FREIGHT_ORDER:string ;
+      FREIGHT_ORDER:number;
       FREIGHT_ORDER_DATE:string ;
       OUTBOUND_DELIVERY:string ;
       OUTBOUND_DELIVERY_DATE:string ;

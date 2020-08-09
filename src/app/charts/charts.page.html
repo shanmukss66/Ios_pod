@@ -1,11 +1,21 @@
 <body style="overflow: auto;">
-  <ion-header class="header">
-    <ion-label class="name">Hello {{displayname}}</ion-label>
-    <ionlabel class="A-and-P">Approved and Pending Tickets</ionlabel>
-    <img class="bell" src="../../assets/img/bell.svg">
-    <div class="noti-number">9</div>
-    <img class="pic" src="../../assets/img/user (1)@3x.png">
-
+  <ion-header class="header" fxLayout="row" fxLayoutAlign="space-around center">
+    <!-- <div>
+      <ion-buttons slot="start">
+        <ion-menu-button menu="main-menu" style="color: white"></ion-menu-button>
+      </ion-buttons>
+    </div> -->
+    <div fxLayout=column fxLayoutAlign="center start" fxFlex="60">
+      <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
+      <ionlabel class="A-and-P">Take a look at invoices and delivery status</ionlabel>
+    </div>
+    <div >
+  
+    </div>
+    
+   <div fxFlex="20" fxLayoutAlign="center center" >
+      <img (click)="onClickProfile($event)" class="pic" src="../../assets/img/user (1)@3x.png">
+  </div>
   </ion-header>
 
   <ion-content  >
@@ -20,7 +30,7 @@
 
           </div>
           <div fxFlex="20" style="background-color: #e2e2e2; height: 90%;" fxLayoutAlign="center center">
-            <ion-label style="font-size: 1.6vw;">PAST 7 DAYS</ion-label>
+            <ion-label style="font-size: 1.6vw;">ALL</ion-label>
           </div>
           <div fxFlex="5" fxLayoutAlign="center center">
             <img src="../../assets/img/adjust.svg">
@@ -83,7 +93,7 @@
 
           </div>
           <div fxFlex="20" style="background-color: #e2e2e2; height: 90%;" fxLayoutAlign="center center">
-            <ion-label style="font-size: 1.6vw;">PAST 7 DAYS</ion-label>
+            <ion-label style="font-size: 1.6vw;">ALL</ion-label>
           </div>
           <div fxFlex="5" fxLayoutAlign="center center">
             <img src="../../assets/img/adjust.svg">

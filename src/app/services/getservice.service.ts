@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, empty } from 'rxjs';
 import { take, mergeMap, catchError, filter } from 'rxjs/operators'
 import { DeliveryCount } from '../models/DeliveryCount.model';
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
+import { InvoiceUpdation1 } from '../models/InvoiceUpdation1.model';
+import { InvoiceUpdation } from '../models/InvoiceUpdation.model';
+
 @Injectable({
     providedIn:"root"
 })
@@ -17,9 +20,18 @@ export class GetService{
  }
 
  loginResponse(data:string):Observable<any>{
-    return this.http.post<any>("http://210.212.229.104:8001/token" ,data);
+    
+      return this.http.post<any>("http://210.212.229.104:8001/token" ,data);
+      
+    
+   
 
 
+ }
+
+ getItemQuanttity(x:number):Observable<any>{
+
+  return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetItemQuantityCountByID?ID="+x);
  }
 
  
@@ -50,6 +62,20 @@ export class GetService{
 
  getItemDescription(username:string,headerid:string):Observable<any>{
    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserName="+username+"&ID="+headerid);
+ }
+
+
+ confirmInvoiceItems(data:InvoiceUpdation1):Observable<any>{
+   return this.http.post<any>("http://210.212.229.104:8001/api/PODConfirmation/ConfirmInvoiceItems" , data)
+ }
+
+ updateInvoiceItems(data:InvoiceUpdation):Observable<any>{
+  return this.http.post<any>("http://210.212.229.104:8001/api/PODConfirmation/UpdateInvoiceItems" , data)
+ }
+
+
+ addInvoiceAttachment(data:FormData){
+  return this.http.post<any>("http://210.212.229.104:8001/api/PODConfirmation/AddInvoiceAttachment" , data)
  }
 
 }

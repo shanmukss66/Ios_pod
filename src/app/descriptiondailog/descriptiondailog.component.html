@@ -1,0 +1,36 @@
+<body class="dailogbox">
+  <div fxLayout="column" fxFlex="100" fxLayoutAlign="space-around center">
+     <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-around center">
+       <div fxLayout="row" fxLayoutAlign="space-between center">
+         <ion-label>
+         Vehicle Report Date: 
+         </ion-label>
+         <input [(ngModel)]="reportdate" type="datetime-local" class="inpt" >
+       </div>
+       
+     </div>
+     <div fxFLex="30" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+       <div  fxFLex="50" >
+         <button class="scnbtn" (click)="clickPicture()">
+           <img src="../../assets/img/scan.svg"><ion-label>SCAN</ion-label>
+         </button>
+         <ion-label>{{a}} img</ion-label>
+         
+       </div>
+       <div  fxFLex="50">
+         <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+         <button fxFlexAlign="stretch" (click)="fileInput.click()" class="upldbtn">UPLOAD</button>
+         <ion-label>{{filename}}</ion-label>
+       </div>
+       
+      
+     </div>
+     <div>
+       <div>
+         <button fxFlexAlign="stretch" (click)="save()" class="sumbtn">SUBMIT</button>
+       </div>
+     </div>
+
+  </div>
+ 
+</body>

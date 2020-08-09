@@ -6,6 +6,10 @@ import { MultiDataSet, Label } from 'ng2-charts';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
 import { DeliveryCount } from '../models/DeliveryCount.model';
+import { MenuController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';  
+import { PopoverComponent } from '../popover/popover.component';
+
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.page.html',
@@ -29,7 +33,9 @@ export class ChartsPage implements OnInit {
   b: InvoiceStatusCount | DeliveryCount;
 
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+    this.menuCtrl.enable(true, 'main-menu');
+  }
 
   ngOnInit() {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
@@ -123,4 +129,16 @@ export class ChartsPage implements OnInit {
   onCLickTo() {
     this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
   }
+
+  
+  async onClickProfile(ev: any) {  
+    const popover = await this.popoverCtrl.create({  
+        component: PopoverComponent,  
+        event: ev,
+        cssClass: 'popover',
+        animated: true,  
+        showBackdrop: false  
+    });  
+    return await popover.present();  
+  }  
 }

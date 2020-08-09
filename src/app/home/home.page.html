@@ -17,9 +17,11 @@
 
     <fieldset class="passfeild">
       <legend class="password">Password</legend>
-      <ion-input type="password" formControlName="password" required class="passinput"></ion-input>
-      <img src="../../assets/img/eye@3x.png" class="passlogo">
+      <ion-input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" required class="passinput"></ion-input>
+      <img src="../../assets/img/eye@3x.png" class="passlogo" (click)="showpassword()">
     </fieldset>
-    <button  type="submit"  class="btn">Login</button>
+    <ion-label id="a" [hidden]="cred_hidden">Incorrect Credentials!</ion-label>
+
+    <input  type="submit"  class="btn" value="Login">
   </form>
 </ion-content>

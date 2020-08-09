@@ -32,7 +32,7 @@ const routes: Routes = [
     resolve:{invoice:InvoiceResolver,delivery: DeliveryResolver}
   },
   {
-    path: 'description/:user_data/:header_id',
+    path: 'description/:user_data/:header_id/:type',
     loadChildren: () => import('./description/description.module').then( m => m.DescriptionPageModule),
     resolve:{descrptn:InvoiceDescriptionResolver}
   },
