@@ -5,6 +5,7 @@ import { GetService } from '../services/getservice.service';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { catchError } from 'rxjs/operators';
 import { MenuController } from '@ionic/angular';
+import { DataService } from '../services/BehaviourSubject.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ export class HomePage implements OnInit {
     password: new FormControl('',Validators.required)
 
   });
-constructor(private router:Router,private getService:GetService,public menuCtrl: MenuController) { 
+constructor(private router:Router,private dataservice:DataService,private getService:GetService,public menuCtrl: MenuController) { 
   this.menuCtrl.enable(false, 'main-menu');
 }
   ngOnInit(): void {
@@ -40,7 +41,7 @@ onClickSubmit(){
       console.log(data);
       
         this.cred_hidden=true;
-     
+     this.dataservice.SignedInUser(this.response_data);
       this.router.navigate(['/charts' , JSON.stringify(this.response_data)]);
  },
  catchError =>{

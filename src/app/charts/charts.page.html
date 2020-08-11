@@ -1,10 +1,10 @@
-<body style="overflow: auto;">
+<body >
   <ion-header class="header" fxLayout="row" fxLayoutAlign="space-around center">
-    <!-- <div>
+    <div>
       <ion-buttons slot="start">
         <ion-menu-button menu="main-menu" style="color: white"></ion-menu-button>
       </ion-buttons>
-    </div> -->
+    </div>
     <div fxLayout=column fxLayoutAlign="center start" fxFlex="60">
       <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
       <ionlabel class="A-and-P">Take a look at invoices and delivery status</ionlabel>
@@ -14,14 +14,14 @@
     </div>
     
    <div fxFlex="20" fxLayoutAlign="center center" >
-      <img (click)="onClickProfile($event)" class="pic" src="../../assets/img/user (1)@3x.png">
+      <img (click)="onClickProfile($event)" class="pic" src="../../assets/img/user (1).svg">
   </div>
   </ion-header>
 
-  <ion-content  >
-    <div style="width: 100% ; height: 100%; margin-top: 10%;" fxLayoutAlign="start center" fxLayoutGap="30px"
+  <ion-content style="overflow: auto;" >
+    <div style="width: 100% ; height: auto; margin-top: 10%;" fxLayoutAlign="start center" fxLayoutGap="30px"
       fxLayout="column">
-      <ion-card class="card" (click)="onCLickTo()">
+      <ion-card class="card" >
         <ion-card-header style="height: 19%; width: 100%; border-bottom:2px solid  #e2e2e2;" fxLayout="row">
           <div fxFlex="55" fxLayoutAlign="start center">
             <ion-label class="title">APPROVED / PENDING INVOICES</ion-label>

@@ -9,6 +9,7 @@ import { DeliveryCount } from '../models/DeliveryCount.model';
 import { MenuController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';  
 import { PopoverComponent } from '../popover/popover.component';
+import { DataService } from '../services/BehaviourSubject.service';
 
 @Component({
   selector: 'app-charts',
@@ -33,13 +34,13 @@ export class ChartsPage implements OnInit {
   b: InvoiceStatusCount | DeliveryCount;
 
 
-  constructor(private router: Router,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+  constructor(private router: Router,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
     this.menuCtrl.enable(true, 'main-menu');
   }
 
   ngOnInit() {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
-    console.log(this.userdetails);
+     this.dataservice.SignedInUser(this.userdetails);
     this.displayname = this.userdetails.displayName;
     this.activatedRoute.data.subscribe(
       (data: { invoice: any }) => {

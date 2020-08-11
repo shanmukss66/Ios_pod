@@ -1,9 +1,9 @@
 <ion-header class="header" fxLayout="row" fxLayoutAlign="space-around center">
-  <!-- <div>
+  <div>
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu" style="color: white"></ion-menu-button>
     </ion-buttons>
-  </div> -->
+  </div>
   <div fxLayout=column fxLayoutAlign="center start" fxFlex="50">
     <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
     <ionlabel class="A-and-P">Approved and Pending Invoices</ionlabel>
@@ -71,7 +71,7 @@
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
               <button class="confirm" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
-                <ion-label class="con-txt"><img class="tick" src="../../assets/img/tick (3).svg">Confirm</ion-label>
+                <img class="tick" src="../../assets/img/tick (3).svg"><ion-label class="con-txt">Confirm</ion-label>
               </button>
             </div>
           </ion-card-content>

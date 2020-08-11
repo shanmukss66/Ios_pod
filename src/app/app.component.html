@@ -1,22 +1,22 @@
 <ion-app>
   <ion-menu side="start" content-id="main-content" menuId="main-menu">
-    <ion-header>
-      <ion-title>username</ion-title><br>
-      <ion-title>email</ion-title>
+    <ion-header style="background-image: linear-gradient(to bottom, #fd9e47, #fdac61 49%, #ff9e45);">
+      <ion-title class="displayname">{{displayname}}</ion-title><br>
+      <ion-title class="email">{{emailaddress}}</ion-title>
     </ion-header>
 
 
     <ion-content>
       <ion-list>
         <ion-menu-toggle>
-          <ion-item routerLink="/charts">
+          <ion-item (click)="onclickCharts()">
             <ion-icon name="library" slot="start"></ion-icon>
             <ion-label>Dashboard</ion-label>
           </ion-item>
         </ion-menu-toggle>
 
         <ion-menu-toggle>
-          <ion-item routerLink="/invoice">
+          <ion-item (click)="onclickInvoice()">
             <ion-icon name="newspaper" slot="start"></ion-icon>
             <ion-label>Invoice</ion-label>
           </ion-item>

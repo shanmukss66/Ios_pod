@@ -9,6 +9,7 @@ import { PendingdailogComponent } from '../pendingdailog/pendingdailog.component
 import { GetService } from '../services/getservice.service';
 import { InvoiceUpdation1 } from '../models/InvoiceUpdation1.model';
 import { PopoverComponent } from '../popover/popover.component';
+import { DataService } from '../services/BehaviourSubject.service';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.page.html',
@@ -27,12 +28,13 @@ export class InvoicePage implements OnInit {
   ewaybillno: string = "";
   userdetails: TokenResponse = new TokenResponse();
   @ViewChild('slides', { static: true }) slider: IonSlides;
-  constructor(private alertController: AlertController,public popoverCtrl: PopoverController, public menuCtrl: MenuController ,private router: Router, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private getservice: GetService) {
+  constructor(private alertController: AlertController,private dataservice:DataService,public popoverCtrl: PopoverController, public menuCtrl: MenuController ,private router: Router, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private getservice: GetService) {
     this.menuCtrl.enable(true, 'main-menu');
    }
 
   ngOnInit() {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
+    this.dataservice.SignedInUser(this.userdetails);
     this.activatedRoute.data.subscribe((x: { pending: any }) => {
       console.log(x.pending);
       this.pendinginvoicedata = x.pending;
@@ -91,6 +93,7 @@ export class InvoicePage implements OnInit {
             
             this.getservice.confirmInvoiceItems(this.invoiceupdation).subscribe((z:any)=>{
               console.log(z);
+             
               window.location.reload();
               
             })
@@ -108,6 +111,7 @@ export class InvoicePage implements OnInit {
         component: PopoverComponent,  
         event: ev,
         cssClass: 'popover',
+        
         animated: true,  
         showBackdrop: false  
     });  
