@@ -10,13 +10,21 @@ import { MenuController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';  
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
-
+import { LoadingController } from '@ionic/angular';
+import { pipe } from 'rxjs';
+import { retry } from 'rxjs/operators';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.page.html',
   styleUrls: ['./charts.page.scss'],
 })
 export class ChartsPage implements OnInit {
+  confirmedinvoices: number=0;
+  pendinginvoices: number=0;
+  inlinedelvery: number=0;
+  delayeddelivery: number=0;
+  inline: number=0;
+  
   @ViewChild('doughnutCanvas') doughnutCanvas;
   @ViewChild('doughnutCanvas1') doughnutCanvas1;
   doughnutChart: any;
@@ -26,27 +34,31 @@ export class ChartsPage implements OnInit {
   invoicechartdata: InvoiceStatusCount = new InvoiceStatusCount();
   deliverychartdata: DeliveryCount = new DeliveryCount();
 
-  confirmedinvoices: number;
-  pendinginvoices: number;
-  inlinedelvery: number;
-  delayeddelivery: number;
-  inline: number;
-  b: InvoiceStatusCount | DeliveryCount;
+  
 
 
-  constructor(private router: Router,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+  constructor(private router: Router,public loadingController: LoadingController,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
     this.menuCtrl.enable(true, 'main-menu');
   }
 
   ngOnInit() {
+    
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
      this.dataservice.SignedInUser(this.userdetails);
     this.displayname = this.userdetails.displayName;
-    this.activatedRoute.data.subscribe(
-      (data: { invoice: any }) => {
+    
+
+     this.activatedRoute.data.subscribe(
+      (data: { delivery: any[] }) => {
 
 
-        this.invoicechartdata = data.invoice;
+        this.deliverychartdata = data.delivery[0];
+
+        this.inline = this.deliverychartdata.InLineDelivery / this.deliverychartdata.TotalDelivery;
+
+
+        console.log(data.delivery);
+        this.invoicechartdata = data.delivery[1];
 
         console.log(this.invoicechartdata);
 
@@ -56,21 +68,10 @@ export class ChartsPage implements OnInit {
 
       }
     )
-
-    this.activatedRoute.data.subscribe(
-      (data: { delivery: any }) => {
-
-
-        this.deliverychartdata = data.delivery;
-
-        this.inline = this.deliverychartdata.InLineDelivery / this.deliverychartdata.TotalDelivery;
-
-
-        console.log(data.delivery);
-
-      }
-    )
   }
+
+
+ 
 
   ionViewDidEnter() {
     this.doughnutChartMethod();

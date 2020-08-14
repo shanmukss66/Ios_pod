@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import { Observable, empty ,of } from 'rxjs';
 import { GetService } from 'src/app/services/getservice.service';
 
-import { take, mergeMap, catchError, filter } from 'rxjs/operators'
+import { take, mergeMap, catchError, filter, retry } from 'rxjs/operators'
 
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
 import { TokenResponse } from '../models/TokenResponse.model';
@@ -23,7 +23,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
     
      
      
-    return  (this.getservice.invoicechart(this.userdetails.userName))
+    return  (this.getservice.invoicechart(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole));
     
 }
 

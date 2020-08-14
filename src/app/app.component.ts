@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TokenResponse } from './models/TokenResponse.model';
 import { DataService } from './services/BehaviourSubject.service';
 import { Router } from '@angular/router';
-
+import { StorageService } from './services/storage.service';
+import { Plugins, CameraResultType, CameraSource, Camera } from '@capacitor/core';
+import { LoadingController } from '@ionic/angular';
+import { catchError } from 'rxjs/operators';
+import { ToastMaker } from './Toast/ToastMaker.service';
+import { LoadingAnimation } from './LoadingAnimation/LoadingAnimation.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -21,18 +26,21 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private dataservice:DataService,
-    private router:Router
+    private router:Router,
+    private storage:StorageService,
+    public loadingController: LoadingController,
+    private toast:ToastMaker,
+    private loading:LoadingAnimation
+    
   ) {
     this.initializeApp();
   }
   ngOnInit(): void {
-    this.dataservice.user.subscribe((data:TokenResponse) =>{
-      if(data!=null){
-        this.userdetails= data;
-        this.displayname=this.userdetails.displayName;
-        this.emailaddress=this.userdetails.emailAddress;
-      }
-    })
+    
+     
+        this.getUser();
+      
+   
   }
 
   initializeApp() {
@@ -41,13 +49,74 @@ export class AppComponent implements OnInit {
       this.splashScreen.hide();
     });
   }
+  getUser(){
+  
+  this.dataservice.user.subscribe((data:TokenResponse)=>{
+     if(data!=null){
+      this.userdetails=data;
+      if(this.userdetails.displayName!=null){
+        this.displayname = this.userdetails.displayName;
+      }
+      if(this.userdetails.emailAddress!=null){
+        this.emailaddress=this.userdetails.emailAddress;
+      }
+     }
 
+  })
+  
+ 
+  
+ }
+
+ 
 
   onclickCharts(){
-   this.router.navigate(['/charts' , JSON.stringify(this.userdetails)]);
+    this.loading.presentLoading().then(() =>{
+      this.router.navigate(['/charts' , JSON.stringify(this.userdetails)]).then(()=>{
+        this.loadingController.dismiss();
+        (catchError) =>{
+          this.loadingController.dismiss();
+            
+            
+          if(catchError.status==null){
+            
+            this.toast.internetConnection();
+          }
+          else{
+            this.toast.wentWrong();
+          }
+        } 
+      })
+    })
+   
+   
+   
   }
 
-  onclickInvoice(){
-    this.router.navigate(['/invoice' , JSON.stringify(this.userdetails)]);
+  onclickInvoice(){ 
+    this.loading.presentLoading().then(()=>{
+      this.router.navigate(['/invoice' , JSON.stringify(this.userdetails)]).then(()=>{
+        this.loadingController.dismiss();
+        (catchError) =>{
+          this.loadingController.dismiss();
+            
+            
+          if(catchError.status==null){
+            
+            this.toast.internetConnection();
+          }
+          else{
+            this.toast.wentWrong();
+          }
+        } 
+      })
+       
+    })
+    
+    
+     
   }
+
+
+ 
 }

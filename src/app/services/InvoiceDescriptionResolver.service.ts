@@ -26,7 +26,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
      
      
      
-    return  this.getservice.getItemDescription(this.userdetails.userName,JSON.stringify(header_id.HEADER_ID));
+    return  this.getservice.getItemDescription(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole,JSON.stringify(header_id.HEADER_ID));
     
 }
 

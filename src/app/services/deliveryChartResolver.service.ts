@@ -1,9 +1,9 @@
 import {Resolve, ActivatedRouteSnapshot , RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import {Injectable} from '@angular/core';
-import { Observable, empty ,of } from 'rxjs';
+import { Observable, empty ,of, forkJoin } from 'rxjs';
 import { GetService } from 'src/app/services/getservice.service';
 
-import { take, mergeMap, catchError, filter } from 'rxjs/operators'
+import { take, mergeMap, catchError, filter, retry, map } from 'rxjs/operators'
 
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
 import { TokenResponse } from '../models/TokenResponse.model';
@@ -23,8 +23,8 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
     
      
      
-    return  (this.getservice.deliverychart(this.userdetails.userName));
     
+   return forkJoin([this.getservice.deliverychart(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole),this.getservice.invoicechart(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole)])  
 }
 
 

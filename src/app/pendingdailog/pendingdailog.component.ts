@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StorageService } from '../services/storage.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { GetService } from '../services/getservice.service';
+import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
 
 @Component({
   selector: 'app-pendingdailog',
@@ -19,6 +20,7 @@ export class PendingdailogComponent implements OnInit {
    j=0;
   createdby:string;
   form:FormData = new FormData();
+  returndata:invUpdateandformdata=new invUpdateandformdata();
   constructor(private sanitizer: DomSanitizer,private getservice:GetService,private dialogRef: MatDialogRef<PendingdailogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
       this.qnty=data.qnty;
@@ -44,7 +46,7 @@ export class PendingdailogComponent implements OnInit {
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     })
-    this.form.append('cam'+this.i,this.image,'cam'+this.i);
+    this.form.append('cam'+this.i,this.image);
     console.log(this.image);
     this.i+=1;
     this.a= JSON.stringify(this.i);
@@ -56,19 +58,18 @@ export class PendingdailogComponent implements OnInit {
     console.log(this.selectedFile);
     this.filename=this.selectedFile.name;    
     this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
-    console.log(this.form.get('img'+this.j));
+    console.log(this.form.get(this.selectedFile.name));
     this.j+=1;
     
   }
   
  save(){
    this.form.append('HeaderID',this.headerid.toString());
-   this.form.append('CreatedBy',this.createdby)
-   this.getservice.addInvoiceAttachment(this.form).subscribe((x:any)=>{
-     console.log(x);
-     this.dialogRef.close(this.reportdate);
-     
-   })
+   this.form.append('CreatedBy',this.createdby);
+   this.returndata.files = this.form;
+   this.returndata.reportdate=this.reportdate;
+   this.dialogRef.close(this.returndata);
+   
   
  }
 

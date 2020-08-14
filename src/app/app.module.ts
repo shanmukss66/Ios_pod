@@ -15,10 +15,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PendingdailogComponent } from './pendingdailog/pendingdailog.component';
 import { DescriptiondailogComponent } from './descriptiondailog/descriptiondailog.component';
 import { PopoverComponent } from './popover/popover.component';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
-  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent],
-  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent],
+  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
+  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
   imports: [BrowserModule, ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule, BrowserAnimationsModule],
   providers: [
     StatusBar,

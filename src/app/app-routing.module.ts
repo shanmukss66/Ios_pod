@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {  InvoiceResolver } from './services/invoiceChartResolver.service';
+
 import { DeliveryResolver } from './services/deliveryChartResolver.service';
 import { ApprovedInvoiceResolver } from './services/ApprovedInvoiceResolver.service';
-import { PendingInvoiceResolver } from './services/PendingInvoiceResolver.service';
+
 import { InvoiceDescriptionResolver } from './services/InvoiceDescriptionResolver.service';
 
 const routes: Routes = [
@@ -23,13 +23,13 @@ const routes: Routes = [
   {
     path: 'invoice/:user_data',
     loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule),
-    resolve:{pending:PendingInvoiceResolver,approved:ApprovedInvoiceResolver}
+    resolve:{approved:ApprovedInvoiceResolver}
 
   },
   {
     path: 'charts/:user_data',
     loadChildren: () => import('./charts/charts.module').then( m => m.ChartsPageModule),
-    resolve:{invoice:InvoiceResolver,delivery: DeliveryResolver}
+    resolve:{delivery: DeliveryResolver}
   },
   {
     path: 'description/:user_data/:header_id/:type',

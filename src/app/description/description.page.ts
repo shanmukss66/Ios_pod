@@ -8,9 +8,12 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DescriptiondailogComponent } from '../descriptiondailog/descriptiondailog.component';
 import { InvoiceUpdation } from '../models/InvoiceUpdation.model';
 import { GetService } from '../services/getservice.service';
-import { MenuController, PopoverController } from '@ionic/angular';
+import { MenuController, PopoverController, LoadingController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
+import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
+import { ToastMaker } from '../Toast/ToastMaker.service';
+import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
 @Component({
   selector: 'app-description',
   templateUrl: './description.page.html',
@@ -22,13 +25,15 @@ export class DescriptionPage implements OnInit {
   description_data: InvoiceItemDetail[];
   invoiceupdation: InvoiceUpdation = new InvoiceUpdation();
   cnfbtn_hidden = true;
-  constructor(private router: Router, private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
+  dataFromDailog :invUpdateandformdata
+  constructor(private router: Router,public loadingcontroller:LoadingController,private toast:ToastMaker,private loading:LoadingAnimation ,private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
     this.menuCtrl.enable(true, 'main-menu');
   }
 
   ngOnInit() {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
     this.invoicedetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
+    
     console.log(this.invoicedetails);
     this.dataservice.SignedInUser(this.userdetails);
     console.log((this.activatedRoute.snapshot.paramMap.get('type')));
@@ -61,12 +66,13 @@ export class DescriptionPage implements OnInit {
     const dialogRef = this.dialog.open(DescriptiondailogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
 
-      data => {
+      (data:invUpdateandformdata) => {
+      this.dataFromDailog = data
         console.log("Dialog output:", data)
-
+       this.loading.presentLoading().then(()=>{
         if (data != null) {
 
-          this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data);
+          this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data.reportdate);
           this.invoiceupdation.InvoiceItems = this.description_data;
           console.log(this.invoiceupdation);
           this.invoiceupdation.InvoiceItems.forEach(element => {
@@ -74,19 +80,50 @@ export class DescriptionPage implements OnInit {
 
           });
 
-          this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
-            console.log(z);
-            this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
+         this.updateInvoice();
+         (catchError) => {
+          this.loadingcontroller.dismiss();
 
-          })
-        }
-        else {
 
+          if (catchError.status == null) {
+
+            this.toast.internetConnection();
+          }
+          else {
+            this.toast.wentWrong();
+          }
         }
+        }
+        this.loading.loadingController.dismiss().then(()=>{
+          this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
+         });
+       })
+      
+      
       }
     );
 
   }
+
+  updateInvoice() {
+    this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
+      console.log(z);
+     this.updateInvoiceFiles();
+      
+
+    })
+  }
+
+
+  updateInvoiceFiles() {
+    this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x:any)=>{
+      console.log(x);
+    })
+  }
+
+
+
+
   async onClickProfile(ev: any) {
     const popover = await this.popoverCtrl.create({
       component: PopoverComponent,

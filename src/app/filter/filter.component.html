@@ -1,0 +1,41 @@
+<body class="dailogbox">
+  <div fxLayout="column" fxFlex="100" fxLayoutAlign="space-around center">
+    <div fxFlex="55" fxLayout="row" fxLayoutGap="25px" >
+      <div fxLayout="column"  fxFlex="55" fxLayoutAlign="space-between start">
+        <ion-label>
+          Status:
+        </ion-label>
+        <ion-label>
+          Start Date:
+        </ion-label>
+        <ion-label>
+          End Date:
+        </ion-label>
+        <ion-label>
+          Invoice Number:
+        </ion-label>
+        <ion-label>
+          Lr Number:
+        </ion-label>
+
+
+      </div>
+      <div fxLayout="column" fxFlex="45" fxLayoutAlign="space-between start">
+        <input [(ngModel)]="status" class="inpt">
+        <input [(ngModel)]="start_date" class="inpt" placeholder="DD/MM/YYYY">
+        <input [(ngModel)]="end_date" class="inpt"  placeholder="DD/MM/YYYY" >
+        <input [(ngModel)]="invoice_number" class="inpt">
+        <input [(ngModel)]="LR_number" class="inpt">
+      </div>
+
+    </div>
+
+    <div >
+      <div>
+        <button fxFlexAlign="stretch" (click)="save()" class="sumbtn">SEARCH</button>
+      </div>
+    </div>
+
+  </div>
+
+</body>
