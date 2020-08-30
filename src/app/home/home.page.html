@@ -1,27 +1,45 @@
 
 
 <ion-content>
-  
-  <img class="mainimg" src="../../assets/img/imgpsh_mobile_save-1.png"> 
+  <div fxFLex="100"  fxLayout="column" >
+    <div fxFlex>
+      <img class="mainimg" src="../../assets/img/imgpsh_mobile_save-1.png"> 
     <div class="logodiv">
       <img class="logotxt" src="../../assets/img/Image 1@3x.png">
     </div>
-    <ion-label class="welcome">Welcome!</ion-label>
+    </div>
+    <div fxLayout="column"  style="margin-top:25%" fxLayoutAlign="space-around center">
+      <ion-label class="welcome">Welcome!</ion-label>
     <ion-label class="signin">Sign in to your Account</ion-label>
-    <form [formGroup]="reactive_signin" (ngSubmit)="onClickSubmit()">
-    <fieldset class="userfeild">
-      <legend class="Username">Username</legend>
-      <ion-input type="text" formControlName="username" required class="userinput"></ion-input>
-      <img src="../../assets/img/user (1)@3x.png" class="userlogo">
-    </fieldset>
-
-    <fieldset class="passfeild">
-      <legend class="password">Password</legend>
-      <ion-input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" required class="passinput"></ion-input>
-      <img src="../../assets/img/eye@3x.png" class="passlogo" (click)="showpassword()">
-    </fieldset>
+    </div>
+    <form [formGroup]="reactive_signin"  (ngSubmit)="onClickSubmit()">
+    <div style="margin-top: 15%;display: flex;flex-direction: column; justify-content: center; align-items: center;"   >
+      
+        
+          <fieldset class="userfeild">
+            <legend class="Username">Username</legend>
+            <div style="width: 100%; display: flex;  justify-content: space-between; align-items: center;">
+              <ion-input type="text" formControlName="username" required class="userinput"></ion-input>
+              <img src="../../assets/img/user (1)@3x.png" class="userlogo">
+            </div>
+          </fieldset>
+      
+          <fieldset class="passfeild">
+            <legend class="password">Password</legend>
+            <diV style="width: 100%; display: flex;  justify-content: space-between; align-items: center;">
+              <ion-input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" required class="passinput"></ion-input>
+              <img src="../../assets/img/eye@3x.png" class="passlogo" (click)="showpassword()">
+            </diV>
+          </fieldset>
+          
+        
     
-
-    <input  type="submit"  class="btn" value="Login">
+        
+          <input  type="submit"  class="btn" value="Login">
+        
+      
+    </div>
   </form>
+  </div>
+  
 </ion-content>

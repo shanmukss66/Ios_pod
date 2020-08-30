@@ -1,4 +1,4 @@
-<body >
+
   <ion-header class="header" fxLayout="row" fxLayoutAlign="space-around center">
     <div>
       <ion-buttons slot="start">
@@ -18,10 +18,10 @@
   </div>
   </ion-header>
 
-  <ion-content style="overflow: auto; " >
-    <div style="width: 100% ;  margin-top: 10%;" fxLayoutAlign="start center" fxLayoutGap="30px"
-      fxLayout="column">
-      <ion-card class="card" >
+  <ion-content style="overflow: auto;"   >
+    <div fxFlex style="margin-top:10px;" fxLayoutAlign="space-around center" 
+      fxLayout="column" fxLayoutGap="20px">
+      <ion-card class="card" fxFlex="50" >
         <ion-card-header style="height: 19%; width: 100%; border-bottom:2px solid  #e2e2e2;" fxLayout="row">
           <div fxFlex="55" fxLayoutAlign="start center">
             <ion-label class="title">APPROVED / PENDING INVOICES</ion-label>
@@ -37,9 +37,9 @@
           </div>
         </ion-card-header>
 
-        <ion-card-content style="width: 100%; height: 100%;">
+        <ion-card-content style="width: 100%; height: 81%;">
           <div style="width: 100%; height: 100%;" fxLayout="row">
-            <div fxFlex="50" fxLayoutAlign="center center">
+            <!-- <div fxFlex="50" fxLayoutAlign="center center">
               <canvas #doughnutCanvas></canvas>
             </div>
             <div fxFlex="50" fxLayout="column">
@@ -76,7 +76,28 @@
                 </div>
               </div>
 
+            </div> -->
+
+           
+           <div fxFlex="100" fxLayoutAlign="center center">
+            <canvas #doughnutCanvas></canvas>
+           </div>
+           <!-- <div fxFlex="40" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center" style="border-top: 2px solid #e2e2e2; "> 
+            <div fxLayoutAlign="center center" fxFlex="50" fxLayout="column" >
+              <ion-label>Approved ({{invoicechartdata.ConfirmedInvoices}}/{{invoicechartdata.TotalInvoices}})
+              </ion-label>
+
+              <ion-progress-bar color="success" id="prog1" value="{{confirmedinvoices}}"></ion-progress-bar>
             </div>
+            <div fxLayoutAlign="center center" fxFlex="50" fxLayout="column">
+              <ion-label>Pending ({{invoicechartdata.PendingInvoices}}/{{invoicechartdata.TotalInvoices}})
+              </ion-label>
+
+              <ion-progress-bar color="success" id="prog2" value="{{pendinginvoices}}"></ion-progress-bar>
+            </div>
+           </div> -->
+
+
           </div>
 
 
@@ -84,7 +105,7 @@
       </ion-card>
 
 
-      <ion-card class="card">
+      <ion-card class="card" fxFlex="50">
         <ion-card-header style="height: 19%; width: 100%; border-bottom:2px solid  #e2e2e2;" fxLayout="row">
           <div fxFlex="53" fxLayoutAlign="start center">
             <ion-label class="title">DELIVERY STATUS</ion-label>
@@ -98,11 +119,11 @@
           <div fxFlex="5" fxLayoutAlign="center center">
             <img src="../../assets/img/adjust.svg">
           </div>
-        </ion-card-header>
+        </ion-card-header> 
 
-        <ion-card-content style="width: 100%; height: 100%;">
+        <ion-card-content style="width: 100%; height: 81%;">
           <div style="width: 100%; height: 100%;" fxLayout="row">
-            <div fxFlex="50" fxLayoutAlign="center center">
+            <!-- <div fxFlex="50" fxLayoutAlign="center center">
               <canvas #doughnutCanvas1></canvas>
             </div>
             <div fxFlex="50" fxLayout="column">
@@ -136,7 +157,13 @@
                 </div>
               </div>
 
-            </div>
+            </div> -->
+
+
+
+            <div fxFlex="100" fxLayoutAlign="center center">
+              <canvas #doughnutCanvas1></canvas>
+             </div>
           </div>
 
 
@@ -149,4 +176,3 @@
 
   </ion-content>
 
-</body>

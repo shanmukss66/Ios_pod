@@ -14,6 +14,7 @@ import { DataService } from '../services/BehaviourSubject.service';
 import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
 import { ToastMaker } from '../Toast/ToastMaker.service';
 import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
+import { StorageService } from '../services/storage.service';
 @Component({
   selector: 'app-description',
   templateUrl: './description.page.html',
@@ -25,17 +26,18 @@ export class DescriptionPage implements OnInit {
   description_data: InvoiceItemDetail[];
   invoiceupdation: InvoiceUpdation = new InvoiceUpdation();
   cnfbtn_hidden = true;
+  Forder:number = 0;
   dataFromDailog :invUpdateandformdata
-  constructor(private router: Router,public loadingcontroller:LoadingController,private toast:ToastMaker,private loading:LoadingAnimation ,private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
-    this.menuCtrl.enable(true, 'main-menu');
+  constructor(private router: Router,public loadingcontroller:LoadingController,private toast:ToastMaker,private loading:LoadingAnimation ,private dataservice: DataService,private storage:StorageService ,public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
+    
   }
 
   ngOnInit() {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
     this.invoicedetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
-    
+    this.Forder = parseInt(this.invoicedetails.FREIGHT_ORDER.toString());
     console.log(this.invoicedetails);
-    this.dataservice.SignedInUser(this.userdetails);
+     this.dataservice.SignedInUser(this.userdetails);
     console.log((this.activatedRoute.snapshot.paramMap.get('type')));
 
     if ((this.activatedRoute.snapshot.paramMap.get('type')) == "pending") {
@@ -48,8 +50,23 @@ export class DescriptionPage implements OnInit {
     this.activatedRoute.data.subscribe((x: { descrptn: InvoiceItemDetail[] }) => {
       console.log(x.descrptn);
       this.description_data = x.descrptn;
+      
+    },
+    (catchError) => {
+      
 
-    })
+
+      if (catchError.status == 0) {
+
+        this.toast.internetConnection();
+        this.router.navigate(['/charts' , JSON.stringify(this.userdetails)])
+      }
+      else {
+        this.toast.wentWrong();
+        this.router.navigate(['/charts' , JSON.stringify(this.userdetails)])
+      }
+    }
+    )
   }
 
   openDailog(x: number) {
@@ -64,12 +81,13 @@ export class DescriptionPage implements OnInit {
       createdby: this.invoicedetails.CREATED_BY
     };
     const dialogRef = this.dialog.open(DescriptiondailogComponent, dialogConfig);
+    this.loading.presentLoading().then(()=>{
     dialogRef.afterClosed().subscribe(
 
       (data:invUpdateandformdata) => {
       this.dataFromDailog = data
         console.log("Dialog output:", data)
-       this.loading.presentLoading().then(()=>{
+      
         if (data != null) {
 
           this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data.reportdate);
@@ -80,46 +98,68 @@ export class DescriptionPage implements OnInit {
 
           });
 
-         this.updateInvoice();
-         (catchError) => {
-          this.loadingcontroller.dismiss();
-
-
-          if (catchError.status == null) {
-
-            this.toast.internetConnection();
-          }
-          else {
-            this.toast.wentWrong();
-          }
-        }
-        }
-        this.loading.loadingController.dismiss().then(()=>{
-          this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
-         });
-       })
+         //update Invoice
+          this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
+            console.log(z);
+           //upload files 
+            this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x:any)=>{
+              console.log(x);
+            },
+            (catchError) => {
+              this.loadingcontroller.dismiss();
+        
+        
+              if (catchError.status == null) {
+        
+                this.toast.internetConnection();
+              }
+              else {
+                this.toast.wentWrong();
+              }
+            })
+           
+            
+              this.loading.loadingController.dismiss().then(()=>{
+                this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
+               });
+            
+          },
+           (catchError) => {
+            this.loadingcontroller.dismiss();
       
       
+            if (catchError.status == null) {
+      
+              this.toast.internetConnection();
+            }
+            else {
+              this.toast.wentWrong();
+            }
+          }
+         
+      
+          )
+        
+        }
+        
+      
+      
+      
+      },
+      () => {
+        this.loadingcontroller.dismiss();
+        this.toast.wentWrongWithUpdatingInvoices();
+
       }
-    );
-
-  }
-
-  updateInvoice() {
-    this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
-      console.log(z);
-     this.updateInvoiceFiles();
       
-
-    })
+    );
+  })
   }
 
+  
 
-  updateInvoiceFiles() {
-    this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x:any)=>{
-      console.log(x);
-    })
-  }
+
+ 
 
 
 

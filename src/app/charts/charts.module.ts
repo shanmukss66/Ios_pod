@@ -7,6 +7,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { ChartsPageRoutingModule } from './charts-routing.module';
 import {ChartsModule} from 'ng2-charts';
 import { ChartsPage } from './charts.page';
+import { AuthGuardService } from '../services/AuthGuardService.service';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ChartsPage } from './charts.page';
     ChartsModule,
     FlexLayoutModule,
     ChartsPageRoutingModule,
+    
     
   ],
   declarations: [ChartsPage]

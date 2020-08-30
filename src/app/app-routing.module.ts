@@ -5,11 +5,15 @@ import { DeliveryResolver } from './services/deliveryChartResolver.service';
 import { ApprovedInvoiceResolver } from './services/ApprovedInvoiceResolver.service';
 
 import { InvoiceDescriptionResolver } from './services/InvoiceDescriptionResolver.service';
+import { AuthService } from './services/AuthService.service';
+import { AuthGuardService } from './services/AuthGuardService.service';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    canActivate :[AuthGuardService]
   },
   {
     path: '',
@@ -23,18 +27,27 @@ const routes: Routes = [
   {
     path: 'invoice/:user_data',
     loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule),
-    resolve:{approved:ApprovedInvoiceResolver}
+    
+    resolve:{approved:ApprovedInvoiceResolver},
+    canActivate :[AuthGuard]
+    
+    
 
   },
   {
-    path: 'charts/:user_data',
+    path: 'charts',
     loadChildren: () => import('./charts/charts.module').then( m => m.ChartsPageModule),
-    resolve:{delivery: DeliveryResolver}
+    
+    
+    canActivate :[AuthGuard]
+    
   },
   {
     path: 'description/:user_data/:header_id/:type',
     loadChildren: () => import('./description/description.module').then( m => m.DescriptionPageModule),
-    resolve:{descrptn:InvoiceDescriptionResolver}
+    
+    resolve:{descrptn:InvoiceDescriptionResolver},
+    canActivate :[AuthGuard]
   },
   {
     path: 'alertbox',

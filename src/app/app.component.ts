@@ -37,9 +37,10 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     
-     
-        this.getUser();
-      
+        
+        this.getUserFromBehaviourSubject();
+        
+        
    
   }
 
@@ -49,7 +50,7 @@ export class AppComponent implements OnInit {
       this.splashScreen.hide();
     });
   }
-  getUser(){
+  getUserFromBehaviourSubject(){
   
   this.dataservice.user.subscribe((data:TokenResponse)=>{
      if(data!=null){
@@ -71,21 +72,12 @@ export class AppComponent implements OnInit {
  
 
   onclickCharts(){
+    
     this.loading.presentLoading().then(() =>{
-      this.router.navigate(['/charts' , JSON.stringify(this.userdetails)]).then(()=>{
+      
+      this.router.navigate(['/charts']).then(()=>{
         this.loadingController.dismiss();
-        (catchError) =>{
-          this.loadingController.dismiss();
-            
-            
-          if(catchError.status==null){
-            
-            this.toast.internetConnection();
-          }
-          else{
-            this.toast.wentWrong();
-          }
-        } 
+       
       })
     })
    
@@ -95,21 +87,16 @@ export class AppComponent implements OnInit {
 
   onclickInvoice(){ 
     this.loading.presentLoading().then(()=>{
-      this.router.navigate(['/invoice' , JSON.stringify(this.userdetails)]).then(()=>{
-        this.loadingController.dismiss();
-        (catchError) =>{
+      try {
+        this.router.navigate(['/invoice' , JSON.stringify(this.userdetails)]).then(()=>{
           this.loadingController.dismiss();
-            
-            
-          if(catchError.status==null){
-            
-            this.toast.internetConnection();
-          }
-          else{
-            this.toast.wentWrong();
-          }
-        } 
-      })
+          
+        })
+      } catch (error) {
+        this.loadingController.dismiss();
+        this.toast.wentWrong();
+      }
+     
        
     })
     
@@ -117,6 +104,8 @@ export class AppComponent implements OnInit {
      
   }
 
+ 
 
+  
  
 }

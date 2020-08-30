@@ -21,4 +21,13 @@ export class LoadingAnimation{
         });
         await loading.present();
       }
+
+      async presentChartAnimation() {
+        const loading = await this.loadingController.create({
+          mode: "md",
+          message: 'Rendering data...'
+    
+        });
+        await loading.present();
+      }
 }

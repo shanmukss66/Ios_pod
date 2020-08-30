@@ -5,7 +5,7 @@
           <ion-label>
           Vehicle Report Date: 
           </ion-label>
-          <input [(ngModel)]="reportdate" type="datetime-local" class="inpt" >
+          <input [(ngModel)]="reportdate" type="date" class="inpt" >
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <ion-label>
@@ -23,7 +23,7 @@
           
         </div>
         <div  fxFLex="50">
-          <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+          <input style="display: none" type="file" multiple (change)="onFileChanged($event)" #fileInput>
           <button fxFlexAlign="stretch" (click)="fileInput.click()" class="upldbtn">UPLOAD</button>
           <ion-label>{{filename}}</ion-label>
         </div>

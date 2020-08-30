@@ -11,6 +11,7 @@ import { LoadingController } from '@ionic/angular';
 import { ToastMaker } from '../Toast/ToastMaker.service';
 import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -27,7 +28,7 @@ export class HomePage implements OnInit {
 
   });
   constructor(private router: Router,private loading:LoadingAnimation ,private toast:ToastMaker,public loadingController: LoadingController, private dataservice: DataService, private getService: GetService, public menuCtrl: MenuController, private storage: StorageService) {
-    this.menuCtrl.enable(false, 'main-menu');
+    this.dataservice.SignedInUser(this.response_data)
     this.menuCtrl.swipeGesture(false);
   }
   ngOnInit(): void {
@@ -43,22 +44,27 @@ export class HomePage implements OnInit {
       if (this.reactive_signin.valid) {
         this.getService.loginResponse(temp).subscribe((data: any) => {
           this.response_data = data;
-          console.log(data);
+          
 
          
           this.storage.setObject('signedUser', this.response_data);
+          
           this.dataservice.SignedInUser(this.response_data);
+          
+          this.router.navigate(['/charts']);
           this.loadingController.dismiss();
-          this.router.navigate(['/charts', JSON.stringify(this.response_data)]);
         },
+        
           catchError => {
             this.loadingController.dismiss();
+            console.log(catchError );
+            
             
             if(catchError.status==0){
               
               this.toast.internetConnection();
             }
-            else{
+            else if(catchError.status==400){
               this.toast.incorrectCredentials();
             }
             
@@ -68,7 +74,7 @@ export class HomePage implements OnInit {
       }
       else {
         this.loadingController.dismiss();
-        
+        this.toast.incorrectCredentials();
       }
     });
 

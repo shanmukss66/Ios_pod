@@ -7,6 +7,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { DescriptionPageRoutingModule } from './description-routing.module';
 
 import { DescriptionPage } from './description.page';
+import { AuthGuardService } from '../services/AuthGuardService.service';
 
 @NgModule({
   imports: [

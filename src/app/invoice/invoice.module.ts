@@ -7,6 +7,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { InvoicePageRoutingModule } from './invoice-routing.module';
 
 import { InvoicePage } from './invoice.page';
+import { AuthGuardService } from '../services/AuthGuardService.service';
 
 @NgModule({
   imports: [

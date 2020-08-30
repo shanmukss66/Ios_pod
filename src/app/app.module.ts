@@ -16,7 +16,10 @@ import { PendingdailogComponent } from './pendingdailog/pendingdailog.component'
 import { DescriptiondailogComponent } from './descriptiondailog/descriptiondailog.component';
 import { PopoverComponent } from './popover/popover.component';
 import { FilterComponent } from './filter/filter.component';
-
+import { AuthGuardService } from './services/AuthGuardService.service';
+import { JwtModule } from "@auth0/angular-jwt";
+import { AuthGuard } from './auth.guard';
+import { AuthService } from './services/AuthService.service';
 @NgModule({
   declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
   entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
@@ -24,7 +27,10 @@ import { FilterComponent } from './filter/filter.component';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    AuthGuard,
+    AuthService,
+    
+    { provide: RouteReuseStrategy,useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })

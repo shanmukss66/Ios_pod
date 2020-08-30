@@ -39,4 +39,12 @@ export class ToastMaker{
           });
           (await tst).present();
     }
+    async wentWrongWithUpdatingInvoices(){
+        let tst = this.toast.create({
+            message : "Something went wrong while updating invoices!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
 }

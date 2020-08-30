@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
+import { eventNames } from 'process';
 
 const { Storage } = Plugins;
 
@@ -34,5 +35,12 @@ export class StorageService {
 
     async clear() {
         await Storage.clear();
+    }
+
+    async changeUser(){
+        await Storage.addListener('sti',(event)=>{
+         console.log("kjbbaskn");
+         
+        })
     }
 }

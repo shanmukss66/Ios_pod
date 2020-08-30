@@ -49,7 +49,7 @@ export class DescriptiondailogComponent implements OnInit {
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     })
-    this.form.append('cam'+this.i,this.image);
+    this.form.append('cam'+this.i,JSON.stringify(this.image));
     console.log(this.image);
     this.i+=1;
     this.a= JSON.stringify(this.i);
@@ -61,7 +61,8 @@ export class DescriptiondailogComponent implements OnInit {
     console.log(this.selectedFile);
     this.filename=this.selectedFile.name;    
     this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
-    
+    console.log(this.form.get(this.selectedFile.name));
+    this.j+=1;
     
     
   }

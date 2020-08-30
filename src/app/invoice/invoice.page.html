@@ -48,7 +48,7 @@
 
     <ion-slide>
 
-      <div class="card-div" fxLayout="column" fxLayout.sm="column" fxLayout.lg="row" fxLayout.xs="column">
+      <div class="card-div" fxLayout="column" fxLayoutGap="10px">
         <ion-card *ngFor="let d of filteredPendingInvoices" class="card">
           <ion-card-header class="card-header">
             <ion-label class="invoiceno">INVOICE NO : <ion-label class="num">{{d.ODIN}}</ion-label>
@@ -96,7 +96,7 @@
 
 
     <ion-slide>
-      <div class="card-div" fxLayout="column" fxLayout.sm="column" fxLayout.lg="row" fxLayout.xs="column"
+      <div class="card-div" fxLayout="column"
         fxLayoutGap="10px">
         <ion-card *ngFor="let d of filteredApprovedInvoices" class="card">
           <ion-card-header class="card-header">

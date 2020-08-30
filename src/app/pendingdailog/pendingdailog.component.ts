@@ -46,8 +46,8 @@ export class PendingdailogComponent implements OnInit {
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     })
-    this.form.append('cam'+this.i,this.image);
-    console.log(this.image);
+    this.form.append('cam'+this.i,JSON.stringify(this.image));
+    console.log(this.form.get('cam'+this.i));
     this.i+=1;
     this.a= JSON.stringify(this.i);
     this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);

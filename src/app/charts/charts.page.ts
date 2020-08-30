@@ -11,8 +11,12 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
 import { LoadingController } from '@ionic/angular';
-import { pipe } from 'rxjs';
+import { pipe, interval } from 'rxjs';
 import { retry } from 'rxjs/operators';
+import { StorageService } from '../services/storage.service';
+import { delAndInv } from '../models/delAndInv.model';
+import { DeliveryResolver } from '../services/deliveryChartResolver.service';
+import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.page.html',
@@ -37,58 +41,77 @@ export class ChartsPage implements OnInit {
   
 
 
-  constructor(private router: Router,public loadingController: LoadingController,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
-    this.menuCtrl.enable(true, 'main-menu');
+  constructor(private router: Router,private m:DeliveryResolver,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+    
   }
 
   ngOnInit() {
+     
+   
     
-    this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
-     this.dataservice.SignedInUser(this.userdetails);
-    this.displayname = this.userdetails.displayName;
     
+     
+    
+    //  this.activatedRoute.data.subscribe(
+    //   (data: { delivery: any }) => {
 
-     this.activatedRoute.data.subscribe(
-      (data: { delivery: any[] }) => {
+    //    console.log(data.delivery)
+       
+    //     // this.deliverychartdata = data.delivery[0];
 
-
-        this.deliverychartdata = data.delivery[0];
-
-        this.inline = this.deliverychartdata.InLineDelivery / this.deliverychartdata.TotalDelivery;
-
-
-        console.log(data.delivery);
-        this.invoicechartdata = data.delivery[1];
-
-        console.log(this.invoicechartdata);
-
-        this.confirmedinvoices = (this.invoicechartdata.ConfirmedInvoices / this.invoicechartdata.TotalInvoices);
-        this.pendinginvoices = (this.invoicechartdata.PendingInvoices / this.invoicechartdata.TotalInvoices);
+    //     // this.inline = this.deliverychartdata.InLineDelivery / this.deliverychartdata.TotalDelivery;
 
 
-      }
-    )
+    //     // console.log(data.delivery);
+    //     // this.invoicechartdata = data.delivery[1];
+
+    //     // console.log(this.invoicechartdata);
+
+    //     // this.confirmedinvoices = (this.invoicechartdata.ConfirmedInvoices / this.invoicechartdata.TotalInvoices);
+    //     // this.pendinginvoices = (this.invoicechartdata.PendingInvoices / this.invoicechartdata.TotalInvoices);
+
+
+    //   }
+    // )
   }
 
-
+  
  
 
   ionViewDidEnter() {
-    this.doughnutChartMethod();
-    this.doughnutChartMethod1();
+   this.loading.presentChartAnimation().then(()=>{
+    this.m.getpart().subscribe((x:any)=>{
+      this.userdetails = x.tok;
+      this.dataservice.SignedInUser(this.userdetails);
+    this.displayname = this.userdetails.displayName;
+      this.deliverychartdata = x.del;
+      this.invoicechartdata = x.inv;
+      this.doughnutChartMethod()
+      this.doughnutChartMethod1()
+      this.loading.loadingController.dismiss();
+  } )
+   
+   })
+   
+    
   }
   doughnutChartMethod() {
     this.doughnutChart1 = new Chart(this.doughnutCanvas1.nativeElement, {
       type: 'doughnut',
       options: {
-
+        responsive:false,
         cutoutPercentage: 60,
-
+        legend : {position:'top',labels:{
+          usePointStyle:true,
+          fontFamily : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+          fontSize : 10
+        },
+      }
       },
       data: {
-
+        labels: ['Approved','Pending'] ,
         datasets: [{
-          label: '# of Votes',
+          
           data: [this.deliverychartdata.InLineDelivery, this.deliverychartdata.DelayedDelivery],
           backgroundColor: [
 
@@ -107,16 +130,22 @@ export class ChartsPage implements OnInit {
       type: 'doughnut',
 
       options: {
-        responsive:true,
+        responsive:false,
         cutoutPercentage: 60,
-
+        legend : {position:'top',labels:{
+          usePointStyle:true,
+          fontFamily : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+          fontSize : 10
+        },
+      }
       },
       data: {
-
+        labels :['INVOICE DISPATCHED','POD CONFIRMED'],
+        
         datasets: [{
-
+          
           data: [this.invoicechartdata.ConfirmedInvoices, this.invoicechartdata.PendingInvoices],
-
+      
           backgroundColor: [
             '#fb7800',
             '#4452c6',
