@@ -25,7 +25,7 @@ const routes: Routes = [
     loadChildren: () => import('./signin/signin.module').then( m => m.SigninPageModule)
   },
   {
-    path: 'invoice/:user_data',
+    path: 'invoice/:user_data/:selected_id',
     loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule),
     
     resolve:{approved:ApprovedInvoiceResolver},

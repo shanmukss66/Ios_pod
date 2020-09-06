@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
   onclickInvoice(){ 
     this.loading.presentLoading().then(()=>{
       try {
-        this.router.navigate(['/invoice' , JSON.stringify(this.userdetails)]).then(()=>{
+        this.router.navigate(['/invoice' , JSON.stringify(this.userdetails),0]).then(()=>{
           this.loadingController.dismiss();
           
         })

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Chart } from 'chart.js';
 import { Router, ActivatedRoute } from '@angular/router'
@@ -22,17 +22,19 @@ import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
   templateUrl: './charts.page.html',
   styleUrls: ['./charts.page.scss'],
 })
-export class ChartsPage implements OnInit {
+export class ChartsPage implements OnInit,OnDestroy {
   confirmedinvoices: number=0;
   pendinginvoices: number=0;
   inlinedelvery: number=0;
   delayeddelivery: number=0;
   inline: number=0;
   
+  
   @ViewChild('doughnutCanvas') doughnutCanvas;
   @ViewChild('doughnutCanvas1') doughnutCanvas1;
   doughnutChart: any;
   doughnutChart1: any;
+  destroycharts:any;
   userdetails: TokenResponse = new TokenResponse();
   displayname: string = "";
   invoicechartdata: InvoiceStatusCount = new InvoiceStatusCount();
@@ -44,10 +46,25 @@ export class ChartsPage implements OnInit {
   constructor(private router: Router,private m:DeliveryResolver,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
     
   }
+  ngOnDestroy(): void {
+   
+  }
 
   ngOnInit() {
      
-   
+   this.loading.presentChartAnimation().then(()=>{
+      this.m.getpart().subscribe((x:any)=>{
+        this.userdetails = x.tok;
+        this.dataservice.SignedInUser(this.userdetails);
+      this.displayname = this.userdetails.displayName;
+        this.deliverychartdata = x.del;
+        this.invoicechartdata = x.inv;
+         this.doughnutChartMethod()
+        this.doughnutChartMethod1()
+        this.loading.loadingController.dismiss();
+    } )
+     
+     })
     
     
      
@@ -77,34 +94,21 @@ export class ChartsPage implements OnInit {
 
   
  
-
-  ionViewDidEnter() {
-   this.loading.presentChartAnimation().then(()=>{
-    this.m.getpart().subscribe((x:any)=>{
-      this.userdetails = x.tok;
-      this.dataservice.SignedInUser(this.userdetails);
-    this.displayname = this.userdetails.displayName;
-      this.deliverychartdata = x.del;
-      this.invoicechartdata = x.inv;
-      this.doughnutChartMethod()
-      this.doughnutChartMethod1()
-      this.loading.loadingController.dismiss();
-  } )
-   
-   })
-   
-    
-  }
+  
+  
   doughnutChartMethod() {
     this.doughnutChart1 = new Chart(this.doughnutCanvas1.nativeElement, {
       type: 'doughnut',
       options: {
         responsive:false,
         cutoutPercentage: 60,
-        legend : {position:'top',labels:{
+        legend : {position:'right',
+        
+        labels:{
           usePointStyle:true,
           fontFamily : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
-          fontSize : 10
+          fontSize : 10,
+          
         },
       }
       },
@@ -124,42 +128,54 @@ export class ChartsPage implements OnInit {
       }
     });
   }
-
+  
   doughnutChartMethod1() {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
 
+      
+      data: {
+        labels :['INVOICE DISPATCHED','PARTIALLY CONFIRMED','POD CONFIRMED'],
+        
+        datasets: [{
+          
+          data: [this.invoicechartdata.ConfirmedInvoices,this.invoicechartdata.PartiallyConfirmedInvoices ,this.invoicechartdata.PendingInvoices],
+      
+          backgroundColor: [
+            '#fb7800',
+            '#44c0b6',
+            '#4452c6'
+          ],
+
+        }]
+      },
       options: {
         responsive:false,
         cutoutPercentage: 60,
-        legend : {position:'top',labels:{
+        
+        legend : {position:'right',
+       
+        labels:{
           usePointStyle:true,
           fontFamily : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
           fontSize : 10
         },
-      }
-      },
-      data: {
-        labels :['INVOICE DISPATCHED','POD CONFIRMED'],
+      },onClick : (e,i:any)=>{
+        if(i[0]!=null){
+          console.log(i[0]._index);
+        this.loading.presentLoading().then(()=>{
+          this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(i[0]._index)]).then(()=>{
+            this.loading.loadingController.dismiss();
+          })
+        })
+        }
         
-        datasets: [{
-          
-          data: [this.invoicechartdata.ConfirmedInvoices, this.invoicechartdata.PendingInvoices],
-      
-          backgroundColor: [
-            '#fb7800',
-            '#4452c6',
-
-          ],
-
-        }]
+      }
       }
     });
   }
   // events
-  onCLickTo() {
-    this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
-  }
+  
 
   
   async onClickProfile(ev: any) {  
@@ -172,4 +188,10 @@ export class ChartsPage implements OnInit {
     });  
     return await popover.present();  
   }  
+
+
+
+  
+  
+
 }

@@ -20,6 +20,7 @@ import { AuthGuardService } from './services/AuthGuardService.service';
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './services/AuthService.service';
+
 @NgModule({
   declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
   entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],

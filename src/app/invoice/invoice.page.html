@@ -22,12 +22,16 @@
     <ion-toolbar style="position: fixed;">
       <div>
         <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" mode="md" color="primary">
-          <ion-segment-button value="0">
+          <ion-segment-button value=0>
             <ion-label>Pending</ion-label>
 
           </ion-segment-button>
-          <ion-segment-button value="1">
-            <ion-label>Approved</ion-label>
+          <ion-segment-button value=1>
+            <ion-label>Partially Confirmed</ion-label>
+
+          </ion-segment-button>
+          <ion-segment-button value=2>
+            <ion-label>Confirmed</ion-label>
 
           </ion-segment-button>
 
@@ -78,10 +82,10 @@
               </div>
             </div>
             <div>
-              <button class="view" (click)="onClicknavigate(d,b)">
+              <button id="view" (click)="onClicknavigate(d,b)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
-              <button class="confirm" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
+              <button id="confirm" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>
@@ -92,7 +96,54 @@
 
 
     </ion-slide>
+    
 
+    <ion-slide>
+
+      <div class="card-div" fxLayout="column" fxLayoutGap="10px">
+        <ion-card *ngFor="let d of partiallinvoicedata" class="card">
+          <ion-card-header class="card-header">
+            <ion-label class="invoiceno">INVOICE NO : <ion-label class="num">{{d.ODIN}}</ion-label>
+            </ion-label>
+          </ion-card-header>
+          <ion-card-content style="padding: 0%; width: 100%; height: 100%;">
+            <div class="cardbody">
+
+              <div>
+                <ion-label class="vehicle1">Vehicle No:</ion-label><br>
+                <ion-label class="vehicleno1">{{d.VEHICLE_NO}}</ion-label>
+
+
+              </div>
+              <div>
+
+                <ion-label class="eway1"> Ewaybill No:</ion-label><br>
+
+                <ion-label class="ewaybill1">{{d.EWAYBILL_NO}}</ion-label>
+
+
+              </div>
+
+              <div>
+                <ion-label class="outbound1">Outbound Delivery:</ion-label><br>
+                <ion-label class="outbounddelivery1">{{d.OUTBOUND_DELIVERY}}</ion-label>
+              </div>
+            </div>
+            <div>
+              <button id="view" (click)="onClicknavigate(d,b)">
+                <ion-label class="view-txt">View Details</ion-label>
+              </button>
+              <button id="confirm" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
+                <img class="tick" src="../../assets/img/tick (3).svg">
+                <ion-label class="con-txt">Confirm</ion-label>
+              </button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+
+    </ion-slide>
 
 
     <ion-slide>
@@ -127,7 +178,7 @@
               </div>
             </div>
             <div>
-              <button class="view" (click)="onClicknavigate(d,a)">
+              <button id="view" (click)="onClicknavigate(d,a)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
 

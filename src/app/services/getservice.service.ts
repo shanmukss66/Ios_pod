@@ -67,10 +67,10 @@ export class GetService{
 
  
 
- deliverychart(data:string,userid:string,role:string):Observable<any>
+ deliverychart(usercode:string,userid:string,role:string):Observable<any>
  {
    if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetDeliveryCountByUser?UserName="+data).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetDeliveryCountByUser?UserCode="+usercode).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     )
@@ -90,9 +90,9 @@ export class GetService{
 
  
 
- invoicechart(data:string,userid:string,role:string):Observable<any>{
+ invoicechart(usercode:string,userid:string,role:string):Observable<any>{
    if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetInvoiceStatusCountByUser?UserName="+data).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetInvoiceStatusCountByUser?UserCode="+usercode).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
@@ -107,7 +107,7 @@ export class GetService{
 
  getApprovedInvoice(data:string,userid:string,role:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetConfirmedInvoiceDetailByUser?UserName="+data).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetConfirmedInvoiceDetailByUser?UserCode="+data).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
@@ -122,7 +122,7 @@ export class GetService{
 
  getPendingInvoice(data:string,userid:string,role:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetOpenAndSavedInvoiceDetailByUser?UserName="+data).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetOpenAndSavedInvoiceDetailByUser?UserCode="+data).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
@@ -138,9 +138,27 @@ export class GetService{
    }
  }
 
+ getPartiallyConfirmedInvoice(data:string,userid:string,role:string):Observable<any>{
+  if(role=="Customer"){
+    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/FilterPartiallyConfirmedInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=").pipe(
+      retry(5),
+      catchError(this.handleError<any>('getHeroes', []))
+    );
+   }
+   else{
+    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate").pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+   }
+ }
+
  getItemDescription(username:string,userid:string,role:string,headerid:string):Observable<any>{
    if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserName="+username+"&ID="+headerid).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserCode="+username+"&ID="+headerid).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
@@ -182,7 +200,7 @@ export class GetService{
    if(userRole == "Customer"){
      
      
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetailByUser?UserName="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&LRNumber="+lrnumber).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&LRNumber="+lrnumber).pipe(
       retry(5),
       
     );;

@@ -26,15 +26,17 @@ export class InvoicePage implements OnInit {
   button;
   approvedinvoicedata: InvoiceHeaderDetail[];
   pendinginvoicedata: InvoiceHeaderDetail[];
+  partiallinvoicedata:InvoiceHeaderDetail[];
   filteredPendingInvoices: InvoiceHeaderDetail[];
   filteredApprovedInvoices: InvoiceHeaderDetail[];
   invoiceupdation: InvoiceUpdation1 = new InvoiceUpdation1();
-  segment = 0;
+  segment:number= 1;
   filterdata: FormData = new FormData();
   filteredInvoices: InvoiceHeaderDetail[];
   a = "confirmed";
   b = "pending";
   reportdate: number;
+  
   dataFromDailog: invUpdateandformdata;
   ewaybillno: string = "";
   userdetails: TokenResponse = new TokenResponse();
@@ -50,27 +52,34 @@ export class InvoicePage implements OnInit {
 
     
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
+    this.segment  =  parseInt(this.activatedRoute.snapshot.paramMap.get('selected_id'));
+    
+    
      this.dataservice.SignedInUser(this.userdetails);
 
 
     this.getInvoices();
+   
   }
 
   getInvoices() {
     this.loading.presentLoading().then(() => {
       this.activatedRoute.data.subscribe((y: { approved: any }) => {
         console.log(y.approved);
+       
         this.approvedinvoicedata = y.approved[0];
         if (this.filteredInvoices == null) {
           this.filteredApprovedInvoices = y.approved[0];
         }
 
-
-        this.pendinginvoicedata = y.approved[1];
+        this.partiallinvoicedata=y.approved[1];
+        this.pendinginvoicedata = y.approved[2];
         if (this.filteredInvoices == null) {
-          this.filteredPendingInvoices = y.approved[1];
+          this.filteredPendingInvoices = y.approved[2];
 
         }
+        this.segmentChanged(1);
+        this.slideChanged();
         this.loadingController.dismiss();
       },
         (catchError) => {

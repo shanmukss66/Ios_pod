@@ -8,16 +8,17 @@
     <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
     <ionlabel class="A-and-P">Invoice Description</ionlabel>
   </div>
-  <div >
+  <div>
 
   </div>
-  
- <div fxFlex="20" fxLayoutAlign="center center" >
+
+  <div fxFlex="20" fxLayoutAlign="center center">
     <img (click)="onClickProfile($event)" class="pic" src="../../assets/img/user.svg">
-</div>
+  </div>
 </ion-header>
 
 <ion-content style="flex: 1 1 auto;">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <div
     style="width: 100%; overflow: auto; display: flex; justify-content: space-around; align-items:center ; flex: 1 1 auto; flex-direction: column;">
     <div
@@ -83,8 +84,8 @@
                 <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img"
                     src="../../assets/img/shipping-and-delivery (3).svg"></div>
                 <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column wrap">
-                  <ion-label class="div1txt">FREIGHT ORDER:</ion-label>
-                  <ion-label class="div1det">{{Forder}}</ion-label>
+                  <ion-label class="div1txt">LR NUMBER:</ion-label>
+                  <ion-label class="div1det">{{invoicedetails.LR_NO}}</ion-label>
                 </div>
               </div>
 
@@ -94,8 +95,8 @@
                 <div fxFlex="40" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/calendar.svg">
                 </div>
                 <div fxFlex="60" fxLayoutAlign="center start" fxLayout="column">
-                  <ion-label class="div1txt">FREIGHT DATE:</ion-label>
-                  <ion-label class="div1det">{{invoicedetails.FREIGHT_ORDER_DATE}}</ion-label>
+                  <ion-label class="div1txt">LR DATE:</ion-label>
+                  <ion-label class="div1det">{{invoicedetails.LR_DATE}}</ion-label>
                 </div>
               </div>
 
@@ -142,49 +143,138 @@
         <div style="height: 5px; background-color: #4452c6; border-radius: 6px;"></div>
       </div>
     </div>
-    <div *ngFor="let d of description_data"
-      style="width: 89.2%; height: 150px; margin-bottom: 10px; box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16); ;border:  1.5px #e2e2e2 solid; border-radius:8px ; "
-      fxLayout="column">
-      <div fxLayout="row" fxFlex="50" style="border-bottom:  1.5px #e2e2e2 solid;">
-        <div fxFlex="50" fxFlex fxLayoutGap="20px">
-          <div fxFlex="35" fxLayoutAlign="end center" style="border-left:#4452c6 4px solid ;">
-            <img src="../../assets/img/to-do-list.png">
-          </div>
-          <div fxFlex="65" fxLayoutAlign="center start" fxLayout="column">
-            <ion-label class="div1txt">ITEMS:</ion-label>
-            <ion-label class="div1det">{{d.ITEM_NO}}</ion-label>
-          </div>
-        </div>
 
 
 
-        <div fxFlex="50" fxFlex fxLayoutGap="20px" style="border-left:  1.5px #e2e2e2 solid;">
-          <div fxFlex="35" fxLayoutAlign="end center">
-            <img src="../../assets/img/number.svg">
-          </div>
-          <div fxFlex="65" fxLayoutAlign="center start" fxLayout="column">
-            <ion-label class="div1txt">QUANTITY:</ion-label>
-            <ion-label class="div1det">{{d.QUANTITY}} {{d.QUANTITY_UOM}}</ion-label>
-          </div>
-        </div>
-      </div>
-      <div fxFlex="50" fxLayoutGap="20px">
-        <div fxFlex="18.5" fxLayoutAlign="end center">
-          <img src="../../assets/img/boxes.svg">
-        </div>
-        <div fxFlex="81.5" fxLayoutAlign="center start" fxLayout="column">
-          <ion-label class="div1txt">MATERIAL:</ion-label>
-          <ion-label class="div1det">{{d.MATERIAL_CODE}}</ion-label>
-        </div>
-      </div>
+    <div style="width:98%;">
+      
+
+        <!-- <mat-table  [dataSource]="description_data" class="mat-elevation-z8">
+        
+
+        
+        
+        <ng-container matColumnDef="material_code">
+          <mat-header-cell *matHeaderCellDef>Material Code</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.MATERIAL_CODE}} </mat-cell>
+        </ng-container>
+
+      
+        <ng-container  matColumnDef="invoice_qty">
+          <mat-header-cell  *matHeaderCellDef> Invoice Qty </mat-header-cell>
+          <mat-cell   *matCellDef="let element"> {{element.QUANTITY}} {{element.QUANTITY_UOM}} </mat-cell>
+        </ng-container>
+
+        
+        <ng-container   matColumnDef="recieved_qty">
+          <mat-header-cell *matHeaderCellDef> Recieved Qty </mat-header-cell>
+          <mat-cell    *matCellDef="let element">
+            <ion-item >
+              <ion-input  >{{element.RECEIVED_QUANTITY? element.RECEIVED_QUANTITY:element.QUANTITY }}</ion-input>
+            </ion-item>
+
+
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container  matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+          <mat-cell formArrayName="items" *matCellDef="let element;let j=index" >
+            <mat-form-field  appearance="fill">
+             
+              <mat-select formControlName="key">
+                <mat-option *ngFor="let reason of reasons;let i = index" [value]="reason.value">
+                  {{reason.viewValue}}
+                </mat-option>
+
+              
+
+              </mat-select>
+            
+            </mat-form-field>
+           <button mat-button [matMenuTriggerFor]="menu">
+              {{element.REASON? element.REASON:selected_reason}}
+            </button> 
+          </mat-cell>
+        </ng-container>
+
+
+
+
+        
+
+        <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row   style="padding-left:2%;padding-right:2% ;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      
+      </mat-table> -->
+      <form  [formGroup]="dataForm">
+        <table  class="table">
+          
+          <thead >
+            <tr>
+              <th>Material Code</th>
+              <th>Invoice Qty</th>
+              <th>Recieved Qty</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr formArrayName="items" *ngFor="let item of dataForm.get('items').controls; let i = index;let d of description_data">
+              <td>{{d.MATERIAL_CODE}}</td>
+              <td>{{d.QUANTITY}} {{item.QUANTITY_UOM}}</td>
+              <td [formGroupName]="i" >
+                <ion-item>
+                  <ion-input formControlName="rcvd">{{item.rcvd }}</ion-input>
+                </ion-item>
+              </td>
+              <td  [formGroupName]="i">
+                <!-- <mat-form-field style="width: 50%;"  appearance="fill">
+                  <mat-select  formControlName="key">
+                    <mat-option *ngFor="let reason of reasons;" [value]="reason.value">
+                      {{reason.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                
+                </mat-form-field> -->
+                <select formControlName="key"  class="custom-select custom-select-sm" id="gender2">
+                  <option  *ngFor="let reason of reasons;" [value]="reason.value">{{reason.viewValue}}</option>
+                  
+                </select>
+              </td>
+            </tr>
+            <tr>
+
+            </tr>
+          </tbody>
+        
+        </table>
+      </form>
+      
     </div>
-    <div style="width: 89.2%; height: 60px; "fxLayoutAlign="end center" [hidden]="cnfbtn_hidden" >
-      <button class="confirm" (click)="openDailog(description_data.HEADER_ID)">
-        <img class="tick" src="../../assets/img/tick (3).svg"><ion-label class="con-txt">Confirm</ion-label>
-      </button>
-    </div>
+
+
+
+
+    
+
   </div>
 
 
 
 </ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div style="width: 100%; height: 60px; padding-right: 3%;padding-left: 3%;" fxLayout="row" fxLayoutAlign="space-between center"
+      [hidden]="cnfbtn_hidden">
+      <button class="view" (click)="onFormSubmit()">
+        <ion-label class="view-txt">Save</ion-label>
+      </button>
+      <button class="confirm" (click)="openDailog(description_data.HEADER_ID)">
+        <img class="tick" src="../../assets/img/tick (3).svg">
+        <ion-label class="con-txt">Confirm</ion-label>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+

@@ -23,7 +23,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
     
      
      
-    return  forkJoin([this.getservice.getApprovedInvoice(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole),(this.getservice.getPendingInvoice(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole))])
+    return  forkJoin([this.getservice.getApprovedInvoice(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole),(this.getservice.getPartiallyConfirmedInvoice(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole)),(this.getservice.getPendingInvoice(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole))])
     
 }
 

@@ -8,6 +8,7 @@ export class TokenResponse{
     displayName: string;
     emailAddress:string;
     userRole:string;
+    userCode:string;
     menuItemNames: string;
     isChangePasswordRequired: string;
    

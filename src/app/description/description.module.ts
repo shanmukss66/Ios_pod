@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {MatDialogModule} from '@angular/material/dialog';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { DescriptionPageRoutingModule } from './description-routing.module';
-
+import {MaterialModule} from '../material/material.module';
 import { DescriptionPage } from './description.page';
 import { AuthGuardService } from '../services/AuthGuardService.service';
 
@@ -14,9 +14,10 @@ import { AuthGuardService } from '../services/AuthGuardService.service';
     CommonModule,
     FormsModule,
     IonicModule,
-    MatDialogModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
-    DescriptionPageRoutingModule
+    DescriptionPageRoutingModule,
+    MaterialModule
   ],
   declarations: [DescriptionPage]
 })

@@ -113,8 +113,8 @@ export class DeliveryResolver {
         this.response = y;
         console.log(this.response);
         // data.next(forkJoin([this.getservice.deliverychart(this.response.userName,this.response.userID,this.response.userRole),this.getservice.invoicechart(this.response.userName,this.response.userID,this.response.userRole)]))
-        this.getservice.deliverychart(this.response.userName,this.response.userID,this.response.userRole).subscribe((x:DeliveryCount)=>{
-          this.getservice.invoicechart(this.response.userName,this.response.userID,this.response.userRole).subscribe((m:InvoiceStatusCount)=>{
+        this.getservice.deliverychart(this.response.userCode,this.response.userID,this.response.userRole,).subscribe((x:DeliveryCount)=>{
+          this.getservice.invoicechart(this.response.userCode,this.response.userID,this.response.userRole).subscribe((m:InvoiceStatusCount)=>{
            
           //  let k : FormData = new FormData();
           //  k.append('del',JSON.stringify(x));
