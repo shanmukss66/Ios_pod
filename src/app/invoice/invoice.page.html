@@ -17,7 +17,7 @@
   </div>
 </ion-header>
 
-<ion-content >
+<ion-content #pageTop >
   <div style="height: 50px; width: 100%; margin-bottom: 5px; ">
     <ion-toolbar style="position: fixed;">
       <div>
@@ -48,7 +48,7 @@
   </div><br>
 
 
-  <ion-slides  #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">
+  <ion-slides  [options]="sliderOptions"  #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">
 
     <ion-slide>
 
@@ -82,10 +82,14 @@
               </div>
             </div>
             <div>
-              <button id="view" (click)="onClicknavigate(d,b)">
+              <button id="view" (click)="onClicknavigate(d,d.STATUS)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
-              <button id="confirm" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
+              <button id="confirm" *ngIf="userdetails.userRole=='Customer'" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
+                <img class="tick" src="../../assets/img/tick (3).svg">
+                <ion-label class="con-txt">Confirm</ion-label>
+              </button>
+              <button id="confirm" *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>
@@ -101,7 +105,7 @@
     <ion-slide>
 
       <div class="card-div" fxLayout="column" fxLayoutGap="10px">
-        <ion-card *ngFor="let d of partiallinvoicedata" class="card">
+        <ion-card *ngFor="let d of filteredPartiallyApprovedInvoices" class="card">
           <ion-card-header class="card-header">
             <ion-label class="invoiceno">INVOICE NO : <ion-label class="num">{{d.ODIN}}</ion-label>
             </ion-label>
@@ -130,13 +134,10 @@
               </div>
             </div>
             <div>
-              <button id="view" (click)="onClicknavigate(d,b)">
+              <button id="view" (click)="onClicknavigate(d,d.STATUS)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
-              <button id="confirm" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
-                <img class="tick" src="../../assets/img/tick (3).svg">
-                <ion-label class="con-txt">Confirm</ion-label>
-              </button>
+             
             </div>
           </ion-card-content>
         </ion-card>
@@ -178,7 +179,7 @@
               </div>
             </div>
             <div>
-              <button id="view" (click)="onClicknavigate(d,a)">
+              <button id="view" (click)="onClicknavigate(d,d.STATUS)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
 

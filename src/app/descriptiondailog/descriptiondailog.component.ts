@@ -49,11 +49,12 @@ export class DescriptiondailogComponent implements OnInit {
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
     })
-    this.form.append('cam'+this.i,JSON.stringify(this.image));
+    this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);
+    this.form.append('cam'+this.i,JSON.stringify(this.photo));
     console.log(this.image);
     this.i+=1;
     this.a= JSON.stringify(this.i);
-    this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);
+    
   }
 
   onFileChanged(event) {

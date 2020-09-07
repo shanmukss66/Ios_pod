@@ -18,7 +18,7 @@
 </ion-header>
 
 <ion-content style="flex: 1 1 auto;">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  
   <div
     style="width: 100%; overflow: auto; display: flex; justify-content: space-around; align-items:center ; flex: 1 1 auto; flex-direction: column;">
     <div
@@ -146,7 +146,7 @@
 
 
 
-    <div style="width:98%;">
+    <div style="width:98%; overflow: auto;">
       
 
         <!-- <mat-table  [dataSource]="description_data" class="mat-elevation-z8">
@@ -220,13 +220,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr formArrayName="items" *ngFor="let item of dataForm.get('items').controls; let i = index;let d of description_data">
+            <tr style="height: 10px;" formArrayName="items" *ngFor="let item of dataForm.get('items').controls; let i = index;let d of description_data;let j=index">
               <td>{{d.MATERIAL_CODE}}</td>
               <td>{{d.QUANTITY}} {{item.QUANTITY_UOM}}</td>
               <td [formGroupName]="i" >
                 <ion-item>
-                  <ion-input formControlName="rcvd">{{item.rcvd }}</ion-input>
+                  <ion-input type="number" (ngModelChange)="onChangeQty($event,j)" formControlName="rcvd">{{item.rcvd }}</ion-input>
+                  
                 </ion-item>
+                <p style="color: red;" *ngIf="(dataForm.get('items').controls[i].get('rcvd').errors?.required)||(dataForm.get('items').controls[i].get('rcvd').errors?.max)" >Invalid Qty</p>
               </td>
               <td  [formGroupName]="i">
                 <!-- <mat-form-field style="width: 50%;"  appearance="fill">
@@ -237,10 +239,13 @@
                   </mat-select>
                 
                 </mat-form-field> -->
-                <select formControlName="key"  class="custom-select custom-select-sm" id="gender2">
-                  <option  *ngFor="let reason of reasons;" [value]="reason.value">{{reason.viewValue}}</option>
+                <!-- <select formControlName="key"  class="custom-select" id="gender2">
+                  <option   *ngFor="let reason of reasons;" [value]="reason.value">{{reason.viewValue}}</option>
                   
-                </select>
+                </select> -->
+                <ion-select formControlName="key"    interface="popover">
+                  <ion-select-option *ngFor="let reason of reasons;" [value]="reason.value">{{reason.viewValue}}</ion-select-option>
+                </ion-select>
               </td>
             </tr>
             <tr>

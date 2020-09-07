@@ -11,7 +11,7 @@ import { DeliveryCount } from '../models/DeliveryCount.model';
 @Injectable({
     providedIn:"root"
 })
-export class ApprovedInvoiceResolver{
+export class GetAllInvoiceResolver{
 userdetails:TokenResponse= new TokenResponse();
 constructor(private getservice: GetService, private route: ActivatedRoute){
 

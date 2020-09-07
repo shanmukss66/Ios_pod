@@ -1,35 +1,76 @@
 <body class="dailogbox">
-  <div fxLayout="column" style="margin: 5px;" fxFlex="100" fxLayoutAlign="space-around center">
-    <div fxFlex="55" fxLayout="row" fxLayoutGap="25px" >
-      <div fxLayout="column"  fxFlex="55" fxLayoutAlign="space-between start">
-        <ion-label>
-          Status:
-        </ion-label>
-        <ion-label>
-          Start Date:
-        </ion-label>
-        <ion-label>
-          End Date:
-        </ion-label>
-        <ion-label>
-          Invoice Number:
-        </ion-label>
-        <ion-label>
-          Lr Number:
-        </ion-label>
-
+  <div  fxLayout="column" style="margin-top: 40px;margin-bottom: 33px;margin-right: 10% ;margin-left: 10%;" fxFlex="100" fxLayoutAlign="space-between center">
+    <div fxLayout="column" fxLayoutAlign="space-between center" style="width: 100%;" fxFlex="80">
+      <div  style="justify-content: space-between;width: 100%; display: flex;align-items: center;"  >
+        <div>
+          <ion-label>
+            Status:
+          </ion-label>
+        </div>
+        <div >
+          <mat-form-field style="width: 150px;"  appearance="fill">
+          
+            <mat-select [(ngModel)]="status" >
+              <mat-option value="">All Invoices</mat-option>
+            <mat-option value="Pending">Pending</mat-option>
+            <mat-option value="Saved">Saved</mat-option>
+            <mat-option value="Partially Confirmed">Partially Confirmed</mat-option>
+            <mat-option value="Confirmed">Confirmed</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="!hideforCustomer" style="justify-content: space-between;width: 100%; display: flex;align-items: center;">
+        <div >
+          <ion-label>
+            Plant:
+          </ion-label>
+        </div>
+        <div>
+          <input [(ngModel)]="plant" class="inpt">
+        </div>
+      </div>
+      <div style="justify-content: space-between;width: 100%; display: flex;align-items: center;" >
+        <div>
+          <ion-label>
+            Invoice Number:
+          </ion-label>
+        </div>
+        <div>
+          <input [(ngModel)]="invoice_number" class="inpt">
+        </div>
+      </div>
+      <div  style="justify-content: space-between;width: 100%; display: flex;align-items: center;" >
+        <div>
+          <ion-label>
+            Start Date:
+          </ion-label>
+        </div>
+        <div>
+          <input [(ngModel)]="start_date" type="date" class="inpt" placeholder="DD/MM/YYYY">
+        </div>
+      </div>
+      <div  style="justify-content: space-between;width: 100%; display: flex;align-items: center;" >
+        <div>
+          <ion-label>
+            End Date:
+          </ion-label>
+        </div>
+        <div><input [(ngModel)]="end_date" type="date" class="inpt"  placeholder="DD/MM/YYYY" ></div>
 
       </div>
-      <div fxLayout="column" fxFlex="45" fxLayoutAlign="space-between start">
-        <input [(ngModel)]="status" class="inpt">
-        <input [(ngModel)]="start_date" class="inpt" placeholder="DD/MM/YYYY">
-        <input [(ngModel)]="end_date" class="inpt"  placeholder="DD/MM/YYYY" >
-        <input [(ngModel)]="invoice_number" class="inpt">
-        <input [(ngModel)]="LR_number" class="inpt">
+      <div *ngIf="!hideforCustomer"  style="justify-content: space-between;width: 100%; display: flex;align-items: center;" >
+        <div>
+          <ion-label>
+            Customer Name:
+          </ion-label>
+        </div>
+        <div>
+          <input [(ngModel)]="customer_name" class="inpt">
+        </div>
       </div>
-
     </div>
-
+    
     <div >
       <div>
         <button fxFlexAlign="stretch" (click)="save()" class="sumbtn">SEARCH</button>

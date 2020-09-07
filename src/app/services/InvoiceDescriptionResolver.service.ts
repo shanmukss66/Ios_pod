@@ -21,7 +21,7 @@ constructor(private getservice: GetService, private route: ActivatedRoute){
 
 resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
      this.userdetails=JSON.parse(route.paramMap.get('user_data'));
-     let header_id:InvoiceHeaderDetail= JSON.parse(route.paramMap.get('header_id'));
+     let header_id= JSON.parse(route.paramMap.get('header_id'));
      console.log(this.userdetails);
      
      

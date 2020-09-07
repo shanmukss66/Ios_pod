@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { DeliveryResolver } from './services/deliveryChartResolver.service';
-import { ApprovedInvoiceResolver } from './services/ApprovedInvoiceResolver.service';
+
+import { GetAllInvoiceResolver } from './services/ApprovedInvoiceResolver.service';
 
 import { InvoiceDescriptionResolver } from './services/InvoiceDescriptionResolver.service';
-import { AuthService } from './services/AuthService.service';
+
 import { AuthGuardService } from './services/AuthGuardService.service';
 import { AuthGuard } from './auth.guard';
 
@@ -28,7 +28,8 @@ const routes: Routes = [
     path: 'invoice/:user_data/:selected_id',
     loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule),
     
-    resolve:{approved:ApprovedInvoiceResolver},
+    resolve:{approved:GetAllInvoiceResolver},
+    
     canActivate :[AuthGuard]
     
     
@@ -48,15 +49,7 @@ const routes: Routes = [
     
     resolve:{descrptn:InvoiceDescriptionResolver},
     canActivate :[AuthGuard]
-  },
-  {
-    path: 'alertbox',
-    loadChildren: () => import('./alertbox/alertbox.module').then( m => m.AlertboxPageModule)
-  },
-  {
-    path: 'tablet-mode',
-    loadChildren: () => import('./tablet-mode/tablet-mode.module').then( m => m.TabletModePageModule)
-  },
+  }
 ];
 
 @NgModule({

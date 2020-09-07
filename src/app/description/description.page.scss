@@ -218,9 +218,15 @@ thead{
     line-height: 1.33;
     letter-spacing: normal;
     text-align: center;
+
 }
 td{
     text-align: center;
+    
+}
+th{
+    padding-top:2.5%;
+    padding-bottom:2.5% ;
 }
 mat-header-cell{
     background-color: #4452c6;

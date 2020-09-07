@@ -20,11 +20,13 @@ import { AuthGuardService } from './services/AuthGuardService.service';
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './services/AuthService.service';
+import { MaterialModule } from './material/material.module';
+import { ChangePasswordComponent } from './ChangePassword/change-password/change-password.component';
 
 @NgModule({
-  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
-  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent],
-  imports: [BrowserModule, ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule, BrowserAnimationsModule],
+  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent],
+  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent],
+  imports: [BrowserModule, MaterialModule,ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule, BrowserAnimationsModule],
   providers: [
     StatusBar,
     SplashScreen,

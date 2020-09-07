@@ -11,6 +11,7 @@ import { DataService } from './BehaviourSubject.service';
 
 import { ToastController } from '@ionic/angular';
 import { ToastMaker } from '../Toast/ToastMaker.service';
+import { ChangePassword } from '../models/ChangePassword.model';
 
 @Injectable({
     providedIn:"root"
@@ -33,6 +34,14 @@ export class GetService{
         
       );
 
+ }
+ changePassword(data:ChangePassword){
+  return this.http.post<any>("http://210.212.229.104:8001/api/Master/ChangePassword" ,data).pipe(
+    retry(5),
+    
+    
+    
+  );
  }
 
  handleError<T>(operation = 'operation', result?: T) {
@@ -196,11 +205,11 @@ export class GetService{
  }
 
 
- getFilteredInvoice(username:string,status:string,sdate:string,edate:string,inumber:string,lrnumber:string,userID:string,userRole:string):Observable<any>{
+ getFilteredInvoice(username:string,status:string,sdate:string,edate:string,inumber:string,custname:string,plant:string,userID:string,userRole:string):Observable<any>{
    if(userRole == "Customer"){
      
      
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&LRNumber="+lrnumber).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber).pipe(
       retry(5),
       
     );;
@@ -208,7 +217,7 @@ export class GetService{
    else{
      
      
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetail?UserID="+userID+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&LRNumber="+lrnumber).pipe(
+    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetail?UserID="+userID+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"Plant="+plant+"&CustomerName="+custname).pipe(
       retry(5),
       
     );;

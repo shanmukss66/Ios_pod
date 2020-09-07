@@ -15,7 +15,7 @@ import { pipe, interval } from 'rxjs';
 import { retry } from 'rxjs/operators';
 import { StorageService } from '../services/storage.service';
 import { delAndInv } from '../models/delAndInv.model';
-import { DeliveryResolver } from '../services/deliveryChartResolver.service';
+import { GetAllChartData } from '../services/GetAllChartData.service';
 import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
 @Component({
   selector: 'app-charts',
@@ -43,7 +43,7 @@ export class ChartsPage implements OnInit,OnDestroy {
   
 
 
-  constructor(private router: Router,private m:DeliveryResolver,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+  constructor(private router: Router,private m:GetAllChartData,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
     
   }
   ngOnDestroy(): void {

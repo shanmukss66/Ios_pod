@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonSlides, MenuController, PopoverController } from '@ionic/angular';
+import { AlertController, IonSlides, MenuController, PopoverController, IonContent } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { InvoiceHeaderDetail } from '../models/InvoiceHeaderDetail.model';
@@ -29,26 +29,27 @@ export class InvoicePage implements OnInit {
   partiallinvoicedata:InvoiceHeaderDetail[];
   filteredPendingInvoices: InvoiceHeaderDetail[];
   filteredApprovedInvoices: InvoiceHeaderDetail[];
+  filteredPartiallyApprovedInvoices: InvoiceHeaderDetail[];
   invoiceupdation: InvoiceUpdation1 = new InvoiceUpdation1();
   segment:number= 1;
   filterdata: FormData = new FormData();
   filteredInvoices: InvoiceHeaderDetail[];
-  a = "confirmed";
-  b = "pending";
+  hideConfirm:false;
   reportdate: number;
-  
+  sliderOptions = { pager: true, autoHeight: true }
   dataFromDailog: invUpdateandformdata;
   ewaybillno: string = "";
   userdetails: TokenResponse = new TokenResponse();
   @ViewChild('slides', { static: true }) slider: IonSlides;
+  @ViewChild('pageTop') pageTop: IonContent;
   constructor(public loadingController: LoadingController,private storage:StorageService, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private router: Router, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private getservice: GetService) {
     
-
+    
   }
 
   ngOnInit() {
 
-
+   
 
     
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
@@ -61,7 +62,7 @@ export class InvoicePage implements OnInit {
     this.getInvoices();
    
   }
-
+ 
   getInvoices() {
     this.loading.presentLoading().then(() => {
       this.activatedRoute.data.subscribe((y: { approved: any }) => {
@@ -71,14 +72,17 @@ export class InvoicePage implements OnInit {
         if (this.filteredInvoices == null) {
           this.filteredApprovedInvoices = y.approved[0];
         }
-
+    
         this.partiallinvoicedata=y.approved[1];
+        if(this.filteredPartiallyApprovedInvoices == null){
+          this.filteredPartiallyApprovedInvoices = y.approved[1];
+        }
         this.pendinginvoicedata = y.approved[2];
         if (this.filteredInvoices == null) {
           this.filteredPendingInvoices = y.approved[2];
 
         }
-        this.segmentChanged(1);
+        this.segmentChanged(this.segment);
         this.slideChanged();
         this.loadingController.dismiss();
       },
@@ -130,6 +134,9 @@ export class InvoicePage implements OnInit {
 
   async segmentChanged(ev: any) {
     await this.slider.slideTo(this.segment);
+    this.pageTop.scrollToTop();
+    
+    
   }
   async slideChanged() {
     this.segment = await this.slider.getActiveIndex();
@@ -238,12 +245,6 @@ export class InvoicePage implements OnInit {
 
             }
 
-           
-
-
-          
-
-
         },
         () => {
           this.loadingController.dismiss();
@@ -295,29 +296,58 @@ export class InvoicePage implements OnInit {
     filterconfig.autoFocus = true;
     filterconfig.hasBackdrop = true;
     filterconfig.data = {
-      x: '23'
+      x: this.userdetails.userRole
     }
     const filter = this.dialog.open(FilterComponent, filterconfig);
     filter.afterClosed().subscribe((y: FormData) => {
       this.filterdata = y;
+     
+      
       this.loading.presentLoading().then(() => {
         try {
 
           if (this.filterdata.get('flag').toString() == "yes") {
-
-            this.getservice.getFilteredInvoice(this.userdetails.userName, this.filterdata.get('status').toString(), this.filterdata.get('start_date').toString(), this.filterdata.get('end_date').toString(), this.filterdata.get('invoice_number').toString(), this.filterdata.get('LR_number').toString(), this.userdetails.userID, this.userdetails.userRole).subscribe((data: any) => {
+           
+            this.getservice.getFilteredInvoice(this.userdetails.userName, this.filterdata.get('status').toString(), this.filterdata.get('start_date').toString(), this.filterdata.get('end_date').toString(), this.filterdata.get('invoice_number').toString(), this.filterdata.get('CustomerName').toString(),this.filterdata.get('plant').toString() ,this.userdetails.userID, this.userdetails.userRole).subscribe((data: any) => {
               this.filteredInvoices = data;
+              console.log(data);
+             this.filteredApprovedInvoices=[];
+             this.filteredPartiallyApprovedInvoices=[];
+             this.filteredPendingInvoices=[];
+              this.filteredInvoices.forEach(z =>{
+                if(z.STATUS=="Confirmed"){
+                  this.filteredApprovedInvoices.push(z)
+                }
+                else if(z.STATUS =="PartiallyConfirmed"){
+                     this.filteredPartiallyApprovedInvoices.push(z); 
+                }
+                else{
+                  this.filteredPendingInvoices.push(z);
+                }
+              })
+              
+              // if (this.filteredInvoices[0].STATUS == "Confirmed") {
+              //   this.filteredApprovedInvoices = this.filteredInvoices;
+              //   this.loadingController.dismiss();
+              // }
+              // else if(this.filteredInvoices[0].STATUS =="PartiallyConfirmed"){
+              //      this.filteredPartiallyApprovedInvoices = this.filteredInvoices;
+              //      this.loadingController.dismiss();
+              // }
+              // else {
+              //   this.filteredPendingInvoices = this.filteredInvoices;
+              //   this.loadingController.dismiss();
+              // }
 
-              if (this.filteredInvoices[0].STATUS == "Confirmed") {
-                this.filteredApprovedInvoices = this.filteredInvoices;
-                this.loadingController.dismiss();
-              }
-              else {
-                this.filteredPendingInvoices = this.filteredInvoices;
-                this.loadingController.dismiss();
-              }
-
-
+               if(this.filteredApprovedInvoices.length==0){
+                 this.filteredApprovedInvoices=this.approvedinvoicedata;
+               }
+               if(this.filteredPartiallyApprovedInvoices.length==0){
+                 this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
+               }
+               if(this.filteredPendingInvoices.length==0){
+                  this.filteredPendingInvoices=this.pendinginvoicedata;
+               }
 
              
             },
@@ -341,6 +371,7 @@ export class InvoicePage implements OnInit {
             this.loadingController.dismiss();
             this.filteredApprovedInvoices = this.approvedinvoicedata;
             this.filteredPendingInvoices = this.pendinginvoicedata;
+            this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
           }
 
         } catch (error) {

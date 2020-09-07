@@ -47,4 +47,13 @@ export class ToastMaker{
           });
           (await tst).present();
     }
+
+    async checkTable(){
+        let tst = this.toast.create({
+            message : "Check your Reason or Qty!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
 }
