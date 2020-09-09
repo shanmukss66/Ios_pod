@@ -12,6 +12,7 @@ import { DataService } from './BehaviourSubject.service';
 import { ToastController } from '@ionic/angular';
 import { ToastMaker } from '../Toast/ToastMaker.service';
 import { ChangePassword } from '../models/ChangePassword.model';
+import { ForgotPasswordOTP } from '../models/ForgotPasswordOTP.model';
 
 @Injectable({
     providedIn:"root"
@@ -19,7 +20,7 @@ import { ChangePassword } from '../models/ChangePassword.model';
 
 export class GetService{
   
-
+   baseUrl="http://210.212.229.104:8001";
  constructor(private http:HttpClient,private dataservice:DataService, private route:ActivatedRoute,private toast:ToastMaker){
 
   
@@ -27,7 +28,7 @@ export class GetService{
 
  loginResponse(data:string):Observable<any>{
     
-      return this.http.post<any>("http://210.212.229.104:8001/token" ,data).pipe(
+      return this.http.post<any>(this.baseUrl+"/token" ,data).pipe(
         retry(5),
         
         
@@ -36,7 +37,7 @@ export class GetService{
 
  }
  changePassword(data:ChangePassword){
-  return this.http.post<any>("http://210.212.229.104:8001/api/Master/ChangePassword" ,data).pipe(
+  return this.http.post<any>(this.baseUrl+"/api/Master/ChangePassword" ,data).pipe(
     retry(5),
     
     
@@ -68,7 +69,7 @@ export class GetService{
 
  getItemQuanttity(x:number):Observable<any>{
 
-  return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetItemQuantityCountByID?ID="+x).pipe(
+  return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetItemQuantityCountByID?ID="+x).pipe(
     retry(5),
     
   );
@@ -79,14 +80,14 @@ export class GetService{
  deliverychart(usercode:string,userid:string,role:string):Observable<any>
  {
    if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetDeliveryCountByUser?UserCode="+usercode).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/GetDeliveryCountByUser?UserCode="+usercode).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     )
     
    }
    else{
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetDeliveryCount?UserID="+userid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/GetDeliveryCount?UserID="+userid).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     )
@@ -101,13 +102,13 @@ export class GetService{
 
  invoicechart(usercode:string,userid:string,role:string):Observable<any>{
    if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetInvoiceStatusCountByUser?UserCode="+usercode).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/GetInvoiceStatusCountByUser?UserCode="+usercode).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/GetInvoiceStatusCount?UserID="+userid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/GetInvoiceStatusCount?UserID="+userid).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
@@ -116,13 +117,13 @@ export class GetService{
 
  getApprovedInvoice(data:string,userid:string,role:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetConfirmedInvoiceDetailByUser?UserCode="+data).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetConfirmedInvoiceDetailByUser?UserCode="+data).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetConfirmedInvoiceDetails?UserID="+userid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetConfirmedInvoiceDetails?UserID="+userid).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );;
@@ -131,13 +132,13 @@ export class GetService{
 
  getPendingInvoice(data:string,userid:string,role:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetOpenAndSavedInvoiceDetailByUser?UserCode="+data).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetOpenAndSavedInvoiceDetailByUser?UserCode="+data).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetOpenAndSavedInvoiceDetails?UserID="+userid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetOpenAndSavedInvoiceDetails?UserID="+userid).pipe(
 
     
     retry(5),
@@ -149,13 +150,13 @@ export class GetService{
 
  getPartiallyConfirmedInvoice(data:string,userid:string,role:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/FilterPartiallyConfirmedInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=").pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=").pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>("http://210.212.229.104:8001/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate").pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate").pipe(
 
     
     retry(5),
@@ -167,13 +168,13 @@ export class GetService{
 
  getItemDescription(username:string,userid:string,role:string,headerid:string):Observable<any>{
    if(role=="Customer"){
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserCode="+username+"&ID="+headerid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserCode="+username+"&ID="+headerid).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/GetInvoiceItemDetailsByID?UserID="+userid+"&ID="+headerid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetInvoiceItemDetailsByID?UserID="+userid+"&ID="+headerid).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
@@ -183,14 +184,14 @@ export class GetService{
 
 
  confirmInvoiceItems(data:InvoiceUpdation1):Observable<any>{
-   return this.http.post<any>("http://210.212.229.104:8001/api/PODConfirmation/ConfirmInvoiceItems" , data).pipe(
+   return this.http.post<any>(this.baseUrl+"/api/PODConfirmation/ConfirmInvoiceItems" , data).pipe(
     retry(5),
     
   );
  }
 
  updateInvoiceItems(data:InvoiceUpdation):Observable<any>{
-  return this.http.post<any>("http://210.212.229.104:8001/api/PODConfirmation/UpdateInvoiceItems" , data).pipe(
+  return this.http.post<any>(this.baseUrl+"/api/PODConfirmation/UpdateInvoiceItems" , data).pipe(
     retry(5),
     
   );
@@ -198,7 +199,7 @@ export class GetService{
 
 
  addInvoiceAttachment(data:FormData){
-  return this.http.post<any>("http://210.212.229.104:8001/api/PODConfirmation/AddInvoiceAttachment" , data).pipe(
+  return this.http.post<any>(this.baseUrl+"/api/PODConfirmation/AddInvoiceAttachment" , data).pipe(
     retry(5),
     
   );
@@ -209,7 +210,7 @@ export class GetService{
    if(userRole == "Customer"){
      
      
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber).pipe(
       retry(5),
       
     );;
@@ -217,12 +218,27 @@ export class GetService{
    else{
      
      
-    return this.http.get<any>("http://210.212.229.104:8001/api/PODConfirmation/FilterInvoiceDetail?UserID="+userID+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"Plant="+plant+"&CustomerName="+custname).pipe(
+     
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetail?UserID="+userID+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&Plant="+plant+"&CustomerName="+custname).pipe(
       retry(5),
       
     );;
    }
     
  }
+ sendEmailforOTP(data:string):Observable<any>{
+  return this.http.get<any>(this.baseUrl+"/api/Master/SendOTPToMail?EmailAddress="+data).pipe(
+    retry(5),
+    
+  );
+ }
+
+changePasswordUsingOTP(data:ForgotPasswordOTP):Observable<any>{
+  return this.http.post<any>(this.baseUrl+"/api/Master/ChangePasswordUsingOTP",data).pipe(
+    retry(5)
+  )
+}
 
 }
+
+

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvoiceDescriptionResolver } from '../services/InvoiceDescriptionResolver.service';
@@ -18,6 +18,8 @@ import { StorageService } from '../services/storage.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { reasonSelectOption } from '../models/reasonSelectOption.model';
+import { Platform, IonRouterOutlet } from '@ionic/angular';
+
 @Component({
   selector: 'app-description',
   templateUrl: './description.page.html',
@@ -45,19 +47,22 @@ export class DescriptionPage implements OnInit {
     { id: 4, value: '4', viewValue: 'Others' }
   ];
   selected = "1";
-  constructor(private router: Router, private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
-
+ backButtonSub
+  constructor(private router: Router, private platform: Platform,private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
+    
   }
+  
   ionViewWillLeave() {
     this.dataArr = [];
   }
 
+  
 
   ngOnInit() {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
     this.invoicedetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
     this.header_id = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
-
+   
 
     console.log(this.invoicedetails);
     this.dataservice.SignedInUser(this.userdetails);
@@ -73,8 +78,11 @@ export class DescriptionPage implements OnInit {
     else if (this.userdetails.userRole != "Customer" && this.invoicedetails.STATUS == "Saved") {
       this.cnfbtn_hidden = false;
     }
-    else {
+    else if (this.userdetails.userRole != "Customer" && this.invoicedetails.STATUS == "Open") {
       this.cnfbtn_hidden = true;
+    }
+    else {
+      this.cnfbtn_hidden = false;
     }
     this.activatedRoute.data.subscribe((x: { descrptn: any }) => {
       console.log(x.descrptn);
@@ -175,6 +183,7 @@ export class DescriptionPage implements OnInit {
             this.copydescription_data = this.description_data;
             this.CreateFormControls()
           });
+          this.toast.itemDetailsUpdationSuccess()
         },
           (catchError) => {
 
@@ -263,13 +272,13 @@ export class DescriptionPage implements OnInit {
                     this.toast.internetConnection();
                   }
                   else {
-                    this.toast.wentWrong();
+                    this.toast.wentWrongWithUpdatingInvoices();
                   }
                 })
 
 
               this.loading.loadingController.dismiss().then(() => {
-                this.router.navigate(['/invoice', JSON.stringify(this.userdetails)])
+                this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
               });
 
             },
@@ -282,13 +291,17 @@ export class DescriptionPage implements OnInit {
                   this.toast.internetConnection();
                 }
                 else {
-                  this.toast.wentWrong();
+                  this.toast.wentWrongWithUpdatingInvoices();
                 }
               }
 
 
             )
 
+          }
+          else{
+            this.loadingcontroller.dismiss();
+            this.toast.confirmationCancelled();
           }
 
 

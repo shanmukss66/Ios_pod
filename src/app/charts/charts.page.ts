@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, ElementRef } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Chart } from 'chart.js';
 import { Router, ActivatedRoute } from '@angular/router'
@@ -6,7 +6,7 @@ import { MultiDataSet, Label } from 'ng2-charts';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
 import { DeliveryCount } from '../models/DeliveryCount.model';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';  
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
@@ -17,24 +17,27 @@ import { StorageService } from '../services/storage.service';
 import { delAndInv } from '../models/delAndInv.model';
 import { GetAllChartData } from '../services/GetAllChartData.service';
 import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
+
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.page.html',
   styleUrls: ['./charts.page.scss'],
 })
-export class ChartsPage implements OnInit,OnDestroy {
+export class ChartsPage implements OnInit {
   confirmedinvoices: number=0;
   pendinginvoices: number=0;
   inlinedelvery: number=0;
   delayeddelivery: number=0;
   inline: number=0;
   
+  @ViewChild('doughnutCanvas',{static:false}) doughnutCanvas;
+  @ViewChild('doughnutCanvas1',{static:false}) doughnutCanvas1;
   
-  @ViewChild('doughnutCanvas') doughnutCanvas;
-  @ViewChild('doughnutCanvas1') doughnutCanvas1;
   doughnutChart: any;
   doughnutChart1: any;
   destroycharts:any;
+  
+  ref;
   userdetails: TokenResponse = new TokenResponse();
   displayname: string = "";
   invoicechartdata: InvoiceStatusCount = new InvoiceStatusCount();
@@ -43,53 +46,43 @@ export class ChartsPage implements OnInit,OnDestroy {
   
 
 
-  constructor(private router: Router,private m:GetAllChartData,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+  constructor(private router: Router,private m:GetAllChartData, private platform: Platform,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
     
   }
-  ngOnDestroy(): void {
-   
-  }
-
-  ngOnInit() {
-     
-   this.loading.presentChartAnimation().then(()=>{
+  
+  // ionViewWillLeave(){
+  //   console.log("hello");
+    
+  //  this.doughnutCanvas= null;
+  //  this.doughnutCanvas1 = null;
+  // }
+ 
+  
+  ionViewWillEnter(){
+    this.loading.presentLoading().then(()=>{
       this.m.getpart().subscribe((x:any)=>{
         this.userdetails = x.tok;
         this.dataservice.SignedInUser(this.userdetails);
       this.displayname = this.userdetails.displayName;
         this.deliverychartdata = x.del;
         this.invoicechartdata = x.inv;
-         this.doughnutChartMethod()
+       
+        this.doughnutChartMethod()
         this.doughnutChartMethod1()
         this.loading.loadingController.dismiss();
-    } )
-     
-     })
-    
-    
-     
-    
-    //  this.activatedRoute.data.subscribe(
-    //   (data: { delivery: any }) => {
-
-    //    console.log(data.delivery)
+      } )
        
-    //     // this.deliverychartdata = data.delivery[0];
+       })
+  }	
+  
+  
 
-    //     // this.inline = this.deliverychartdata.InLineDelivery / this.deliverychartdata.TotalDelivery;
-
-
-    //     // console.log(data.delivery);
-    //     // this.invoicechartdata = data.delivery[1];
-
-    //     // console.log(this.invoicechartdata);
-
-    //     // this.confirmedinvoices = (this.invoicechartdata.ConfirmedInvoices / this.invoicechartdata.TotalInvoices);
-    //     // this.pendinginvoices = (this.invoicechartdata.PendingInvoices / this.invoicechartdata.TotalInvoices);
-
-
-    //   }
-    // )
+  ngOnInit() {
+    
+    
+    
+        
+    
   }
 
   
@@ -113,7 +106,7 @@ export class ChartsPage implements OnInit,OnDestroy {
       }
       },
       data: {
-        labels: ['Approved','Pending'] ,
+        labels: ['Approved'+"  "+"("+this.deliverychartdata.InLineDelivery+")",'Pending'+"  "+"("+this.deliverychartdata.DelayedDelivery+")"] ,
         datasets: [{
           
           data: [this.deliverychartdata.InLineDelivery, this.deliverychartdata.DelayedDelivery],
@@ -135,7 +128,7 @@ export class ChartsPage implements OnInit,OnDestroy {
 
       
       data: {
-        labels :['INVOICE DISPATCHED','PARTIALLY CONFIRMED','POD CONFIRMED'],
+        labels :['INVOICE DISPATCHED'+"  "+"("+this.invoicechartdata.PendingInvoices+")",'PARTIALLY CONFIRMED'+"  "+"("+this.invoicechartdata.PartiallyConfirmedInvoices+")",'POD CONFIRMED'+"  "+"("+this.invoicechartdata.ConfirmedInvoices+")"],
         
         datasets: [{
           

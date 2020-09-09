@@ -22,10 +22,11 @@ import { AuthGuard } from './auth.guard';
 import { AuthService } from './services/AuthService.service';
 import { MaterialModule } from './material/material.module';
 import { ChangePasswordComponent } from './ChangePassword/change-password/change-password.component';
-
+import {ForgotPasswordComponent} from './ForgotPassword/forgot-password/forgot-password.component'
+import {ForgotPasswordOTPComponent} from './ForgotPassword/forgot-password-otp/forgot-password-otp.component'
 @NgModule({
-  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent],
-  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent],
+  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
+  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
   imports: [BrowserModule, MaterialModule,ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule, BrowserAnimationsModule],
   providers: [
     StatusBar,

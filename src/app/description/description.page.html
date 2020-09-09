@@ -60,19 +60,19 @@
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <img class="div1img" src="../../assets/img/truck (2).svg">
               <ion-label class="div1txt" for="a1">Vehicle ID</ion-label>
-              <ion-label class="div1det" id="a1">{{invoicedetails.VEHICLE_NO}}</ion-label>
+              <ion-label  class="div1det" id="a1">{{invoicedetails.VEHICLE_NO}}</ion-label>
             </div>
 
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <img class="div1img" src="../../assets/img/send (2).svg">
               <ion-label class="div1txt" for="a2">Forward Agent</ion-label>
-              <ion-label class="div1det" id="a2">{{invoicedetails.FWD_AGENT}}</ion-label>
+              <ion-label  class="div1det" id="a2">{{invoicedetails.FWD_AGENT}}</ion-label>
             </div>
 
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <img class="div1img" src="../../assets/img/invoice (2).svg">
               <ion-label class="div1txt" for="a3">Ewaybill No:</ion-label>
-              <ion-label class="div1det" id="a3">{{invoicedetails.EWAYBILL_NO}}</ion-label>
+              <ion-label  class="div1det" id="a3">{{invoicedetails.EWAYBILL_NO}}</ion-label>
             </div>
 
 
@@ -85,7 +85,7 @@
                     src="../../assets/img/shipping-and-delivery (3).svg"></div>
                 <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column wrap">
                   <ion-label class="div1txt">LR NUMBER:</ion-label>
-                  <ion-label class="div1det">{{invoicedetails.LR_NO}}</ion-label>
+                  <ion-label style="width: 85%;" class="div1det">{{invoicedetails.LR_NO}}</ion-label>
                 </div>
               </div>
 
@@ -96,7 +96,7 @@
                 </div>
                 <div fxFlex="60" fxLayoutAlign="center start" fxLayout="column">
                   <ion-label class="div1txt">LR DATE:</ion-label>
-                  <ion-label class="div1det">{{invoicedetails.LR_DATE}}</ion-label>
+                  <ion-label style="width: 85%;" class="div1det">{{invoicedetails.LR_DATE}}</ion-label>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@
                 <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/robot.svg"></div>
                 <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column">
                   <ion-label class="div1txt">PLANT:</ion-label>
-                  <ion-label class="div1det">{{invoicedetails.PLANT}}</ion-label>
+                  <ion-label style="width: 85%;" class="div1det">{{invoicedetails.PLANT}}</ion-label>
                 </div>
               </div>
 
@@ -122,9 +122,9 @@
                 <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img"
                     src="../../assets/img/organization.svg">
                 </div>
-                <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column">
+                <div fxFlex="50"  fxLayoutAlign="center start" fxLayout="column">
                   <ion-label class="div1txt">ODIN:</ion-label>
-                  <ion-label class="div1det">{{invoicedetails.ODIN}}</ion-label>
+                  <ion-label style="width: 85%;" class="div1det">{{invoicedetails.ODIN}}</ion-label>
                 </div>
               </div>
             </div>
@@ -224,13 +224,13 @@
               <td>{{d.MATERIAL_CODE}}</td>
               <td>{{d.QUANTITY}} {{item.QUANTITY_UOM}}</td>
               <td [formGroupName]="i" >
-                <ion-item>
-                  <ion-input type="number" (ngModelChange)="onChangeQty($event,j)" formControlName="rcvd">{{item.rcvd }}</ion-input>
+                <ion-item >
+                  <ion-input  type="number" (ngModelChange)="onChangeQty($event,j)" formControlName="rcvd">{{item.rcvd }}</ion-input>
                   
                 </ion-item>
                 <p style="color: red;" *ngIf="(dataForm.get('items').controls[i].get('rcvd').errors?.required)||(dataForm.get('items').controls[i].get('rcvd').errors?.max)" >Invalid Qty</p>
               </td>
-              <td  [formGroupName]="i">
+              <td  s [formGroupName]="i">
                 <!-- <mat-form-field style="width: 50%;"  appearance="fill">
                   <mat-select  formControlName="key">
                     <mat-option *ngFor="let reason of reasons;" [value]="reason.value">
@@ -243,7 +243,7 @@
                   <option   *ngFor="let reason of reasons;" [value]="reason.value">{{reason.viewValue}}</option>
                   
                 </select> -->
-                <ion-select formControlName="key"    interface="popover">
+                <ion-select  formControlName="key"    interface="popover">
                   <ion-select-option *ngFor="let reason of reasons;" [value]="reason.value">{{reason.viewValue}}</ion-select-option>
                 </ion-select>
               </td>

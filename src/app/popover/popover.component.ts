@@ -6,6 +6,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DataService } from '../services/BehaviourSubject.service';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { ChangePasswordComponent } from '../ChangePassword/change-password/change-password.component';
+import { ToastMaker } from '../Toast/ToastMaker.service';
 @Component({
   selector: 'app-popover',
   templateUrl: './popover.component.html',
@@ -16,7 +17,7 @@ export class PopoverComponent implements OnInit {
   displayname:string="name";
   emailaddress:string="email";
   constructor(private router:Router, private dataservice:DataService,public popover:PopoverController,private storage:StorageService,
-    public menuCtrl: MenuController, private dialog: MatDialog) { }
+    public menuCtrl: MenuController, private toast:ToastMaker,private dialog: MatDialog) { }
 
   ngOnInit() {
     this.dataservice.user.subscribe((data:TokenResponse)=>{
@@ -47,6 +48,8 @@ export class PopoverComponent implements OnInit {
   }
   onClickSignout(){
     this.storage.clear().then(() =>{
+      this.toast.logoutOutSuccess();
+      this.dataservice.SignedInUser(null);
       this.router.navigate(['/home']);
       this.popover.dismiss();
     });

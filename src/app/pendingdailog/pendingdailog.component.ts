@@ -5,6 +5,7 @@ import { StorageService } from '../services/storage.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GetService } from '../services/getservice.service';
 import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-pendingdailog',
@@ -18,10 +19,12 @@ export class PendingdailogComponent implements OnInit {
   headerid: number;
   i = 0;
   j = 0;
+  submitclicked=false;
   createdby: string;
+  isfileempty=true;
   form: FormData = new FormData();
   returndata: invUpdateandformdata = new invUpdateandformdata();
-  constructor(private sanitizer: DomSanitizer, private getservice: GetService, private dialogRef: MatDialogRef<PendingdailogComponent>,
+  constructor(private sanitizer: DomSanitizer,private platform: Platform ,private getservice: GetService, private dialogRef: MatDialogRef<PendingdailogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     this.qnty = data.qnty;
     this.rcvdqnty = this.qnty;
@@ -34,7 +37,14 @@ export class PendingdailogComponent implements OnInit {
   a: string = "No";
   reportdate: string = "";
   rcvdqnty: number;
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    
+    this.platform.backButton.subscribeWithPriority(1,() => {
+     
+  
+      this.dialogRef.close(null)
+    });
+  }
 
 
 
@@ -47,7 +57,10 @@ export class PendingdailogComponent implements OnInit {
       source: CameraSource.Camera,
     })
     this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);
+   
+    
     this.form.append('cam' + this.i, JSON.stringify(this.photo));
+    this.returndata.isfileEmpty = false;
     console.log(this.form.get('cam' + this.i));
     this.i += 1;
     this.a = JSON.stringify(this.i);
@@ -57,19 +70,26 @@ export class PendingdailogComponent implements OnInit {
   onFileChanged(event) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile);
-    this.filename = this.selectedFile.name;
+    this.filename = (this.selectedFile.name).substring(0,12);
     this.form.append(this.selectedFile.name, this.selectedFile, this.selectedFile.name);
+    this.returndata.isfileEmpty = false;
     console.log(this.form.get(this.selectedFile.name));
     this.j += 1;
 
   }
 
   save() {
-    this.form.append('HeaderID', this.headerid.toString());
-    this.form.append('CreatedBy', this.createdby);
-    this.returndata.files = this.form;
-    this.returndata.reportdate = this.reportdate;
-    this.dialogRef.close(this.returndata);
+    this.submitclicked=true
+    
+    
+     if(this.reportdate!=""){
+      this.form.append('HeaderID', this.headerid.toString());
+      this.form.append('CreatedBy', this.createdby);
+      this.returndata.files = this.form;
+      this.returndata.reportdate = this.reportdate;
+      this.dialogRef.close(this.returndata);
+     }
+   
 
 
   }

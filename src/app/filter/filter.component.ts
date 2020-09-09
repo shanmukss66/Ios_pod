@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-filter',
@@ -16,9 +17,15 @@ export class FilterComponent implements OnInit {
   flag = "yes";
   userRole="";
   hideforCustomer=true;
+  hidestatus=false;
+  temphide="no"
   filterdata:FormData = new FormData();
-  constructor(private dialogRef: MatDialogRef<FilterComponent>,@Inject(MAT_DIALOG_DATA) data) {
-    this.userRole=data.x
+  constructor(private dialogRef: MatDialogRef<FilterComponent>,private paltform:Platform,@Inject(MAT_DIALOG_DATA) data) {
+    this.userRole=data.x,
+    this.temphide=data.hidestatus
+    this.paltform.backButton.subscribeWithPriority(1,()=>{
+      this.dialogRef.close(null)
+    })
    }
 
   ngOnInit() {
@@ -28,6 +35,11 @@ export class FilterComponent implements OnInit {
     }else{
 
       this.hideforCustomer=false;
+    }
+    if(this.temphide=="no"){
+      this.hidestatus=false
+    }else{
+      this.hidestatus=true
     }
 
   }

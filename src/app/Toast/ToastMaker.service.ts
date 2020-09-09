@@ -56,4 +56,67 @@ export class ToastMaker{
           });
           (await tst).present();
     }
+
+    async confirmationCancelled(){
+        let tst = this.toast.create({
+            message : "Invoice updation cancelled by user!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
+
+
+
+    async IncorrectOTP(){
+        let tst = this.toast.create({
+            message : "Incorrect OTP!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
+
+    async pwdchangedsuccess(){
+        let tst = this.toast.create({
+            message : "Password updated successfully!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
+    async pwdchangederror(){
+        let tst = this.toast.create({
+            message : "Error while updating password!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
+
+    async itemDetailsUpdationSuccess(){
+        let tst = this.toast.create({
+            message : "Invoice Item details updated successfully!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
+
+    async logoutOutSuccess(){
+        let tst = this.toast.create({
+            message : "Logout success!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
+    async loginsuccess(){
+        let tst = this.toast.create({
+            message : "Login success!",
+            duration : 3000,
+            mode:"md"
+          });
+          (await tst).present();
+    }
 }
