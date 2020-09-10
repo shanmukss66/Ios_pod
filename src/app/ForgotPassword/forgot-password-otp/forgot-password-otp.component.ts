@@ -28,7 +28,7 @@ export class ForgotPasswordOTPComponent implements OnInit {
     console.log(data.email);
 
     this.target_email = data.email;
-    this.platform.backButton.subscribeWithPriority(1,()=>{
+    this.platform.backButton.subscribe(()=>{
       this.dialogRef.close();
     })
   }

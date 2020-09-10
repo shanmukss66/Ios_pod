@@ -23,7 +23,7 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./invoice.page.scss'],
 })
 export class InvoicePage implements OnInit {
-  button;
+  
   approvedinvoicedata: InvoiceHeaderDetail[];
   pendinginvoicedata: InvoiceHeaderDetail[];
   partiallinvoicedata:InvoiceHeaderDetail[];
@@ -40,12 +40,28 @@ export class InvoicePage implements OnInit {
   dataFromDailog: invUpdateandformdata;
   ewaybillno: string = "";
   hidesearchstatus="yes";
+  
   userdetails: TokenResponse = new TokenResponse();
   @ViewChild('slides', { static: true }) slider: IonSlides;
   @ViewChild('pageTop') pageTop: IonContent;
   constructor(private loadingController: LoadingController,private platform: Platform,private storage:StorageService, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private router: Router, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private getservice: GetService) {
    
-    
+   
+    this.platform.backButton.subscribeWithPriority(0,()=>{
+      this.loading.presentLoading().then(()=>{
+        try {
+          this.router.navigate(['/charts' , JSON.stringify(this.userdetails)]).then(()=>{
+            this.loading.loadingController.dismiss();
+            
+          })
+        } catch (error) {
+          this.loading.loadingController.dismiss();
+          this.toast.wentWrong();
+        }
+       
+         
+      })
+    })
   }
 
   ngOnInit() {

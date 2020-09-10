@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { GetService } from '../services/getservice.service';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { catchError } from 'rxjs/operators';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController, ToastController, Platform, AlertController } from '@ionic/angular';
 import { DataService } from '../services/BehaviourSubject.service';
 import { StorageService } from '../services/storage.service';
 import { LoadingController } from '@ionic/angular';
@@ -30,9 +30,33 @@ export class HomePage implements OnInit {
     password: new FormControl('', Validators.required)
 
   });
-  constructor(private router: Router,private dialog: MatDialog,private loading:LoadingAnimation ,private toast:ToastMaker,public loadingController: LoadingController, private dataservice: DataService, private getService: GetService, public menuCtrl: MenuController, private storage: StorageService) {
+  constructor(private router: Router, private alrtctrl:AlertController,private dialog: MatDialog,private platform:Platform,private loading:LoadingAnimation ,private toast:ToastMaker,public loadingController: LoadingController, private dataservice: DataService, private getService: GetService, public menuCtrl: MenuController, private storage: StorageService) {
     this.dataservice.SignedInUser(this.response_data)
     this.menuCtrl.swipeGesture(false);
+    
+
+    this.platform.backButton.subscribeWithPriority(0,async ()=>{
+     
+      const alert = await this.alrtctrl.create({
+        message:"Do you really want to exit?",
+        buttons:[
+          {
+            text:'No',
+            role:"cancel"
+          },
+          {
+            text:"Yes",
+            handler:()=>{
+              navigator["app"].exitApp();
+            }
+          }
+        ]
+      })
+      await alert.present();
+   
+   
+  })
+    
   }
   ngOnInit(): void {
     
@@ -105,7 +129,7 @@ export class HomePage implements OnInit {
           
           this.dataservice.SignedInUser(this.response_data);
           
-          this.router.navigate(['/charts']).then(()=>{
+          this.router.navigate(['charts',JSON.stringify(this.response_data)]).then(()=>{
             this.loadingController.dismiss()
           })
             this.toast.loginsuccess();

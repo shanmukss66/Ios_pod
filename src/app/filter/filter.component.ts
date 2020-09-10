@@ -23,7 +23,7 @@ export class FilterComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<FilterComponent>,private paltform:Platform,@Inject(MAT_DIALOG_DATA) data) {
     this.userRole=data.x,
     this.temphide=data.hidestatus
-    this.paltform.backButton.subscribeWithPriority(1,()=>{
+    this.paltform.backButton.subscribe(()=>{
       this.dialogRef.close(null)
     })
    }

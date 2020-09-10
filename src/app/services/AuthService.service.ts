@@ -4,14 +4,15 @@ import { DataService } from './BehaviourSubject.service';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { StorageService } from './storage.service';
 import { Plugins } from '@capacitor/core';
+import { temp } from '../models/temp.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
     userdetails:TokenResponse = new TokenResponse()
-   
-    
+     
+    t:temp= new temp();
   constructor(private dataservice:DataService,private storage:StorageService) {
    
   
@@ -19,7 +20,7 @@ export class AuthService {
   }
   
   // ...
-  public async isAuthenticated(): Promise<boolean> {
+  public async isAuthenticated(): Promise<temp> {
    
   
  
@@ -28,14 +29,18 @@ export class AuthService {
     this.userdetails = await JSON.parse((await Plugins.Storage.get({key:'signedUser'})).value)
     
     
+    
     if(this.userdetails !=null){
+      this.t.tok=this.userdetails;
       console.log(this.userdetails);
-      console.log("forst");
       
-      return true;
+      this.t.b=true;
+      console.log(this.t.b);
+      return this.t;
     }
     else{
-      return false;
+      this.t.b=false;
+      return this.t;
     }
   }
 

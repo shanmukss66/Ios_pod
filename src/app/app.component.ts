@@ -51,29 +51,29 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.platform.backButton.subscribeWithPriority(0,async ()=>{
-         if(this.router.url =="/charts" || this.router.url ==""){
-          const alert = await this.alrtctrl.create({
-            message:"Do you really want to exit?",
-            buttons:[
-              {
-                text:'No',
-                role:"cancel"
-              },
-              {
-                text:"Yes",
-                handler:()=>{
-                  navigator["app"].exitApp();
-                }
-              }
-            ]
-          })
-          await alert.present();
-        }
-        if(this.routeroutlet && this.routeroutlet.canGoBack()){
-          this.routeroutlet.pop();
-        }
-      })
+      // this.platform.backButton.subscribeWithPriority(0,async ()=>{
+      //    if(this.router.url =="/charts" || this.router.url =="home"){
+      //     const alert = await this.alrtctrl.create({
+      //       message:"Do you really want to exit?",
+      //       buttons:[
+      //         {
+      //           text:'No',
+      //           role:"cancel"
+      //         },
+      //         {
+      //           text:"Yes",
+      //           handler:()=>{
+      //             navigator["app"].exitApp();
+      //           }
+      //         }
+      //       ]
+      //     })
+      //     await alert.present();
+      //   }
+      //   if(this.routeroutlet && this.routeroutlet.canGoBack()){
+      //     this.routeroutlet.pop();
+      //   }
+      // })
 
     });
   }
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     
     this.loading.presentLoading().then(() =>{
       
-      this.router.navigate(['/charts'])
+      this.router.navigate(['charts',JSON.stringify(this.userdetails)])
         this.loadingController.dismiss();
        
       

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './services/AuthService.service';
+import { temp } from './models/temp.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,11 @@ export class AuthGuard implements CanActivate {
       //  }
        
       return new Promise((x)=>{
-       this.auth.isAuthenticated().then((y)=>{
-         if(!y){
+       this.auth.isAuthenticated().then((y:temp)=>{
+         if(!y.b){
           this.router.navigate(['/home']);
          }
-         x(y == true)
+         x(y.b == true)
        })
 
       })

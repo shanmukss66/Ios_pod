@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {PopoverController, MenuController} from '@ionic/angular';
+import {PopoverController, MenuController, Platform} from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DataService } from '../services/BehaviourSubject.service';
@@ -16,8 +16,12 @@ export class PopoverComponent implements OnInit {
   userdetails:TokenResponse;
   displayname:string="name";
   emailaddress:string="email";
-  constructor(private router:Router, private dataservice:DataService,public popover:PopoverController,private storage:StorageService,
-    public menuCtrl: MenuController, private toast:ToastMaker,private dialog: MatDialog) { }
+  constructor(private router:Router, private dataservice:DataService,public popover:PopoverController,private platform:Platform,private storage:StorageService,
+    public menuCtrl: MenuController, private toast:ToastMaker,private dialog: MatDialog) { 
+      this.platform.backButton.subscribe(()=>{
+        this.dialog.closeAll();
+      })
+    }
 
   ngOnInit() {
     this.dataservice.user.subscribe((data:TokenResponse)=>{

@@ -6,7 +6,7 @@ import { MultiDataSet, Label } from 'ng2-charts';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
 import { DeliveryCount } from '../models/DeliveryCount.model';
-import { MenuController, Platform } from '@ionic/angular';
+import { MenuController, Platform, AlertController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';  
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
@@ -23,20 +23,20 @@ import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
   templateUrl: './charts.page.html',
   styleUrls: ['./charts.page.scss'],
 })
-export class ChartsPage implements OnInit {
+export class ChartsPage implements OnInit,AfterViewInit {
   confirmedinvoices: number=0;
   pendinginvoices: number=0;
   inlinedelvery: number=0;
   delayeddelivery: number=0;
   inline: number=0;
   
-  @ViewChild('doughnutCanvas',{static:false}) doughnutCanvas;
-  @ViewChild('doughnutCanvas1',{static:false}) doughnutCanvas1;
+  @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('doughnutCanvas1') doughnutCanvas1;
   
   doughnutChart: any;
   doughnutChart1: any;
   destroycharts:any;
-  
+  mouse_event:any
   ref;
   userdetails: TokenResponse = new TokenResponse();
   displayname: string = "";
@@ -46,8 +46,31 @@ export class ChartsPage implements OnInit {
   
 
 
-  constructor(private router: Router,private m:GetAllChartData, private platform: Platform,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+  constructor(private router: Router, private alrtctrl:AlertController,private m:GetAllChartData, private platform: Platform,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
+    this.platform.backButton.subscribeWithPriority(0,async ()=>{
+     
+       const alert = await this.alrtctrl.create({
+         message:"Do you really want to exit?",
+         buttons:[
+           {
+             text:'No',
+             role:"cancel"
+           },
+           {
+             text:"Yes",
+             handler:()=>{
+               navigator["app"].exitApp();
+             }
+           }
+         ]
+       })
+       await alert.present();
     
+    
+   })
+  }
+  ngAfterViewInit(): void {
+   
   }
   
   // ionViewWillLeave(){
@@ -57,33 +80,61 @@ export class ChartsPage implements OnInit {
   //  this.doughnutCanvas1 = null;
   // }
  
-  
-  ionViewWillEnter(){
-    this.loading.presentLoading().then(()=>{
-      this.m.getpart().subscribe((x:any)=>{
-        this.userdetails = x.tok;
-        this.dataservice.SignedInUser(this.userdetails);
-      this.displayname = this.userdetails.displayName;
-        this.deliverychartdata = x.del;
-        this.invoicechartdata = x.inv;
-       
+  ngOnInit() {
+    
+    this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
+     this.dataservice.SignedInUser(this.userdetails);
+    this.displayname = this.userdetails.displayName;
+    
+    this.loading.presentLoading().then(() => {
+     this.activatedRoute.data.subscribe(
+      (data: { delivery: any[] }) => {
+
+
+        this.deliverychartdata = data.delivery[0];
+
+      
+
+
+        console.log(data.delivery);
+        this.invoicechartdata = data.delivery[1];
+        
+        console.log(this.invoicechartdata);
         this.doughnutChartMethod()
         this.doughnutChartMethod1()
         this.loading.loadingController.dismiss();
-      } )
-       
-       })
-  }	
+
+
+      }
+    )
+    
+    })
+  }
+
+  
   
   
 
-  ngOnInit() {
+  // ngOnInit() {
     
     
-    
+  //   this.loading.presentLoading().then(()=>{
+  //     this.m.getpart().subscribe((x:any)=>{
+  //       this.userdetails = x.tok;
+  //       this.dataservice.SignedInUser(this.userdetails);
+  //     this.displayname = this.userdetails.displayName;
+  //       this.deliverychartdata = x.del;
+  //       this.invoicechartdata = x.inv;
+       
+  //       this.doughnutChartMethod()
+  //       this.doughnutChartMethod1()
+  //       this.loading.loadingController.dismiss();
+  //     } )
+       
+  //      })
         
     
-  }
+ // }
 
   
  
@@ -172,6 +223,7 @@ export class ChartsPage implements OnInit {
 
   
   async onClickProfile(ev: any) {  
+    this.mouse_event=ev;
     const popover = await this.popoverCtrl.create({  
         component: PopoverComponent,  
         event: ev,

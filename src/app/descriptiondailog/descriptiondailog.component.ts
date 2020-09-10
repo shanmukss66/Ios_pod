@@ -31,7 +31,9 @@ export class DescriptiondailogComponent implements OnInit {
       
       this.createdby= data.createdby;
       console.log(this.createdby);
-      
+      this.platform.backButton.subscribe(()=>{
+        this.dialogRef.close(null);
+      })
 
      }
   selectedFile: File;

@@ -8,6 +8,7 @@ import { InvoiceDescriptionResolver } from './services/InvoiceDescriptionResolve
 
 import { AuthGuardService } from './services/AuthGuardService.service';
 import { AuthGuard } from './auth.guard';
+import { DeliveryResolver } from './services/chartresolver.service';
 
 const routes: Routes = [
   {
@@ -34,10 +35,10 @@ const routes: Routes = [
     
   },
   {
-    path: 'charts',
+    path: 'charts/:user_data',
     loadChildren: () => import('./charts/charts.module').then( m => m.ChartsPageModule),
     
-    
+    resolve:{ delivery:DeliveryResolver},
     canActivate :[AuthGuard]
     
   },

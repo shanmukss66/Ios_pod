@@ -49,7 +49,22 @@ export class DescriptionPage implements OnInit {
   selected = "1";
  backButtonSub
   constructor(private router: Router, private platform: Platform,private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
-    
+   
+    this.platform.backButton.subscribeWithPriority(0,()=>{
+      this.loading.presentLoading().then(()=>{
+        try {
+          this.router.navigate(['/invoice' , JSON.stringify(this.userdetails),0]).then(()=>{
+            this.loading.loadingController.dismiss();
+            
+          })
+        } catch (error) {
+          this.loading.loadingController.dismiss();
+          this.toast.wentWrong();
+        }
+       
+         
+      })
+    })
   }
   
   ionViewWillLeave() {
@@ -239,6 +254,7 @@ export class DescriptionPage implements OnInit {
       createdby: this.invoicedetails.CREATED_BY
     };
     const dialogRef = this.dialog.open(DescriptiondailogComponent, dialogConfig);
+    
     this.loading.presentLoading().then(() => {
       dialogRef.afterClosed().subscribe(
 
