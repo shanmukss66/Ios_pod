@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, Inject, Input } from '@angular/core';
+import { Component, OnInit, Injectable, Inject, Input, ElementRef, ViewChild } from '@angular/core';
 import { Plugins, CameraResultType, CameraSource, Camera, Filesystem } from '@capacitor/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StorageService } from '../services/storage.service';
@@ -13,6 +13,7 @@ import { Platform, NavParams, ModalController } from '@ionic/angular';
   styleUrls: ['./pendingdailog.component.scss'],
 })
 export class PendingdailogComponent implements OnInit {
+  @ViewChild('filechooser') fileChooserElementRef: ElementRef;
   image;
   photo: SafeResourceUrl;
  @Input() qnty: number;
@@ -47,7 +48,7 @@ export class PendingdailogComponent implements OnInit {
     reader.onloadend = () => {
      
       const blobFile = new Blob([reader.result], { type: file.type });
-      this.form.append('cam' + this.i, blobFile,'cam' + this.i);
+      this.form.append('cam' + this.i+'jpg', blobFile,'cam' + this.i+'jpg');
       this.i += 1;
        this.a = JSON.stringify(this.i);
       // POST formData call
@@ -71,7 +72,7 @@ export class PendingdailogComponent implements OnInit {
     
      const blob = await fetch(image.webPath).then(r=>r.blob())
       
-      this.form.append('cam' + this.i,blob,'cam' + this.i);
+      this.form.append('cam' + this.i+'jpg',blob,'cam' + this.i+'.jpg');
       console.log(blob);
       this.filename="No file"
       this.i=1

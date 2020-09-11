@@ -35,7 +35,7 @@ export class HomePage implements OnInit {
   });
   constructor(private router: Router, private alrtctrl:AlertController,private modalController:ModalController,private dialog: MatDialog,private platform:Platform,private loading:LoadingAnimation ,private toast:ToastMaker,public loadingController: LoadingController, private dataservice: DataService, private getService: GetService, public menuCtrl: MenuController, private storage: StorageService) {
     this.dataservice.SignedInUser(this.response_data)
-    this.menuCtrl.swipeGesture(false);
+    
     
     
     this.platform.backButton.subscribeWithPriority(0,async ()=>{
@@ -65,7 +65,9 @@ export class HomePage implements OnInit {
     
   }
   
-  
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+   }
   onClickForgotPassword(){
    const forgotpasswordConfig=new MatDialogConfig();
    forgotpasswordConfig.autoFocus=true;

@@ -24,7 +24,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
      
      
     
-   return forkJoin([this.getservice.deliverychart(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole),this.getservice.invoicechart(this.userdetails.userName,this.userdetails.userID,this.userdetails.userRole)])  
+   return forkJoin([this.getservice.deliverychart(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole),this.getservice.invoicechart(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole)])  
 }
 
 

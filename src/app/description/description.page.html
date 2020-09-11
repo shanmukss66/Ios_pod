@@ -4,7 +4,7 @@
       <ion-menu-button menu="main-menu" style="color: white"></ion-menu-button>
     </ion-buttons>
   </div>
-  <div fxLayout=column fxLayoutAlign="center start" fxFlex="50">
+  <div fxLayout=column fxLayoutAlign="center start" style="width: 100%;" fxFlex="50">
     <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
     <ionlabel class="A-and-P">Invoice Description</ionlabel>
   </div>
@@ -31,22 +31,22 @@
           </div>
           <div class="invoicedescription">
             <div>
-              <ion-label class="invoice">INVOICE NO:</ion-label><br>
+              <ion-label class="invoice">INVOICE NO</ion-label><br>
               <ion-label class="invoiceno">{{invoicedetails.ODIN}}</ion-label>
 
 
             </div>
             <div>
 
-              <ion-label class="invoice">INVOICE DT:</ion-label><br>
+              <ion-label class="invoice">INVOICE DT</ion-label><br>
 
-              <ion-label class="invoiceno">{{invoicedetails.INV_DATE}}</ion-label>
+              <ion-label class="invoiceno">{{inv_dt}}</ion-label>
 
 
             </div>
 
             <div>
-              <ion-label class="invoice">INVOICE TYPE:</ion-label><br>
+              <ion-label class="invoice">INVOICE TYPE</ion-label><br>
               <ion-label class="invoiceno">{{invoicedetails.INV_TYPE}}</ion-label>
             </div>
 
@@ -71,7 +71,7 @@
 
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <img class="div1img" src="../../assets/img/invoice (2).svg">
-              <ion-label class="div1txt" for="a3">Ewaybill No:</ion-label>
+              <ion-label class="div1txt" for="a3">Ewaybill No</ion-label>
               <ion-label  class="div1det" id="a3">{{invoicedetails.EWAYBILL_NO}}</ion-label>
             </div>
 
@@ -79,23 +79,23 @@
 
           </div>
           <div fxLayout="column" style="height: 75%; width: 100%; ">
-            <div fxLayout="row" fxFlex="33" style="border-bottom: 1.5px #e2e2e2 solid;">
-              <div fxLayout="row" fxFlex fxLayoutGap="10px">
-                <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img"
+            <div fxLayout="row" fxFlex="33" style="border-bottom: 1.5px #e2e2e2 solid; height: 100%;">
+              <div fxLayout="row" fxFlex >
+                <div fxFlex="40" style="height: 100%;" fxLayoutAlign="center center"><img class="div1img"
                     src="../../assets/img/shipping-and-delivery (3).svg"></div>
-                <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column wrap">
-                  <ion-label class="div1txt">LR NUMBER:</ion-label>
+                <div fxFlex="60" style="height: 100%;" fxLayoutAlign="center start" fxLayout="column wrap">
+                  <ion-label class="div1txt">LR NUMBER</ion-label>
                   <ion-label style="width: 85%;" class="div1det">{{invoicedetails.LR_NO}}</ion-label>
                 </div>
               </div>
 
 
 
-              <div fxLayout="row" fxFlex fxLayoutGap="20px" style="border-left: 1.5px #e2e2e2 solid;">
-                <div fxFlex="40" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/calendar.svg">
+              <div fxLayout="row" fxFlex style="height: 100%;;border-left: 1.5px #e2e2e2 solid;">
+                <div fxFlex="40" style="height: 100%;" fxLayoutAlign="center center"><img class="div1img" src="../../assets/img/calendar.svg">
                 </div>
-                <div fxFlex="60" fxLayoutAlign="center start" fxLayout="column">
-                  <ion-label class="div1txt">LR DATE:</ion-label>
+                <div fxFlex="60" style="height: 100%;" fxLayoutAlign="center start" fxLayout="column">
+                  <ion-label class="div1txt">LR DATE</ion-label>
                   <ion-label style="width: 85%;" class="div1det">{{invoicedetails.LR_DATE}}</ion-label>
                 </div>
               </div>
@@ -108,22 +108,22 @@
 
             <div fxLayout="row" fxFlex="33">
 
-              <div fxLayout="row" fxFlex fxLayoutGap="20px">
-                <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img" src="../../assets/img/robot.svg"></div>
-                <div fxFlex="50" fxLayoutAlign="center start" fxLayout="column">
-                  <ion-label class="div1txt">PLANT:</ion-label>
+              <div fxLayout="row" fxFlex  style="height: 100%;">
+                <div fxFlex="40" style="height: 100%;" fxLayoutAlign="center center"><img class="div1img" src="../../assets/img/robot.svg"></div>
+                <div fxFlex="60" style="height: 100%;" fxLayoutAlign="center start" fxLayout="column">
+                  <ion-label class="div1txt">PLANT</ion-label>
                   <ion-label style="width: 85%;" class="div1det">{{invoicedetails.PLANT}}</ion-label>
                 </div>
               </div>
 
 
 
-              <div fxLayout="row" fxFlex fxLayoutGap="20px" style="border-left: 1.5px #e2e2e2 solid;">
-                <div fxFlex="50" fxLayoutAlign="end center"><img class="div1img"
+              <div  fxLayout="row" fxFlex style="border-left: 1.5px  #e2e2e2 solid; height: 100%;">
+                <div style="height: 100%;" fxFlex="40" fxLayoutAlign="center center"><img class="div1img"
                     src="../../assets/img/organization.svg">
                 </div>
-                <div fxFlex="50"  fxLayoutAlign="center start" fxLayout="column">
-                  <ion-label class="div1txt">ODIN:</ion-label>
+                <div style="height: 100%;" fxFlex="60"  fxLayoutAlign="center start" fxLayout="column">
+                  <ion-label class="div1txt">ODIN</ion-label>
                   <ion-label style="width: 85%;" class="div1det">{{invoicedetails.ODIN}}</ion-label>
                 </div>
               </div>
@@ -146,7 +146,7 @@
 
 
 
-    <div style="width:98%; overflow: auto;">
+    <div style="width:89.2%; overflow: auto;">
       
 
         <!-- <mat-table  [dataSource]="description_data" class="mat-elevation-z8">

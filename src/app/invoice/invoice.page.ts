@@ -18,6 +18,7 @@ import { catchError } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { StorageService } from '../services/storage.service';
 import { async } from '@angular/core/testing';
+import { FilterParam } from '../models/FilterParam.model';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.page.html',
@@ -33,7 +34,7 @@ export class InvoicePage implements OnInit {
   filteredPartiallyApprovedInvoices: InvoiceHeaderDetail[];
   invoiceupdation: InvoiceUpdation1 = new InvoiceUpdation1();
   segment:number= 1;
-  filterdata: FormData = new FormData();
+  filterdata: FilterParam = new FilterParam();
   filteredInvoices: InvoiceHeaderDetail[];
   hideConfirm:false;
   reportdate: number;
@@ -47,7 +48,7 @@ export class InvoicePage implements OnInit {
   @ViewChild('pageTop') pageTop: IonContent;
   constructor(private loadingController: LoadingController,private modalCtrl:ModalController,private platform: Platform,private storage:StorageService, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private router: Router, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private getservice: GetService) {
    
-   
+    this.menuCtrl.enable(true)
    
   }
 
@@ -572,7 +573,8 @@ export class InvoicePage implements OnInit {
       cssClass:"filter-modal",
       componentProps:{
         'usr_role':this.userdetails.userRole,
-        'hide_status':this.hidesearchstatus
+        'hide_status':this.hidesearchstatus,
+        'segment':this.segment
       }
     })
     await filterModal.present();
@@ -580,20 +582,18 @@ export class InvoicePage implements OnInit {
    this.filterdata = data
    this.loading.presentLoading().then(() => {
     try {
-        if(data!=null){
-          if (this.filterdata.get('flag').toString() == "yes") {
+        if(this.filterdata!=null){
+          
+          console.log(this.filterdata.status);
+          
+          
             this.loadingController.dismiss();
-            this.getAllInvoices(this.userdetails.userName, this.filterdata.get('status').toString(), this.filterdata.get('start_date').toString(), this.filterdata.get('end_date').toString(), this.filterdata.get('invoice_number').toString(), this.filterdata.get('CustomerName').toString(),this.filterdata.get('plant').toString() ,this.userdetails.userID, this.userdetails.userRole)
+            this.getAllInvoices(this.userdetails.userName, this.filterdata.status, this.filterdata.stdate, this.filterdata.enddate, this.filterdata.invno, this.filterdata.customername,this.filterdata.plant ,this.userdetails.userID, this.userdetails.userRole)
 
             
 
-          }
-          else {
-            this.loadingController.dismiss();
-            this.filteredApprovedInvoices = this.approvedinvoicedata;
-            this.filteredPendingInvoices = this.pendinginvoicedata;
-            this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
-          }
+         
+         
         }
         else {
           this.loadingController.dismiss();

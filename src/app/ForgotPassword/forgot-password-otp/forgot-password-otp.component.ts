@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LoadingController, Platform } from '@ionic/angular';
+import { LoadingController, ModalController, NavParams, Platform } from '@ionic/angular';
 import { LoadingAnimation } from 'src/app/LoadingAnimation/LoadingAnimation.service';
 import { DescriptiondailogComponent } from 'src/app/descriptiondailog/descriptiondailog.component';
 import { ToastMaker } from 'src/app/Toast/ToastMaker.service';
@@ -21,16 +21,13 @@ export class ForgotPasswordOTPComponent implements OnInit {
     conf_password: new FormControl('', Validators.required)
 
   });
-  target_email: string = "";
+  @Input() target_email: string 
   forgotpasswordotp: ForgotPasswordOTP = new ForgotPasswordOTP();
-  constructor(private dailog: MatDialog, private toast: ToastMaker, private platform:Platform,private getservice: GetService, private loading: LoadingAnimation, private dialogRef: MatDialogRef<ForgotPasswordOTPComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-    console.log(data.email);
+  constructor( private toast: ToastMaker,private getservice: GetService, private loading: LoadingAnimation,private modalCtrl:ModalController,private navParam:NavParams) {
+    
 
-    this.target_email = data.email;
-    this.platform.backButton.subscribe(()=>{
-      this.dialogRef.close();
-    })
+    this.target_email = this.navParam.get('');
+   
   }
 
   ngOnInit() {
@@ -48,7 +45,7 @@ export class ForgotPasswordOTPComponent implements OnInit {
       this.forgotpasswordotp.OTP = this.otpform.get('otp').value;
       this.getservice.changePasswordUsingOTP(this.forgotpasswordotp).subscribe((z: any) => {
         this.loading.loadingController.dismiss().then(() => {
-          this.dialogRef.close();
+          
         })
       },
         catchError => {

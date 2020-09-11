@@ -5,15 +5,13 @@
         <ion-menu-button menu="main-menu" style="color: white"></ion-menu-button>
       </ion-buttons>
     </div>
-    <div fxLayout=column fxLayoutAlign="center start" fxFlex="60">
+    <div fxLayout=column style="height: 100%;" fxLayoutAlign="center start" fxFlex="60">
       <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
       <ionlabel class="A-and-P">Take a look at invoices and delivery status</ionlabel>
     </div>
-    <div >
-  
-    </div>
+   
     
-   <div fxFlex="20" fxLayoutAlign="center center" >
+   <div fxFlex="20"  fxLayoutAlign="center center" >
       <img (click)="onClickProfile($event)" class="pic" src="../../assets/img/user.svg">
   </div>
   </ion-header>

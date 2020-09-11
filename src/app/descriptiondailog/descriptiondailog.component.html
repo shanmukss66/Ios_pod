@@ -21,7 +21,7 @@
          
        </div>
        <div  fxFLex="50">
-         <input style="display: none" type="file" accept=".pdf,.png,.jpg" (change)="onFileChanged($event)" #fileInput>
+         <input style="display: none" #filechooser type="file" accept=".pdf,.png,.jpg" (change)="onFileChanged($event)" #fileInput>
          <button fxFlexAlign="stretch" (click)="fileInput.click()" class="upldbtn">UPLOAD</button>
          <ion-label>{{filename}}..</ion-label>
        </div>

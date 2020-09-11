@@ -38,6 +38,7 @@ export class DescriptionPage implements OnInit {
   Forder: number = 0;
   dataFromDailog: invUpdateandformdata;
   disableSelect = false;
+  inv_dt:string="";
   header_id: InvoiceHeaderDetail;
   displayedColumns = ["material_code", "invoice_qty", "recieved_qty", "reason"];
   reasons: reasonSelectOption[] = [
@@ -50,7 +51,7 @@ export class DescriptionPage implements OnInit {
  backButtonSub
   constructor(private router: Router, private platform: Platform,private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute,private modalCtrl:ModalController ,private dialog: MatDialog) {
    
-   
+    this.menuCtrl.enable(true)
   }
   
   ionViewWillLeave() {
@@ -63,7 +64,12 @@ export class DescriptionPage implements OnInit {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
     this.invoicedetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
     this.header_id = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
-   
+    this.inv_dt= this.invoicedetails.INV_DATE.slice(0,10);
+    let urlTree = this.router.parseUrl(this.router.url);
+    urlTree.queryParams = {}; 
+    let urlcurrent= urlTree.toString();
+    console.log(this.router.url.split('/')[1]);
+    
 
     console.log(this.invoicedetails);
     this.dataservice.SignedInUser(this.userdetails);

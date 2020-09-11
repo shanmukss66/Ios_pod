@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Platform, ModalController, NavParams } from '@ionic/angular';
+import { FilterParam } from '../models/FilterParam.model';
 
 @Component({
   selector: 'app-filter',
@@ -19,11 +20,12 @@ export class FilterComponent implements OnInit {
   hideforCustomer=true;
  @Input()  hidestatus=false;
  @Input() temphide="no"
-  filterdata:FormData = new FormData();
+ @Input() segment :number
+  filterdata:FilterParam = new FilterParam();
   constructor(private modalCtrl:ModalController,private navPrams:NavParams) {
     this.userRole=this.navPrams.get('usr_role'),
     this.temphide=this.navPrams.get('hide_status')
-   
+    this.segment=this.navPrams.get('segment')
    }
 
   ngOnInit() {
@@ -40,32 +42,28 @@ export class FilterComponent implements OnInit {
       this.hidestatus=true
     }
 
+    
+
   }
 
 
   save(){
-    if(this.status ==null){
-      if(this.start_date == null){
-        if(this.end_date == null) {
-          if(this.invoice_number == null){
-            if(this.customer_name == null) {
-              if(this.plant==null){
-                this.flag = "no";
-              } 
-            }
-          }
-        }
-      }
+    if(this.status=="" && this.segment==1){
+      this.status="PartiallyConfirmed"
+
     }
-    this.filterdata.append('status',this.status);
-    console.log(this.status);
-    
-    this.filterdata.append('start_date',this.start_date);
-    this.filterdata.append('end_date',this.end_date);
-    this.filterdata.append('invoice_number',this.invoice_number);
-    this.filterdata.append('plant',this.plant)
-    this.filterdata.append('CustomerName',this.customer_name);
-    this.filterdata.append('flag',this.flag);
+    if(this.status=="" && this.segment==2){
+      this.status="Confirmed"
+
+    }
+   
+   
+    this.filterdata.status=this.status;
+    this.filterdata.invno= this.invoice_number;
+    this.filterdata.plant=this.plant;
+    this.filterdata.stdate=this.start_date;
+    this.filterdata.enddate=this.end_date;
+    this.filterdata.customername=this.customer_name;
     this.modalCtrl.dismiss(this.filterdata);
   }
 

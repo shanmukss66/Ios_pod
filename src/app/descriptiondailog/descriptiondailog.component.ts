@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input, ElementRef, ViewChild } from '@angular/core';
 import { Plugins, CameraResultType, CameraSource, Camera } from '@capacitor/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StorageService } from '../services/storage.service';
@@ -13,6 +13,7 @@ import { Platform, NavParams, ModalController } from '@ionic/angular';
   styleUrls: ['./descriptiondailog.component.scss'],
 })
 export class DescriptiondailogComponent implements OnInit {
+  @ViewChild('filechooser') fileChooserElementRef: ElementRef;
   image;
   photo: SafeResourceUrl;
   qnty:number;
@@ -56,7 +57,7 @@ export class DescriptiondailogComponent implements OnInit {
     this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && image.webPath);
     const blob = await fetch(image.webPath).then(r=>r.blob())
       
-    this.form.append('cam' + this.i,blob,'cam' + this.i);
+    this.form.append('cam' + this.i+'jpg',blob,'cam' + this.i+'.jpg');
     console.log("hello");
     this.filename="No file"
     this.i = 1;

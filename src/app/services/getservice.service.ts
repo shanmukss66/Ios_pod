@@ -156,7 +156,7 @@ export class GetService{
     );
    }
    else{
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate").pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate=").pipe(
 
     
     retry(5),

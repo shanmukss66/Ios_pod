@@ -17,7 +17,7 @@ import { StorageService } from '../services/storage.service';
 import { delAndInv } from '../models/delAndInv.model';
 import { GetAllChartData } from '../services/GetAllChartData.service';
 import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
-
+import 'chartjs-plugin-labels';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.page.html',
@@ -120,7 +120,7 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
 
 
   constructor(private router: Router, private alrtctrl:AlertController,private m:GetAllChartData, private platform: Platform,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
-    
+    this.menuCtrl.enable(true)
   }
   ngAfterViewInit(): void {
    
@@ -153,7 +153,6 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
 
       
 
-        console.log(this.router.url.split('/')[1] =="charts");
         
         console.log(data.delivery);
         this.invoicechartdata = data.delivery[1];
