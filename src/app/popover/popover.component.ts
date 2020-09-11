@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {PopoverController, MenuController, Platform} from '@ionic/angular';
+import {PopoverController, MenuController, Platform, ModalController} from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DataService } from '../services/BehaviourSubject.service';
@@ -17,10 +17,8 @@ export class PopoverComponent implements OnInit {
   displayname:string="name";
   emailaddress:string="email";
   constructor(private router:Router, private dataservice:DataService,public popover:PopoverController,private platform:Platform,private storage:StorageService,
-    public menuCtrl: MenuController, private toast:ToastMaker,private dialog: MatDialog) { 
-      this.platform.backButton.subscribe(()=>{
-        this.dialog.closeAll();
-      })
+    public menuCtrl: MenuController, private toast:ToastMaker,private modalCtrl:ModalController) { 
+     
     }
 
   ngOnInit() {
@@ -38,16 +36,18 @@ export class PopoverComponent implements OnInit {
    })
   }
 
-  onClickChangePassword(){
-    
-    const changePasswordConfig= new MatDialogConfig();
-   changePasswordConfig.autoFocus = true;
-   changePasswordConfig.hasBackdrop = true;
-   changePasswordConfig.data ={
-     userid: this.userdetails.userID,
-     username:this.userdetails.userName
-   }
-   this.dialog.open(ChangePasswordComponent,changePasswordConfig)
+ async onClickChangePassword(){ 
+   this.popover.dismiss();
+    const changepswd = await this.modalCtrl.create({
+      component:ChangePasswordComponent,
+      cssClass:"change-password",
+      componentProps:{
+        'username':this.userdetails.userName,
+        'userid':this.userdetails.userID
+      }
+    })
+   
+  await changepswd.present();
 
   }
   onClickSignout(){

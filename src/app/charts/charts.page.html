@@ -39,63 +39,16 @@
 
         <ion-card-content style="width: 100%; height: 81%;">
           <div style="width: 100%; height: 100%;" fxLayout="row">
-            <!-- <div fxFlex="50" fxLayoutAlign="center center">
-              <canvas #doughnutCanvas></canvas>
-            </div>
-            <div fxFlex="50" fxLayout="column">
-              <div fxFlex fxLayout="column">
-
-                <div fxFlex fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px">
-                  <span
-                    style=" height: 1.8vh; width: 3.3vw; background-color: #fb7800; border-radius: 50%; display: inline-block;"></span>
-                  <ion-label class="label">INVOICE DISPATCHED</ion-label>
-                </div>
-
-                <div fxFlex fxLayoutAlign="start center" fxLayoutGap="15px">
-                  <span
-                    style=" height: 1.8vh; width: 3.3vw; background-color: #4452c6; border-radius: 50%; display: inline-block;"></span>
-                  <ion-label class="label">POD CONFIRMED</ion-label>
-                </div>
-
-              </div>
-
-
-              <div fxFlex="70" fxLayout="column" fxLayoutGap="15px">
-                <div fxFlex="10"></div>
-                <div>
-                  <ion-label>Approved ({{invoicechartdata.ConfirmedInvoices}}/{{invoicechartdata.TotalInvoices}})
-                  </ion-label>
-
-                  <ion-progress-bar color="success" id="prog1" value="{{confirmedinvoices}}"></ion-progress-bar>
-                </div>
-                <div>
-                  <ion-label>Pending ({{invoicechartdata.PendingInvoices}}/{{invoicechartdata.TotalInvoices}})
-                  </ion-label>
-
-                  <ion-progress-bar color="success" id="prog2" value="{{pendinginvoices}}"></ion-progress-bar>
-                </div>
-              </div>
-
-            </div> -->
+           
 
            
-           <div fxFlex="100" fxLayoutAlign="center center">
-            <canvas #doughnutCanvas></canvas>
+           <div fxFlex="100"  fxLayoutAlign="center center">
+            <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" 
+              [chartType]="doughnutChartType" [options]="doughnutChartOptions" [colors]="colors"
+              (chartClick)="doughnutChartClicked($event)">
+            </canvas>
            </div>
-           <!-- <div fxFlex="40" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center" style="border-top: 2px solid #e2e2e2; "> 
-            <div fxLayoutAlign="center center" fxFlex="50" fxLayout="column" >
-              <ion-label>Approved ({{invoicechartdata.ConfirmedInvoices}}/{{invoicechartdata.TotalInvoices}})
-              </ion-label>
-
-              <ion-progress-bar color="success" id="prog1" value="{{confirmedinvoices}}"></ion-progress-bar>
-            </div>
-            <div fxLayoutAlign="center center" fxFlex="50" fxLayout="column">
-              <ion-label>Pending ({{invoicechartdata.PendingInvoices}}/{{invoicechartdata.TotalInvoices}})
-              </ion-label>
-
-              <ion-progress-bar color="success" id="prog2" value="{{pendinginvoices}}"></ion-progress-bar>
-            </div>
-           </div> -->
+           
 
 
           </div>
@@ -123,46 +76,14 @@
 
         <ion-card-content style="width: 100%; height: 81%;">
           <div style="width: 100%; height: 100%;" fxLayout="row">
-            <!-- <div fxFlex="50" fxLayoutAlign="center center">
-              <canvas #doughnutCanvas1></canvas>
-            </div>
-            <div fxFlex="50" fxLayout="column">
-              <div fxFlex fxLayout="column">
-
-                <div fxFlex fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px">
-                  <span
-                    style=" height: 1.8vh; width: 3.3vw; background-color: #52de97; border-radius: 50%; display: inline-block;"></span>
-                  <ion-label class="label">ON-TIME DELIVERY</ion-label>
-                </div>
-
-                <div fxFlex fxLayoutAlign="start center" fxLayoutGap="15px">
-                  <span
-                    style=" height: 1.8vh; width: 3.3vw; background-color: #eff54f; border-radius: 50%; display: inline-block;"></span>
-                  <ion-label class="label">LATE DELIVERY</ion-label>
-                </div>
-
-              </div>
-
-
-              <div fxFlex="60" fxLayout="column" fxLayoutGap="15px">
-                <div fxFlex="20"></div>
-
-                <div fxLayout="column">
-                  <ion-label>Total Deliveries</ion-label>
-                  <ion-label>
-                    <ion-label style="color: #51dd96;">{{this.deliverychartdata.InLineDelivery}}</ion-label>
-                    /{{this.deliverychartdata.TotalDelivery}}
-                  </ion-label>
-                  <ion-progress-bar color="success" id="prog3" value="{{inline}}"></ion-progress-bar>
-                </div>
-              </div>
-
-            </div> -->
-
+           
 
 
             <div fxFlex="100" fxLayoutAlign="center center">
-              <canvas #doughnutCanvas1></canvas>
+              <canvas baseChart [data]="doughnutChartData1" [labels]="doughnutChartLabels1"
+              [chartType]="doughnutChartType1" [options]="doughnutChartOptions1" [colors]="colors1"
+              (chartClick)="doughnutChart1Clicked($event)">
+            </canvas>
              </div>
           </div>
 

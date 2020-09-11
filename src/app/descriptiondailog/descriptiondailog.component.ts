@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Plugins, CameraResultType, CameraSource, Camera } from '@capacitor/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StorageService } from '../services/storage.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { GetService } from '../services/getservice.service';
 import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
-import { Platform } from '@ionic/angular';
+import { Platform, NavParams, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-descriptiondailog',
@@ -16,24 +16,21 @@ export class DescriptiondailogComponent implements OnInit {
   image;
   photo: SafeResourceUrl;
   qnty:number;
-  headerid:number;
+ @Input() headerid:number;
    i=0;
    j=0;
-  createdby:string="";
+ @Input() createdby:string="";
   submitclicked=false;
   form:FormData = new FormData();
   returndata:invUpdateandformdata=new invUpdateandformdata();
-  constructor(private sanitizer: DomSanitizer,private getservice:GetService,private platform: Platform,private dialogRef: MatDialogRef<DescriptiondailogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+  constructor(private sanitizer: DomSanitizer,private platform: Platform,private modalCtrl:ModalController,private navParam:NavParams) {
      
-      this.headerid = data.headerid;
+      this.headerid = this.navParam.get('headerid');
       console.log(this.headerid);
       
-      this.createdby= data.createdby;
+      this.createdby= this.navParam.get('createdby');
       console.log(this.createdby);
-      this.platform.backButton.subscribe(()=>{
-        this.dialogRef.close(null);
-      })
+     
 
      }
   selectedFile: File;
@@ -42,9 +39,7 @@ export class DescriptiondailogComponent implements OnInit {
   reportdate:string="";
   rcvdqnty:number;
   ngOnInit():void {
-    this.platform.backButton.subscribeWithPriority(1, () => {
-      this.dialogRef.close(null);
-    });
+    
   }
 
   
@@ -86,7 +81,7 @@ export class DescriptiondailogComponent implements OnInit {
     this.form.append('CreatedBy',this.createdby);
     this.returndata.reportdate=this.reportdate;
     this.returndata.files=this.form;
-    this.dialogRef.close(this.returndata);
+    this.modalCtrl.dismiss(this.returndata)
    }
    
   

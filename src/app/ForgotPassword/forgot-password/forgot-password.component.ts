@@ -14,9 +14,7 @@ export class ForgotPasswordComponent implements OnInit {
   emailform:FormGroup;
   submitted = false;
   constructor(private formBuilder: FormBuilder,private platform:Platform,private dialogRef: MatDialogRef<DescriptiondailogComponent>) {
-    this.platform.backButton.subscribe(()=>{
-      this.dialogRef.close(null)
-    })
+   
    }
 
   ngOnInit() {

@@ -1,11 +1,11 @@
-import { Component, OnInit, Injectable, Inject } from '@angular/core';
-import { Plugins, CameraResultType, CameraSource, Camera } from '@capacitor/core';
+import { Component, OnInit, Injectable, Inject, Input } from '@angular/core';
+import { Plugins, CameraResultType, CameraSource, Camera, Filesystem } from '@capacitor/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StorageService } from '../services/storage.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GetService } from '../services/getservice.service';
 import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
-import { Platform } from '@ionic/angular';
+import { Platform, NavParams, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pendingdailog',
@@ -15,22 +15,22 @@ import { Platform } from '@ionic/angular';
 export class PendingdailogComponent implements OnInit {
   image;
   photo: SafeResourceUrl;
-  qnty: number;
-  headerid: number;
+ @Input() qnty: number;
+ @Input() headerid: number;
   i = 0;
   j = 0;
   submitclicked=false;
-  createdby: string;
+ @Input() createdby: string;
   isfileempty=true;
   form: FormData = new FormData();
   returndata: invUpdateandformdata = new invUpdateandformdata();
-  constructor(private sanitizer: DomSanitizer,private platform: Platform ,private getservice: GetService, private dialogRef: MatDialogRef<PendingdailogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-    this.qnty = data.qnty;
+  constructor(private sanitizer: DomSanitizer,private file: File ,private modalCtrl:ModalController,private navParam:NavParams) {
+    this.qnty = this.navParam.get('qnty');
     this.rcvdqnty = this.qnty;
-    this.headerid = data.headerid;
-    this.createdby = data.createdby
-
+    this.headerid = this.navParam.get('headerid');
+    this.createdby = this.navParam.get('createdby')
+    console.log(this.createdby);
+    
   }
   selectedFile: File;
   filename: string = "No file";
@@ -39,11 +39,7 @@ export class PendingdailogComponent implements OnInit {
   rcvdqnty: number;
   ngOnInit(): void { 
     
-    this.platform.backButton.subscribe(() => {
-     
-  
-      this.dialogRef.close(null)
-    });
+   
   }
 
 
@@ -52,14 +48,16 @@ export class PendingdailogComponent implements OnInit {
     this.image = await Plugins.Camera.getPhoto({
       quality: 100,
       allowEditing: false,
-
-      resultType: CameraResultType.DataUrl,
+      
+      resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
     })
+    // let blob = b64toBlob(contents.data, "image/jpg", 512);
+    
     this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);
    
     
-    this.form.append('cam' + this.i, JSON.stringify(this.photo));
+    this.form.append('cam' + this.i, (this.image));
     this.returndata.isfileEmpty = false;
     console.log(this.form.get('cam' + this.i));
     this.i += 1;
@@ -87,7 +85,8 @@ export class PendingdailogComponent implements OnInit {
       this.form.append('CreatedBy', this.createdby);
       this.returndata.files = this.form;
       this.returndata.reportdate = this.reportdate;
-      this.dialogRef.close(this.returndata);
+      // this.dialogRef.close(this.returndata);
+      this.modalCtrl.dismiss(this.returndata);
      }
    
 

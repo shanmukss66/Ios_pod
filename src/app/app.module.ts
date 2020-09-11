@@ -25,8 +25,8 @@ import { ChangePasswordComponent } from './ChangePassword/change-password/change
 import {ForgotPasswordComponent} from './ForgotPassword/forgot-password/forgot-password.component'
 import {ForgotPasswordOTPComponent} from './ForgotPassword/forgot-password-otp/forgot-password-otp.component'
 @NgModule({
-  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
-  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,FilterComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
+  declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
+  entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
   imports: [BrowserModule, MaterialModule,ReactiveFormsModule,FormsModule,IonicModule.forRoot(),AppRoutingModule,FlexLayoutModule,HttpClientModule,ChartsModule, BrowserAnimationsModule],
   providers: [
     StatusBar,

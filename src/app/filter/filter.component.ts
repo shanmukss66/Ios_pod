@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController, NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-filter',
@@ -17,15 +17,13 @@ export class FilterComponent implements OnInit {
   flag = "yes";
   userRole="";
   hideforCustomer=true;
-  hidestatus=false;
-  temphide="no"
+ @Input()  hidestatus=false;
+ @Input() temphide="no"
   filterdata:FormData = new FormData();
-  constructor(private dialogRef: MatDialogRef<FilterComponent>,private paltform:Platform,@Inject(MAT_DIALOG_DATA) data) {
-    this.userRole=data.x,
-    this.temphide=data.hidestatus
-    this.paltform.backButton.subscribe(()=>{
-      this.dialogRef.close(null)
-    })
+  constructor(private modalCtrl:ModalController,private navPrams:NavParams) {
+    this.userRole=this.navPrams.get('usr_role'),
+    this.temphide=this.navPrams.get('hide_status')
+   
    }
 
   ngOnInit() {
@@ -68,7 +66,7 @@ export class FilterComponent implements OnInit {
     this.filterdata.append('plant',this.plant)
     this.filterdata.append('CustomerName',this.customer_name);
     this.filterdata.append('flag',this.flag);
-    this.dialogRef.close(this.filterdata);
+    this.modalCtrl.dismiss(this.filterdata);
   }
 
 }

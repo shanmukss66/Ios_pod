@@ -44,7 +44,7 @@
   </div>
   <div class="search_div">
     
-    <button class="search_button" (click)="onClickFilter()">CLICK HERE TO SEARCH</button>
+    <button class="search_button" (click)="onClickFilterModal()">CLICK HERE TO SEARCH</button>
   </div><br>
 
 
@@ -85,11 +85,11 @@
               <button id="view" (click)="onClicknavigate(d,d.STATUS)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
-              <button id="confirm" *ngIf="userdetails.userRole=='Customer'" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
+              <button id="confirm" *ngIf="userdetails.userRole=='Customer'" (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>
-              <button id="confirm" *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'" (click)="openDailog(d.HEADER_ID,d.CREATED_BY)">
+              <button id="confirm" *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'" (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>

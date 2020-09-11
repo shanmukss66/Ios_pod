@@ -8,7 +8,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DescriptiondailogComponent } from '../descriptiondailog/descriptiondailog.component';
 import { InvoiceUpdation } from '../models/InvoiceUpdation.model';
 import { GetService } from '../services/getservice.service';
-import { MenuController, PopoverController, LoadingController } from '@ionic/angular';
+import { MenuController, PopoverController, LoadingController, ModalController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
 import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
@@ -48,23 +48,9 @@ export class DescriptionPage implements OnInit {
   ];
   selected = "1";
  backButtonSub
-  constructor(private router: Router, private platform: Platform,private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute, private dialog: MatDialog) {
+  constructor(private router: Router, private platform: Platform,private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute,private modalCtrl:ModalController ,private dialog: MatDialog) {
    
-    this.platform.backButton.subscribeWithPriority(0,()=>{
-      this.loading.presentLoading().then(()=>{
-        try {
-          this.router.navigate(['/invoice' , JSON.stringify(this.userdetails),0]).then(()=>{
-            this.loading.loadingController.dismiss();
-            
-          })
-        } catch (error) {
-          this.loading.loadingController.dismiss();
-          this.toast.wentWrong();
-        }
-       
-         
-      })
-    })
+   
   }
   
   ionViewWillLeave() {
@@ -242,99 +228,185 @@ export class DescriptionPage implements OnInit {
 
   }
 
-  openDailog(x: number) {
-    const dialogConfig = new MatDialogConfig();
+  // openDailog(x: number) {
+  //   const dialogConfig = new MatDialogConfig();
 
 
-    dialogConfig.autoFocus = true;
-    dialogConfig.hasBackdrop = true;
-    dialogConfig.data = {
+  //   dialogConfig.autoFocus = true;
+  //   dialogConfig.hasBackdrop = true;
+  //   dialogConfig.data = {
 
-      headerid: this.invoicedetails.HEADER_ID,
-      createdby: this.invoicedetails.CREATED_BY
-    };
-    const dialogRef = this.dialog.open(DescriptiondailogComponent, dialogConfig);
+  //     headerid: this.invoicedetails.HEADER_ID,
+  //     createdby: this.invoicedetails.CREATED_BY
+  //   };
+  //   const dialogRef = this.dialog.open(DescriptiondailogComponent, dialogConfig);
     
-    this.loading.presentLoading().then(() => {
-      dialogRef.afterClosed().subscribe(
+  //   this.loading.presentLoading().then(() => {
+  //     dialogRef.afterClosed().subscribe(
 
-        (data: invUpdateandformdata) => {
-          this.dataFromDailog = data
-          console.log("Dialog output:", data)
+  //       (data: invUpdateandformdata) => {
+  //         this.dataFromDailog = data
+  //         console.log("Dialog output:", data)
 
-          if (data != null) {
+  //         if (data != null) {
 
-            this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data.reportdate);
-            this.invoiceupdation.InvoiceItems = this.description_data;
-            console.log(this.invoiceupdation);
-            this.invoiceupdation.InvoiceItems.forEach(element => {
-              element.STATUS = "Confirmed";
+  //           this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data.reportdate);
+  //           this.invoiceupdation.InvoiceItems = this.description_data;
+  //           console.log(this.invoiceupdation);
+  //           this.invoiceupdation.InvoiceItems.forEach(element => {
+  //             element.STATUS = "Confirmed";
 
-            });
+  //           });
 
-            //update Invoice
-            this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
-              console.log(z);
-              //upload files 
-              this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x: any) => {
-                console.log(x);
-              },
-                (catchError) => {
-                  this.loadingcontroller.dismiss();
-
-
-                  if (catchError.status == null) {
-
-                    this.toast.internetConnection();
-                  }
-                  else {
-                    this.toast.wentWrongWithUpdatingInvoices();
-                  }
-                })
+  //           //update Invoice
+  //           this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
+  //             console.log(z);
+  //             //upload files 
+  //             this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x: any) => {
+  //               console.log(x);
+  //             },
+  //               (catchError) => {
+  //                 this.loadingcontroller.dismiss();
 
 
-              this.loading.loadingController.dismiss().then(() => {
-                this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
-              });
+  //                 if (catchError.status == null) {
 
-            },
-              (catchError) => {
-                this.loadingcontroller.dismiss();
-
-
-                if (catchError.status == null) {
-
-                  this.toast.internetConnection();
-                }
-                else {
-                  this.toast.wentWrongWithUpdatingInvoices();
-                }
-              }
+  //                   this.toast.internetConnection();
+  //                 }
+  //                 else {
+  //                   this.toast.wentWrongWithUpdatingInvoices();
+  //                 }
+  //               })
 
 
-            )
+  //             this.loading.loadingController.dismiss().then(() => {
+  //               this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
+  //             });
 
-          }
-          else{
-            this.loadingcontroller.dismiss();
-            this.toast.confirmationCancelled();
-          }
-
-
+  //           },
+  //             (catchError) => {
+  //               this.loadingcontroller.dismiss();
 
 
-        },
-        () => {
-          this.loadingcontroller.dismiss();
-          this.toast.wentWrongWithUpdatingInvoices();
+  //               if (catchError.status == null) {
 
+  //                 this.toast.internetConnection();
+  //               }
+  //               else {
+  //                 this.toast.wentWrongWithUpdatingInvoices();
+  //               }
+  //             }
+
+
+  //           )
+
+  //         }
+  //         else{
+  //           this.loadingcontroller.dismiss();
+  //           this.toast.confirmationCancelled();
+  //         }
+
+
+
+
+  //       },
+  //       () => {
+  //         this.loadingcontroller.dismiss();
+  //         this.toast.wentWrongWithUpdatingInvoices();
+
+  //       }
+
+  //     );
+  //   })
+  // }
+
+
+
+async descriptionConfirmModal(){
+  const descripModal = await this.modalCtrl.create({
+    component:DescriptiondailogComponent,
+    cssClass:"Pending-Modal",
+    componentProps:{
+      'headerid': this.invoicedetails.HEADER_ID,
+      'createdby': this.invoicedetails.CREATED_BY
+    }
+
+  })
+  await descripModal.present();
+  const {data} = await descripModal.onWillDismiss();
+  this.dataFromDailog = data;
+
+this.loading.presentLoading().then(()=>{
+
+  if (this.dataFromDailog != null) {
+
+    this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(this.dataFromDailog.reportdate);
+    this.invoiceupdation.InvoiceItems = this.description_data;
+    console.log(this.invoiceupdation);
+    this.invoiceupdation.InvoiceItems.forEach(element => {
+      element.STATUS = "Confirmed";
+
+    });
+
+    //update Invoice
+    this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
+      console.log(z);
+      //upload files 
+      this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x: any) => {
+
+        console.log(x);
+        if(!this.dataFromDailog.isfileEmpty){
+          this.toast.itemDetailsUpdationSuccess();
+          this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
+          this.loading.loadingController.dismiss();
+          
         }
+      },
+        (catchError) => {
+          this.loadingcontroller.dismiss();
 
-      );
-    })
-  }
+
+          if (catchError.status == null) {
+
+            this.toast.internetConnection();
+          }
+          else {
+            this.toast.wentWrongWithUpdatingInvoices();
+          }
+        })
 
 
+        if(this.dataFromDailog.isfileEmpty){
+          this.toast.itemDetailsUpdationSuccess();
+          this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
+          this.loading.loadingController.dismiss();
+          
+        }
+      },
+      (catchError) => {
+        this.loadingcontroller.dismiss();
+
+
+        if (catchError.status == null) {
+
+          this.toast.internetConnection();
+        }
+        else {
+          this.toast.wentWrongWithUpdatingInvoices();
+        }
+      });
+
+    }
+
+    else{
+      this.loadingcontroller.dismiss();
+      this.toast.confirmationCancelled();
+    }
+    
+
+  }) 
+  
+}
 
 
 

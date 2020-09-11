@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { GetService } from '../services/getservice.service';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { catchError } from 'rxjs/operators';
-import { MenuController, ToastController, Platform, AlertController } from '@ionic/angular';
+import { MenuController, ToastController, Platform, AlertController, ModalController } from '@ionic/angular';
 import { DataService } from '../services/BehaviourSubject.service';
 import { StorageService } from '../services/storage.service';
 import { LoadingController } from '@ionic/angular';
@@ -13,6 +13,9 @@ import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from '../ForgotPassword/forgot-password/forgot-password.component';
 import { ForgotPasswordOTPComponent } from '../ForgotPassword/forgot-password-otp/forgot-password-otp.component';
+import { SigninPage } from '../signin/signin.page';
+import { ForgotPasswordModalComponent } from '../forgot-password-modal/forgot-password-modal.component';
+import { ForgotPasswordOtpModalComponent } from '../forgot-password-otp-modal/forgot-password-otp-modal.component';
 
 
 @Component({
@@ -30,11 +33,11 @@ export class HomePage implements OnInit {
     password: new FormControl('', Validators.required)
 
   });
-  constructor(private router: Router, private alrtctrl:AlertController,private dialog: MatDialog,private platform:Platform,private loading:LoadingAnimation ,private toast:ToastMaker,public loadingController: LoadingController, private dataservice: DataService, private getService: GetService, public menuCtrl: MenuController, private storage: StorageService) {
+  constructor(private router: Router, private alrtctrl:AlertController,private modalController:ModalController,private dialog: MatDialog,private platform:Platform,private loading:LoadingAnimation ,private toast:ToastMaker,public loadingController: LoadingController, private dataservice: DataService, private getService: GetService, public menuCtrl: MenuController, private storage: StorageService) {
     this.dataservice.SignedInUser(this.response_data)
     this.menuCtrl.swipeGesture(false);
     
-
+    
     this.platform.backButton.subscribeWithPriority(0,async ()=>{
      
       const alert = await this.alrtctrl.create({
@@ -53,7 +56,7 @@ export class HomePage implements OnInit {
         ]
       })
       await alert.present();
-   
+     
    
   })
     
@@ -116,7 +119,7 @@ export class HomePage implements OnInit {
 
   onClickSubmit() {
     this.loading.presentLoading().then(() => {
-      this.storage.clear();
+     
       let temp = "username=" + this.reactive_signin.get('username').value + "&password=" + this.reactive_signin.get('password').value + "&grant_type=password";
 
       if (this.reactive_signin.valid) {
@@ -164,7 +167,55 @@ export class HomePage implements OnInit {
 
   }
 
-
+ async onlclickForgotPasswordModal(){
+     const modal = await this.modalController.create({
+       component:ForgotPasswordModalComponent,
+       cssClass:"forgot-password-modal"
+     })
+    await modal.present();
+     const {data} = await modal.onWillDismiss();
+     console.log(data);
+     this.target_email=data;
+     this.loading.presentLoading().then(()=>{
+      
+     if(this.target_email!=null){
+       this.getService.sendEmailforOTP(this.target_email).subscribe((x:any)=>{
+         this.loading.loadingController.dismiss().then(()=>{
+           this.onlclickOTPModal();
+         })
+         
+        },
+           
+             catchError => {
+               this.loadingController.dismiss();
+               console.log(catchError);
+               
+               
+               if(catchError.status==0){
+                 
+                 this.toast.internetConnection();
+               }
+               else if(catchError.status==400){
+                 this.toast.wentWrong();
+               }
+               
+             }
+        )
+     }
+     else{
+       this.loadingController.dismiss();
+     }
+    })
+     
+  }
+ async onlclickOTPModal(){
+    const OTPmodal = await this.modalController.create({
+     component:ForgotPasswordOtpModalComponent,
+     cssClass:"OTP-password-modal",
+     componentProps:{'targetemail':this.target_email}
+    })
+    return await OTPmodal.present();
+  }
   
 
   showpassword() {

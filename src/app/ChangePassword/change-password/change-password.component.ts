@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChangePassword } from 'src/app/models/ChangePassword.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GetService } from 'src/app/services/getservice.service';
 import { LoadingAnimation } from 'src/app/LoadingAnimation/LoadingAnimation.service';
 import { ToastMaker } from 'src/app/Toast/ToastMaker.service';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController, NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-change-password',
@@ -14,22 +14,20 @@ import { Platform } from '@ionic/angular';
 })
 export class ChangePasswordComponent implements OnInit {
   changepassword: ChangePassword = new ChangePassword();
-  userid;
-  username;
+ @Input() userid:string;
+ @Input() username:string;
   passwordform = new FormGroup({
     current_password: new FormControl('', Validators.required),
     new_password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{6,15}$')]),
     conf_password: new FormControl('', Validators.required)
   });
-  constructor(private loading: LoadingAnimation, private platform: Platform,private toast: ToastMaker, private getservice: GetService, private dialogRef: MatDialogRef<ChangePasswordComponent>, @Inject(MAT_DIALOG_DATA) data) {
-    this.userid = data.userid;
-    this.username = data.username;
+  constructor(private loading: LoadingAnimation,private modalCtrl:ModalController ,private navParms:NavParams,private platform: Platform,private toast: ToastMaker, private getservice: GetService) {
+   this.username=this.navParms.get('username');
+   this.userid = this.navParms.get('userid');
   }
 
   ngOnInit() {
-    this.platform.backButton.subscribe( () => {
-      this.dialogRef.close();
-    });
+   
    }
 
   onClickSubmit() {
@@ -40,9 +38,10 @@ export class ChangePasswordComponent implements OnInit {
     this.loading.presentLoading().then(() => {
       this.getservice.changePassword(this.changepassword).subscribe((z: any) => {
         console.log(z);
+        this.modalCtrl.dismiss();
         this.loading.loadingController.dismiss().then(() => {
           this.toast.pwdchangedsuccess()
-          this.dialogRef.close();
+         
         })
       },
         catchError => {

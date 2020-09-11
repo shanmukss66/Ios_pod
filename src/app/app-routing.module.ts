@@ -21,10 +21,7 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
-    path: 'signin',
-    loadChildren: () => import('./signin/signin.module').then( m => m.SigninPageModule)
-  },
+  
   {
     path: 'invoice/:user_data/:selected_id',
     loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule),

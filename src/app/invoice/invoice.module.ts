@@ -8,6 +8,7 @@ import { InvoicePageRoutingModule } from './invoice-routing.module';
 import {MaterialModule} from '../material/material.module';
 import { InvoicePage } from './invoice.page';
 import { AuthGuardService } from '../services/AuthGuardService.service';
+import { FilterComponent } from '../filter/filter.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { AuthGuardService } from '../services/AuthGuardService.service';
     MaterialModule,
     InvoicePageRoutingModule
   ],
-  declarations: [InvoicePage]
+  declarations: [InvoicePage,FilterComponent]
   
 })
 export class InvoicePageModule {}

@@ -6,6 +6,9 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ForgotPasswordComponent } from '../ForgotPassword/forgot-password/forgot-password.component';
+import { ForgotPasswordModalComponent } from '../forgot-password-modal/forgot-password-modal.component';
+import { ForgotPasswordOtpModalComponent } from '../forgot-password-otp-modal/forgot-password-otp-modal.component';
 
 
 @NgModule({
@@ -17,6 +20,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,ForgotPasswordModalComponent,ForgotPasswordOtpModalComponent],
+  entryComponents:[ForgotPasswordModalComponent,ForgotPasswordOtpModalComponent]
 })
 export class HomePageModule {}
