@@ -65,7 +65,8 @@ export class InvoicePage implements OnInit {
      
 
       this.getInvoices();
-    
+     
+      
   }
   
   
@@ -404,9 +405,12 @@ export class InvoicePage implements OnInit {
                console.log(x);
                
                          if(!this.dataFromDailog.isfileEmpty){
-                           this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
-                           this.loadingController.dismiss();
+                          setTimeout(()=>{
+                            this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
+                            this.loadingController.dismiss();
                            this.toast.itemDetailsUpdationSuccess();
+                          },2000)
+                          
                          }
          
          
@@ -426,9 +430,13 @@ export class InvoicePage implements OnInit {
              })
              
              if(this.dataFromDailog.isfileEmpty){
-               this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
-               this.loadingController.dismiss();
-               this.toast.itemDetailsUpdationSuccess();
+               setTimeout(()=>{
+                this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
+                this.loadingController.dismiss();
+                this.toast.itemDetailsUpdationSuccess();
+              },2000)
+               
+               
              }
    
              

@@ -45,30 +45,37 @@ export class DescriptiondailogComponent implements OnInit {
   
 
   async clickPicture() {
-    this.image = await Plugins.Camera.getPhoto({
+    const image = await Plugins.Camera.getPhoto({
       quality: 100,
       allowEditing: false,
       
-      resultType: CameraResultType.DataUrl,
+      resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
     })
-    this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);
-    this.form.append('cam'+this.i,JSON.stringify(this.photo));
+    this.form= new FormData;
+    this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && image.webPath);
+    const blob = await fetch(image.webPath).then(r=>r.blob())
+      
+    this.form.append('cam' + this.i,blob,'cam' + this.i);
+    console.log("hello");
+    this.filename="No file"
+    this.i = 1;
+     this.a = JSON.stringify(this.i);
+    // POST formData call
     this.returndata.isfileEmpty = false;
-    console.log(this.image);
-    this.i+=1;
-    this.a= JSON.stringify(this.i);
     
   }
 
   onFileChanged(event) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile);
+    this.form=new FormData();
     this.filename=(this.selectedFile.name).substring(0,12);    
     this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
     this.returndata.isfileEmpty = false;
     console.log(this.form.get(this.selectedFile.name));
-    this.j+=1;
+    this.a="No"
+    this.j=1;
     
     
   }

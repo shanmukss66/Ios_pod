@@ -24,7 +24,7 @@ export class PendingdailogComponent implements OnInit {
   isfileempty=true;
   form: FormData = new FormData();
   returndata: invUpdateandformdata = new invUpdateandformdata();
-  constructor(private sanitizer: DomSanitizer,private file: File ,private modalCtrl:ModalController,private navParam:NavParams) {
+  constructor(private sanitizer: DomSanitizer ,private modalCtrl:ModalController,private navParam:NavParams) {
     this.qnty = this.navParam.get('qnty');
     this.rcvdqnty = this.qnty;
     this.headerid = this.navParam.get('headerid');
@@ -42,10 +42,22 @@ export class PendingdailogComponent implements OnInit {
    
   }
 
-
+  private fileReader(file: any) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+     
+      const blobFile = new Blob([reader.result], { type: file.type });
+      this.form.append('cam' + this.i, blobFile,'cam' + this.i);
+      this.i += 1;
+       this.a = JSON.stringify(this.i);
+      // POST formData call
+      this.returndata.isfileEmpty = false;
+    };
+    
+  }
 
   async clickPicture() {
-    this.image = await Plugins.Camera.getPhoto({
+   const image = await Plugins.Camera.getPhoto({
       quality: 100,
       allowEditing: false,
       
@@ -53,26 +65,38 @@ export class PendingdailogComponent implements OnInit {
       source: CameraSource.Camera,
     })
     // let blob = b64toBlob(contents.data, "image/jpg", 512);
+     this.form = new FormData();
+     this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && (image.webPath));
     
-    this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(this.image && this.image.dataUrl);
+    
+     const blob = await fetch(image.webPath).then(r=>r.blob())
+      
+      this.form.append('cam' + this.i,blob,'cam' + this.i);
+      console.log(blob);
+      this.filename="No file"
+      this.i=1
+       this.a = JSON.stringify(this.i);
+      // POST formData call
+      this.returndata.isfileEmpty = false;
    
     
-    this.form.append('cam' + this.i, (this.image));
-    this.returndata.isfileEmpty = false;
-    console.log(this.form.get('cam' + this.i));
-    this.i += 1;
-    this.a = JSON.stringify(this.i);
+   
+    
+    
+    
 
   }
 
   onFileChanged(event) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile);
+    this.form=new FormData();
     this.filename = (this.selectedFile.name).substring(0,12);
     this.form.append(this.selectedFile.name, this.selectedFile, this.selectedFile.name);
     this.returndata.isfileEmpty = false;
     console.log(this.form.get(this.selectedFile.name));
-    this.j += 1;
+    this.a="No"
+    this.j = 1;
 
   }
 

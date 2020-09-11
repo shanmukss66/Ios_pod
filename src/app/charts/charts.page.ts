@@ -153,7 +153,8 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
 
       
 
-
+        console.log(this.router.url.split('/')[1] =="charts");
+        
         console.log(data.delivery);
         this.invoicechartdata = data.delivery[1];
         const chartData: number[] = [];

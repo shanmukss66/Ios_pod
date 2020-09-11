@@ -357,8 +357,12 @@ this.loading.presentLoading().then(()=>{
         console.log(x);
         if(!this.dataFromDailog.isfileEmpty){
           this.toast.itemDetailsUpdationSuccess();
-          this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
-          this.loading.loadingController.dismiss();
+          setTimeout(()=>{
+            this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
+            this.loading.loadingController.dismiss();
+          },2000
+          )
+         
           
         }
       },
@@ -378,8 +382,11 @@ this.loading.presentLoading().then(()=>{
 
         if(this.dataFromDailog.isfileEmpty){
           this.toast.itemDetailsUpdationSuccess();
-          this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
-          this.loading.loadingController.dismiss();
+          setTimeout(()=>{
+            this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
+            this.loading.loadingController.dismiss();
+          },2000
+          )
           
         }
       },
