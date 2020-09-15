@@ -119,4 +119,61 @@ export class ToastMaker{
           });
           (await tst).present();
     }
+
+    async fileExt(s:string){
+        let tst = this.toast.create({
+          message : 'selected file'+ s,
+          duration : 4000,
+          mode : "md"
+        });
+        (await tst).present();
+        }
+
+        async ErrorOpeningExplr(){
+            let tst = this.toast.create({
+              message : 'Something went wrong while opening file Explorer!',
+              duration : 3000,
+              mode : "md"
+            });
+            (await tst).present();
+            }
+
+
+       async ErrorUploading(){
+        let tst = this.toast.create({
+          message : 'Something went wrong while getting file!',
+          duration : 3000,
+          mode : "md"
+        });
+        (await tst).present();
+        }
+       
+        async ClickSignOutPrompt(){
+            let tst = this.toast.create({
+              message : 'Please SignOut of your Account!',
+              duration : 3000,
+              mode : "md"
+            });
+            (await tst).present();
+            } 
+
+            async prompt(s:string){
+                let tst = this.toast.create({
+                  message : s,
+                  duration : 10000,
+                  mode : "md"
+                });
+                (await tst).present();
+                }   
+                
+                
+                async fileUri(s:string){
+                  let tst = this.toast.create({
+                    message : s,
+                    duration : 20000,
+                    mode : "md"
+                  });
+                  (await tst).present();
+                  }         
+
 }

@@ -24,6 +24,11 @@ import { MaterialModule } from './material/material.module';
 import { ChangePasswordComponent } from './ChangePassword/change-password/change-password.component';
 import {ForgotPasswordComponent} from './ForgotPassword/forgot-password/forgot-password.component'
 import {ForgotPasswordOTPComponent} from './ForgotPassword/forgot-password-otp/forgot-password-otp.component'
+import {FileChooser} from '@ionic-native/file-chooser/ngx'
+import {FilePath} from '@ionic-native/file-path/ngx'
+import {File} from '@ionic-native/file/ngx'
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { Base64 } from '@ionic-native/base64/ngx';
 @NgModule({
   declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
   entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
@@ -33,7 +38,11 @@ import {ForgotPasswordOTPComponent} from './ForgotPassword/forgot-password-otp/f
     SplashScreen,
     AuthGuard,
     AuthService,
-    
+    FileChooser,
+    FilePath,
+    WebView,
+    File,
+    Base64,
     { provide: RouteReuseStrategy,useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

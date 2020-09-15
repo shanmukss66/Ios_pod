@@ -385,7 +385,7 @@ export class InvoicePage implements OnInit {
          'createdby': y
         }
       })
-     
+    // *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'"
       
       await ConfirmInvoiceModal.present();
       const {data} = await ConfirmInvoiceModal.onWillDismiss();

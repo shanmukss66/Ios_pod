@@ -61,12 +61,15 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
       this.splashScreen.hide();
       this.platform.backButton.subscribeWithPriority(0,async ()=>{
       
-         
-         if(this.router.url =="/home"){
+        
+        
+       
+      
+        if(this.router.url ==="/home"){
           const alert = await this.alrtctrl.create({
             message:"Do you really want to exit?",
             buttons:[
@@ -84,10 +87,14 @@ export class AppComponent implements OnInit {
           })
           await alert.present();
         }
-       
-       if(this.routeroutlet && this.routeroutlet.canGoBack()){
-          this.routeroutlet.pop();
-        }
+      else if(this.routeroutlet.canGoBack() ){
+          this.loading.presentLoading().then(()=>{
+           this.routeroutlet.pop().then(()=>{
+             this.loadingController.dismiss();
+           });
+          })
+           
+         }
         
       })
 
@@ -117,8 +124,10 @@ export class AppComponent implements OnInit {
     
     this.loading.presentLoading().then(() =>{
       
-      this.router.navigate(['charts',JSON.stringify(this.userdetails)])
+      this.router.navigate(['charts',JSON.stringify(this.userdetails)]).then(()=>{
         this.loadingController.dismiss();
+      })
+        
        
       
     })
@@ -130,8 +139,10 @@ export class AppComponent implements OnInit {
   onclickInvoice(){ 
     this.loading.presentLoading().then(()=>{
       try {
-        this.router.navigate(['/invoice' , JSON.stringify(this.userdetails),0])
+        this.router.navigate(['/invoice' , JSON.stringify(this.userdetails),0]).then(()=>{
           this.loadingController.dismiss();
+        })
+         
           
       
       } catch (error) {

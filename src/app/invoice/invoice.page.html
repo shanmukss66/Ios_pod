@@ -53,7 +53,7 @@
     <ion-slide>
 
       <div class="card-div" fxLayout="column" fxLayoutGap="10px">
-        <ion-card *ngFor="let d of filteredPendingInvoices" class="card">
+        <ion-card *ngFor="let d of filteredPendingInvoices;" class="card">
           <ion-card-header class="card-header">
             <ion-label class="invoiceno">INVOICE NO: <ion-label class="num">{{d.ODIN}}</ion-label>
             </ion-label>
@@ -89,7 +89,8 @@
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>
-              <button id="confirm" *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'" (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY)">
+              
+              <button id="confirm"  (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>

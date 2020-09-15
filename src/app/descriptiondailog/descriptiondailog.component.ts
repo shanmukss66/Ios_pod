@@ -6,7 +6,9 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { GetService } from '../services/getservice.service';
 import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
 import { Platform, NavParams, ModalController } from '@ionic/angular';
-
+import {FileChooser} from '@ionic-native/file-chooser/ngx'
+import {FilePath} from '@ionic-native/file-path/ngx'
+import { ToastMaker } from '../Toast/ToastMaker.service';
 @Component({
   selector: 'app-descriptiondailog',
   templateUrl: './descriptiondailog.component.html',
@@ -24,7 +26,7 @@ export class DescriptiondailogComponent implements OnInit {
   submitclicked=false;
   form:FormData = new FormData();
   returndata:invUpdateandformdata=new invUpdateandformdata();
-  constructor(private sanitizer: DomSanitizer,private platform: Platform,private modalCtrl:ModalController,private navParam:NavParams) {
+  constructor(private sanitizer: DomSanitizer,private toast:ToastMaker,private filechooser:FileChooser,private filepath:FilePath,private platform: Platform,private modalCtrl:ModalController,private navParam:NavParams) {
      
       this.headerid = this.navParam.get('headerid');
       console.log(this.headerid);
@@ -67,16 +69,38 @@ export class DescriptiondailogComponent implements OnInit {
     
   }
 
-  onFileChanged(event) {
-    this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile);
-    this.form=new FormData();
-    this.filename=(this.selectedFile.name).substring(0,12);    
-    this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
-    this.returndata.isfileEmpty = false;
-    console.log(this.form.get(this.selectedFile.name));
-    this.a="No"
-    this.j=1;
+async onFileChanged() {
+    await  this.filechooser.open({"mime":"application/pdf,image/png,image/jpg,image/jpeg"}).then((fileuri)=>{
+      this.filepath.resolveNativePath(fileuri).then(async(url)=>{
+        let l = url.split('/');
+        this.toast.fileExt(l[l.length-1]);
+          
+        // const blob = await fetch(fileuri).then(r=>r.blob());
+        const blob = new Blob([fileuri])
+        this.form=new FormData();
+        this.form.append(l[l.length-1],blob,l[l.length-1])
+        this.filename = (l[l.length-1]).substring(0,12);
+        this.a="No"
+        this.returndata.isfileEmpty = false;
+      }).catch(e=> {this.toast.ErrorUploading()
+        this.returndata.isfileEmpty = true;
+      })
+      
+      
+      
+    }).catch(e =>{this.toast.ErrorOpeningExplr()
+      this.returndata.isfileEmpty = true
+      ;
+    })
+    // this.selectedFile = event.target.files[0];
+    // console.log(this.selectedFile);
+    // this.form=new FormData();
+    // this.filename=(this.selectedFile.name).substring(0,12);    
+    // this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
+    // this.returndata.isfileEmpty = false;
+    // console.log(this.form.get(this.selectedFile.name));
+    // this.a="No"
+    // this.j=1;
     
     
   }

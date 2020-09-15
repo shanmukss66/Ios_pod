@@ -38,27 +38,7 @@ export class HomePage implements OnInit {
     
     
     
-    this.platform.backButton.subscribeWithPriority(0,async ()=>{
-     
-      const alert = await this.alrtctrl.create({
-        message:"Do you really want to exit?",
-        buttons:[
-          {
-            text:'No',
-            role:"cancel"
-          },
-          {
-            text:"Yes",
-            handler:()=>{
-              navigator["app"].exitApp();
-            }
-          }
-        ]
-      })
-      await alert.present();
-     
    
-  })
     
   }
   ngOnInit(): void {
@@ -68,56 +48,56 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
    }
-  onClickForgotPassword(){
-   const forgotpasswordConfig=new MatDialogConfig();
-   forgotpasswordConfig.autoFocus=true;
-   forgotpasswordConfig.hasBackdrop=true;
+  // onClickForgotPassword(){
+  //  const forgotpasswordConfig=new MatDialogConfig();
+  //  forgotpasswordConfig.autoFocus=true;
+  //  forgotpasswordConfig.hasBackdrop=true;
 
-   const forgotpasswordOTP = new MatDialogConfig();
-   forgotpasswordOTP.autoFocus=true;
-   forgotpasswordOTP.hasBackdrop =true;
+  //  const forgotpasswordOTP = new MatDialogConfig();
+  //  forgotpasswordOTP.autoFocus=true;
+  //  forgotpasswordOTP.hasBackdrop =true;
    
    
-  const emailformComp  = this.dialog.open(ForgotPasswordComponent,forgotpasswordConfig);
-   emailformComp.afterClosed().subscribe((z:any)=>{
-     forgotpasswordOTP.data={
-       email:z
-     }
-     this.loading.presentLoading().then(()=>{
-       this.target_email=z;
-      if(this.target_email!=null){
-        this.getService.sendEmailforOTP(this.target_email).subscribe((x:any)=>{
-          this.loading.loadingController.dismiss().then(()=>{
-            this.dialog.open(ForgotPasswordOTPComponent,forgotpasswordOTP)  
-          })
+  // const emailformComp  = this.dialog.open(ForgotPasswordComponent,forgotpasswordConfig);
+  //  emailformComp.afterClosed().subscribe((z:any)=>{
+  //    forgotpasswordOTP.data={
+  //      email:z
+  //    }
+  //    this.loading.presentLoading().then(()=>{
+  //      this.target_email=z;
+  //     if(this.target_email!=null){
+  //       this.getService.sendEmailforOTP(this.target_email).subscribe((x:any)=>{
+  //         this.loading.loadingController.dismiss().then(()=>{
+  //           this.dialog.open(ForgotPasswordOTPComponent,forgotpasswordOTP)  
+  //         })
           
-         },
+  //        },
             
-              catchError => {
-                this.loadingController.dismiss();
-                console.log(catchError);
+  //             catchError => {
+  //               this.loadingController.dismiss();
+  //               console.log(catchError);
                 
                 
-                if(catchError.status==0){
+  //               if(catchError.status==0){
                   
-                  this.toast.internetConnection();
-                }
-                else if(catchError.status==400){
-                  this.toast.wentWrong();
-                }
+  //                 this.toast.internetConnection();
+  //               }
+  //               else if(catchError.status==400){
+  //                 this.toast.wentWrong();
+  //               }
                 
-              }
-         )
-      }
-      else{
-        this.loadingController.dismiss();
-      }
-     })
+  //             }
+  //        )
+  //     }
+  //     else{
+  //       this.loadingController.dismiss();
+  //     }
+  //    })
      
      
      
-   })
-  }
+  //  })
+  // }
 
   onClickSubmit() {
     this.loading.presentLoading().then(() => {

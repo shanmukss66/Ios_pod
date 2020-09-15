@@ -6,7 +6,7 @@ import { MultiDataSet, Label } from 'ng2-charts';
 import { TokenResponse } from '../models/TokenResponse.model';
 import { InvoiceStatusCount } from '../models/InvoiceStatusCount.model';
 import { DeliveryCount } from '../models/DeliveryCount.model';
-import { MenuController, Platform, AlertController } from '@ionic/angular';
+import { MenuController, Platform, AlertController, IonRouterOutlet } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';  
 import { PopoverComponent } from '../popover/popover.component';
 import { DataService } from '../services/BehaviourSubject.service';
@@ -24,6 +24,7 @@ import 'chartjs-plugin-labels';
   styleUrls: ['./charts.page.scss'],
 })
 export class ChartsPage implements OnInit,AfterViewInit {
+    
   confirmedinvoices: number=0;
   pendinginvoices: number=0;
   inlinedelvery: number=0;
@@ -120,7 +121,10 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
 
 
   constructor(private router: Router, private alrtctrl:AlertController,private m:GetAllChartData, private platform: Platform,private storage:StorageService,public loading:LoadingAnimation ,private dataservice:DataService,public popoverCtrl: PopoverController ,private activatedRoute: ActivatedRoute,public menuCtrl: MenuController) { 
-    this.menuCtrl.enable(true)
+    this.menuCtrl.enable(true);
+    
+    
+    
   }
   ngAfterViewInit(): void {
    
@@ -333,22 +337,28 @@ doughnutChartClicked(e: any): void {
           if (label) {
               if (label.toLowerCase() === "pending invoices") {
                 this.loading.presentLoading().then(()=>{
-                          this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(0)])
-                           this.loading.loadingController.dismiss();
+                          this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(0)]).then(()=>{
+                            this.loading.loadingController.dismiss();
+                          })
+                           
                           
                        })
               }
               else if (label.toLowerCase() === "confirmed invoices") {
                 this.loading.presentLoading().then(()=>{
-                          this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(2)])
+                          this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(2)]).then(()=>{
                             this.loading.loadingController.dismiss();
+                          })
+                           
                            
                          })
               }
               else if (label.toLowerCase() === "partially confirmed") {
                 this.loading.presentLoading().then(()=>{
-                         this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(1)])
-                             this.loading.loadingController.dismiss();
+                         this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(1)]).then(()=>{
+                            this.loading.loadingController.dismiss();
+                         })
+                             
                           
                          })
               }

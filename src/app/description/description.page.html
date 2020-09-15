@@ -4,7 +4,7 @@
       <ion-menu-button menu="main-menu" style="color: white"></ion-menu-button>
     </ion-buttons>
   </div>
-  <div fxLayout=column fxLayoutAlign="center start" style="width: 100%;" fxFlex="50">
+  <div fxLayout=column fxLayoutAlign="center start"  fxFlex="50">
     <ion-label class="name">Hello {{userdetails.displayName}},</ion-label>
     <ionlabel class="A-and-P">Invoice Description</ionlabel>
   </div>
@@ -17,7 +17,7 @@
   </div>
 </ion-header>
 
-<ion-content style="flex: 1 1 auto;">
+<ion-content>
   
   <div
     style="width: 100%; overflow: auto; display: flex; justify-content: space-around; align-items:center ; flex: 1 1 auto; flex-direction: column;">
@@ -208,7 +208,7 @@
         <mat-row   style="padding-left:2%;padding-right:2% ;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
       
       </mat-table> -->
-      <form  [formGroup]="dataForm">
+      <form   [formGroup]="dataForm">
         <table  class="table">
           
           <thead >
