@@ -122,7 +122,7 @@ export class ToastMaker{
 
     async fileExt(s:string){
         let tst = this.toast.create({
-          message : 'selected file'+ s,
+          message : 'selected file '+ s,
           duration : 4000,
           mode : "md"
         });
@@ -175,5 +175,24 @@ export class ToastMaker{
                   });
                   (await tst).present();
                   }         
+
+
+                  async InvaldFileExt(){
+                    let tst = this.toast.create({
+                      message : 'Attachment should be of type image or pdf!',
+                      duration : 5000,
+                      mode : "md"
+                    });
+                    (await tst).present();
+                    }    
+                    
+                    async fileUploadEmpty(){
+                      let tst = this.toast.create({
+                        message : 'You cannot skip file upload!',
+                        duration : 5000,
+                        mode : "md"
+                      });
+                      (await tst).present();
+                      }         
 
 }

@@ -17,7 +17,7 @@
   </div>
 </ion-header>
 
-<ion-content #pageTop >
+<ion-content #pageTop>
   <div style="height: 50px; width: 100%; margin-bottom: 5px; ">
     <ion-toolbar style="position: fixed;">
       <div>
@@ -43,12 +43,12 @@
 
   </div>
   <div class="search_div">
-    
+
     <button class="search_button" (click)="onClickFilterModal()">CLICK HERE TO SEARCH</button>
   </div><br>
 
 
-  <ion-slides  [options]="sliderOptions"  #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">
+  <ion-slides [options]="sliderOptions" #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">
 
     <ion-slide>
 
@@ -85,12 +85,14 @@
               <button id="view" (click)="onClicknavigate(d,d.STATUS)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
-              <button id="confirm" *ngIf="userdetails.userRole=='Customer'" (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY)">
+              <button id="confirm" *ngIf="userdetails.userRole=='Customer'"
+                (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY,d.INV_NO,d.INV_DATE,d.LR_DATE)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>
-              
-              <button id="confirm"  (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY)">
+
+              <button id="confirm" *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'"
+                (click)="OpenDialogModal(d.HEADER_ID,d.CREATED_BY,d.INV_NO,d.INV_DATE,d.LR_DATE)">
                 <img class="tick" src="../../assets/img/tick (3).svg">
                 <ion-label class="con-txt">Confirm</ion-label>
               </button>
@@ -101,7 +103,7 @@
 
 
     </ion-slide>
-    
+
 
     <ion-slide>
 
@@ -138,7 +140,7 @@
               <button id="view" (click)="onClicknavigate(d,d.STATUS)">
                 <ion-label class="view-txt">View Details</ion-label>
               </button>
-             
+
             </div>
           </ion-card-content>
         </ion-card>
@@ -149,8 +151,7 @@
 
 
     <ion-slide>
-      <div class="card-div" fxLayout="column"
-        fxLayoutGap="10px">
+      <div class="card-div" fxLayout="column" fxLayoutGap="10px">
         <ion-card *ngFor="let d of filteredApprovedInvoices" class="card">
           <ion-card-header class="card-header">
             <ion-label class="invoiceno">INVOICE NO: <ion-label class="num">{{d.ODIN}}</ion-label>

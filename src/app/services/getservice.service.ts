@@ -206,11 +206,11 @@ export class GetService{
  }
 
 
- getFilteredInvoice(username:string,status:string,sdate:string,edate:string,inumber:string,custname:string,plant:string,userID:string,userRole:string):Observable<any>{
+ getFilteredInvoice(usercode:string,status:string,sdate:string,edate:string,inumber:string,custname:string,plant:string,userID:string,userRole:string):Observable<any>{
    if(userRole == "Customer"){
      
      
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+username+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+usercode+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber).pipe(
       retry(5),
       
     );;

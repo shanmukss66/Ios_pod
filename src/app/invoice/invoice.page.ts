@@ -158,9 +158,9 @@ export class InvoicePage implements OnInit {
 
   
 
-  getAllInvoices(username,status:string,stdate:string,endate:string,invnum:string,custname:string,plant:string,usrid:string,usrrole:string){
+  getAllInvoices(usercode,status:string,stdate:string,endate:string,invnum:string,custname:string,plant:string,usrid:string,usrrole:string){
     this.loading.presentChartAnimation().then(()=>{
-      this.getservice.getFilteredInvoice(username, status, stdate, endate, invnum, custname,plant ,usrid, usrrole).subscribe((data: any) => {
+      this.getservice.getFilteredInvoice(usercode, status, stdate, endate, invnum, custname,plant ,usrid, usrrole).subscribe((data: any) => {
         this.filteredInvoices = data;
         console.log(data);
        this.filteredApprovedInvoices=[];
@@ -369,7 +369,7 @@ export class InvoicePage implements OnInit {
 
   // }
 
- async OpenDialogModal(x: number, y: string){
+ async OpenDialogModal(x: number, y: string,i:string,i_dt,l_dt){
    let tempQty=0;
   
       this.getservice.getItemQuanttity(x).subscribe( async (z: any) => {
@@ -382,10 +382,13 @@ export class InvoicePage implements OnInit {
         componentProps:{
          'qnty': tempQty,
          'headerid': x,
-         'createdby': y
+         'createdby': y,
+         'invoice_no':i,
+         'i_dt':i_dt,
+         'l_dt':l_dt
         }
       })
-    // *ngIf="userdetails.userRole!='Customer' && d.STATUS=='Saved'"
+    
       
       await ConfirmInvoiceModal.present();
       const {data} = await ConfirmInvoiceModal.onWillDismiss();
@@ -407,7 +410,7 @@ export class InvoicePage implements OnInit {
                
                          if(!this.dataFromDailog.isfileEmpty){
                           setTimeout(()=>{
-                            this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
+                            this.getAllInvoices(this.userdetails.userCode, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
                             this.loadingController.dismiss();
                            this.toast.itemDetailsUpdationSuccess();
                           },2000)
@@ -588,7 +591,7 @@ export class InvoicePage implements OnInit {
           
           
             this.loadingController.dismiss();
-            this.getAllInvoices(this.userdetails.userName, this.filterdata.status, this.filterdata.stdate, this.filterdata.enddate, this.filterdata.invno, this.filterdata.customername,this.filterdata.plant ,this.userdetails.userID, this.userdetails.userRole)
+            this.getAllInvoices(this.userdetails.userCode, this.filterdata.status, this.filterdata.stdate, this.filterdata.enddate, this.filterdata.invno, this.filterdata.customername,this.filterdata.plant ,this.userdetails.userID, this.userdetails.userRole)
 
             
 

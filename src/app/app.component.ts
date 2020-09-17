@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
         
        
       
-        if(this.router.url ==="/home"){
+        if(this.router.url ==="/home" ){
           const alert = await this.alrtctrl.create({
             message:"Do you really want to exit?",
             buttons:[
@@ -87,6 +87,24 @@ export class AppComponent implements OnInit {
           })
           await alert.present();
         }
+       else if(this.router.url.split('/')[1]==='charts'){
+        const alert = await this.alrtctrl.create({
+          message:"Do you really want to exit?",
+          buttons:[
+            {
+              text:'No',
+              role:"cancel"
+            },
+            {
+              text:"Yes",
+              handler:()=>{
+                navigator["app"].exitApp();
+              }
+            }
+          ]
+        })
+        await alert.present();
+       } 
       else if(this.routeroutlet.canGoBack() ){
           this.loading.presentLoading().then(()=>{
            this.routeroutlet.pop().then(()=>{

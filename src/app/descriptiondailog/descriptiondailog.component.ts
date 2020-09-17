@@ -15,7 +15,7 @@ import { ToastMaker } from '../Toast/ToastMaker.service';
   styleUrls: ['./descriptiondailog.component.scss'],
 })
 export class DescriptiondailogComponent implements OnInit {
-  @ViewChild('filechooser') fileChooserElementRef: ElementRef;
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   image;
   photo: SafeResourceUrl;
   qnty:number;
@@ -23,6 +23,11 @@ export class DescriptiondailogComponent implements OnInit {
    i=0;
    j=0;
  @Input() createdby:string="";
+ @Input() inv_no:string="";
+ @Input() l_dt:string;
+ @Input() i_dt:string;
+ isfileempty=true;
+ mindate:string;
   submitclicked=false;
   form:FormData = new FormData();
   returndata:invUpdateandformdata=new invUpdateandformdata();
@@ -32,8 +37,18 @@ export class DescriptiondailogComponent implements OnInit {
       console.log(this.headerid);
       
       this.createdby= this.navParam.get('createdby');
-      console.log(this.createdby);
-     
+      this.inv_no = this.navParam.get('inv_no');
+      console.log(this.inv_no);
+      this.l_dt= (this.navParam.get('l_dt'));
+      this.i_dt= (this.navParam.get('i_dt'));
+      if(this.l_dt === null){
+        
+        this.mindate=this.i_dt.slice(0,10);
+  
+      }
+      else{
+      this.mindate=this.l_dt.slice(0,10);
+      }
 
      }
   selectedFile: File;
@@ -48,6 +63,7 @@ export class DescriptiondailogComponent implements OnInit {
   
 
   async clickPicture() {
+    this.isfileempty = true;
     const image = await Plugins.Camera.getPhoto({
       quality: 100,
       allowEditing: false,
@@ -59,62 +75,61 @@ export class DescriptiondailogComponent implements OnInit {
     this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && image.webPath);
     const blob = await fetch(image.webPath).then(r=>r.blob())
       
-    this.form.append('cam' + this.i+'jpg',blob,'cam' + this.i+'.jpg');
+    this.form.append('cam' + this.inv_no+'.png',blob,'cam' + this.inv_no+'.png');
     console.log("hello");
     this.filename="No file"
     this.i = 1;
      this.a = JSON.stringify(this.i);
     // POST formData call
     this.returndata.isfileEmpty = false;
-    
+    this.isfileempty = false;
   }
 
-async onFileChanged() {
-    await  this.filechooser.open({"mime":"application/pdf,image/png,image/jpg,image/jpeg"}).then((fileuri)=>{
-      this.filepath.resolveNativePath(fileuri).then(async(url)=>{
-        let l = url.split('/');
-        this.toast.fileExt(l[l.length-1]);
-          
-        // const blob = await fetch(fileuri).then(r=>r.blob());
-        const blob = new Blob([fileuri])
-        this.form=new FormData();
-        this.form.append(l[l.length-1],blob,l[l.length-1])
-        this.filename = (l[l.length-1]).substring(0,12);
-        this.a="No"
-        this.returndata.isfileEmpty = false;
-      }).catch(e=> {this.toast.ErrorUploading()
-        this.returndata.isfileEmpty = true;
-      })
-      
-      
-      
-    }).catch(e =>{this.toast.ErrorOpeningExplr()
-      this.returndata.isfileEmpty = true
-      ;
-    })
-    // this.selectedFile = event.target.files[0];
-    // console.log(this.selectedFile);
-    // this.form=new FormData();
-    // this.filename=(this.selectedFile.name).substring(0,12);    
-    // this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
-    // this.returndata.isfileEmpty = false;
-    // console.log(this.form.get(this.selectedFile.name));
-    // this.a="No"
-    // this.j=1;
+ onFileChanged(event: EventTarget) {
+  this.isfileempty = true;
+  const eventObj: MSInputMethodContext = event as MSInputMethodContext;
+  const target: HTMLInputElement = eventObj.target as HTMLInputElement;
+  this.selectedFile = target.files[0] ;
+  console.log(this.selectedFile);
+   
+  let splitfortype = this.selectedFile.name.split('.')
+  let type = splitfortype[splitfortype.length-1];
+  if(type == 'png' || type == 'jpg' || type == 'jpeg' || type == 'pdf'){
+    this.form= new FormData();
+    this.form.append(this.selectedFile.name,this.selectedFile,this.selectedFile.name);
+    this.filename=this.selectedFile.name.substring(0,12);    
+    this.toast.fileExt(this.selectedFile.name);
+    console.log(this.form.get(this.selectedFile.name));
+    this.i=0
+    this.a = JSON.stringify(this.i);
+    this.returndata.isfileEmpty = false;
     
+     this.isfileempty = false;
     
   }
+  else{
+    this.isfileempty = true;
+    this.toast.InvaldFileExt();
+  }
+  
+}
   
  save(){
   this.submitclicked=true;
 
-   if(this.reportdate!=""){
+   if(this.reportdate!="" && !this.isfileempty){
     this.form.append('HeaderID',this.headerid.toString());
     this.form.append('CreatedBy',this.createdby);
     this.returndata.reportdate=this.reportdate;
     this.returndata.files=this.form;
     this.modalCtrl.dismiss(this.returndata)
    }
+   else{
+     if(this.isfileempty){
+      this.toast.fileUploadEmpty();
+     }
+    
+  }
    
   
  }

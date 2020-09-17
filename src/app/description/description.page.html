@@ -22,7 +22,7 @@
   <div
     style="width: 100%; overflow: auto; display: flex; justify-content: space-around; align-items:center ; flex: 1 1 auto; flex-direction: column;">
     <div
-      style="width: 100%; height: 400px; display: flex; align-items: flex-start;justify-content: center; margin-top: 5%;">
+      style="width: 100%; height: 330px; display: flex; align-items: flex-start;justify-content: center; margin-top: 5%;">
       <ion-card class="maincard">
         <ion-card-header class="maincard-header">
           <div class="headerline"></div>
@@ -96,7 +96,7 @@
                 </div>
                 <div fxFlex="60" style="height: 100%;" fxLayoutAlign="center start" fxLayout="column">
                   <ion-label class="div1txt">LR DATE</ion-label>
-                  <ion-label style="width: 85%;" class="div1det">{{invoicedetails.LR_DATE}}</ion-label>
+                  <ion-label style="width: 85%;" class="div1det">{{lr_dt}}</ion-label>
                 </div>
               </div>
 
@@ -137,7 +137,7 @@
 
 
     </div>
-    <div style="width: 89.2%; height:85px;  display: flex; justify-content: flex-start; align-items:center;">
+    <div style="width: 89.2%; height:63px;  display: flex; justify-content: flex-start; align-items:center;">
       <div>
         <ion-label class="invoice_item_details">Invoice Item Details</ion-label>
         <div style="height: 5px; background-color: #4452c6; border-radius: 6px;"></div>
@@ -268,10 +268,10 @@
 
 
 </ion-content>
-<ion-footer class="ion-no-border">
+<ion-footer class="ion-no-border "[hidden]="cnfbtn_hidden">
   <ion-toolbar>
-    <div style="width: 100%; height: 60px; padding-right: 3%;padding-left: 3%;" fxLayout="row" fxLayoutAlign="space-between center"
-      [hidden]="cnfbtn_hidden">
+    <div style="width: 100%; height: 50px; padding-right: 3%;padding-left: 3%;" fxLayout="row" fxLayoutAlign="space-between center"
+      >
       <button class="view" (click)="onFormSubmit()">
         <ion-label class="view-txt">Save</ion-label>
       </button>

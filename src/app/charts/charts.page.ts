@@ -139,6 +139,7 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
  
   ngOnInit() {
     
+    
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
      this.dataservice.SignedInUser(this.userdetails);
     this.displayname = this.userdetails.displayName;

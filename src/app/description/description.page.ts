@@ -19,7 +19,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { reasonSelectOption } from '../models/reasonSelectOption.model';
 import { Platform, IonRouterOutlet } from '@ionic/angular';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-description',
   templateUrl: './description.page.html',
@@ -39,6 +39,9 @@ export class DescriptionPage implements OnInit {
   dataFromDailog: invUpdateandformdata;
   disableSelect = false;
   inv_dt:string="";
+  lr_dt:string="";
+  dtpipe:DatePipe;
+  
   header_id: InvoiceHeaderDetail;
   displayedColumns = ["material_code", "invoice_qty", "recieved_qty", "reason"];
   reasons: reasonSelectOption[] = [
@@ -64,7 +67,16 @@ export class DescriptionPage implements OnInit {
     this.userdetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('user_data'));
     this.invoicedetails = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
     this.header_id = JSON.parse(this.activatedRoute.snapshot.paramMap.get('header_id'));
+   if(this.invoicedetails.INV_DATE!=null){
     this.inv_dt= this.invoicedetails.INV_DATE.slice(0,10);
+    this.dtpipe = new DatePipe('en-US');
+    this.inv_dt = this.dtpipe.transform(this.inv_dt,'dd-MM-yyyy')
+   }
+    if(this.invoicedetails.LR_DATE!=null){
+      this.lr_dt =this.invoicedetails.LR_DATE.slice(0,10);
+      this.dtpipe = new DatePipe('en-US');
+      this.lr_dt = this.dtpipe.transform(this.lr_dt,'dd-MM-yyyy')
+    }
     let urlTree = this.router.parseUrl(this.router.url);
     urlTree.queryParams = {}; 
     let urlcurrent= urlTree.toString();
@@ -334,7 +346,10 @@ async descriptionConfirmModal(){
     cssClass:"Pending-Modal",
     componentProps:{
       'headerid': this.invoicedetails.HEADER_ID,
-      'createdby': this.invoicedetails.CREATED_BY
+      'createdby': this.invoicedetails.CREATED_BY,
+      'inv_no':this.invoicedetails.INV_NO,
+      'l_dt':this.invoicedetails.LR_DATE,
+      'i_dt':this.invoicedetails.INV_DATE
     }
 
   })

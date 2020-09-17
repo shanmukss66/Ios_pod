@@ -31,6 +31,7 @@ export class ChangePasswordComponent implements OnInit {
    }
 
   onClickSubmit() {
+    
     this.changepassword.UserID = this.userid;
     this.changepassword.UserName = this.username;
     this.changepassword.CurrentPassword = this.passwordform.get('current_password').value;

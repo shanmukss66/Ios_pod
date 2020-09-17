@@ -6,7 +6,7 @@
           <ion-label style="width: 50%; font-size: small;">
             Vehicle Report Dt: 
             </ion-label>
-            <input [(ngModel)]="reportdate" type="date" class="inpt" >
+            <input [(ngModel)]="reportdate" type="date" [min]="mindate | date:'yyyy-MM-dd'" class="inpt" >
          </div>
          <p style="color: red;" *ngIf="reportdate=='' && submitclicked">This filed cannot be empty!</p>
         </div>
@@ -26,13 +26,14 @@
           
         </div>
         <div  fxFLex="50">
-          <!-- <input style="display: none" #filechooser type="file" accept=".pdf,.png,.jpg" (click)="onFileChanged()" #fileInput> -->
-          <button fxFlexAlign="stretch" (click)="onFileChanged()" class="upldbtn">UPLOAD</button>
+          <input style="display: none" type="file"  (change)="onFileChanged($event)" #fileInput>
+          <button fxFlexAlign="stretch" (click)="fileInput.click()" class="upldbtn">UPLOAD</button>
           <ion-label style="width: 50%;">{{filename}}..</ion-label>
         </div>
         
        
       </div>
+      
       <div>
         <div>
           <button fxFlexAlign="stretch" (click)="save()" class="sumbtn">SUBMIT</button>
