@@ -9,6 +9,7 @@ import { Platform, NavParams, ModalController } from '@ionic/angular';
 import {FileChooser} from '@ionic-native/file-chooser/ngx'
 import {FilePath} from '@ionic-native/file-path/ngx'
 import { ToastMaker } from '../Toast/ToastMaker.service';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-descriptiondailog',
   templateUrl: './descriptiondailog.component.html',
@@ -27,6 +28,9 @@ export class DescriptiondailogComponent implements OnInit {
  @Input() l_dt:string;
  @Input() i_dt:string;
  isfileempty=true;
+ current_date = new Date();
+ dtpipe:DatePipe;
+ maxdate:string;
  mindate:string;
   submitclicked=false;
   form:FormData = new FormData();
@@ -49,7 +53,8 @@ export class DescriptiondailogComponent implements OnInit {
       else{
       this.mindate=this.l_dt.slice(0,10);
       }
-
+      this.dtpipe= new DatePipe('en-US');
+      this.maxdate = this.dtpipe.transform(this.current_date,'yyyy-MM-dd');
      }
   selectedFile: File;
   filename:string="No file";

@@ -6,7 +6,7 @@
           <ion-label style="width: 50%; font-size: small;">
             Vehicle Report Dt: 
             </ion-label>
-            <input [(ngModel)]="reportdate" type="date" [min]="mindate | date:'yyyy-MM-dd'" class="inpt" >
+            <input [(ngModel)]="reportdate" type="date" [min]="mindate | date:'yyyy-MM-dd'" [max]="maxdate | date:'yyyy-MM-dd'" class="inpt" >
          </div>
          <p style="color: red;" *ngIf="reportdate=='' && submitclicked">This filed cannot be empty!</p>
         </div>

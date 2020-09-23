@@ -13,6 +13,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-pendingdailog',
   templateUrl: './pendingdailog.component.html',
@@ -34,7 +35,10 @@ export class PendingdailogComponent implements OnInit {
  @Input() createdby: string;
  @Input() l_dt:string;
  @Input() i_dt:string;
+ current_date = new Date();
+ dtpipe:DatePipe;
  mindate:string;
+ maxdate:string;
   isfileempty=true;
   form: FormData = new FormData();
   returndata: invUpdateandformdata = new invUpdateandformdata();
@@ -54,7 +58,10 @@ export class PendingdailogComponent implements OnInit {
     else{
     this.mindate=this.l_dt.slice(0,10);
     }
-    console.log(this.createdby);
+    // console.log(this.current_date);
+    this.dtpipe= new DatePipe('en-US');
+    this.maxdate = this.dtpipe.transform(this.current_date,'yyyy-MM-dd');
+    console.log(this.maxdate);
     
   }
   selectedFile: File;
