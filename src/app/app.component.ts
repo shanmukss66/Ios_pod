@@ -175,6 +175,28 @@ export class AppComponent implements OnInit {
      
   }
 
+
+  onclickOntimeAnLate(){ 
+    this.loading.presentLoading().then(()=>{
+      try {
+        this.router.navigate(['/on-time-and-late-invs', JSON.stringify(this.userdetails),0]).then(()=>{
+          this.loadingController.dismiss();
+        })
+         
+          
+      
+      } catch (error) {
+        this.loadingController.dismiss();
+        this.toast.wentWrong();
+      }
+     
+       
+    })
+    
+    
+     
+  }
+
  
 
   

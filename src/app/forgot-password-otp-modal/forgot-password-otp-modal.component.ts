@@ -47,7 +47,7 @@ export class ForgotPasswordOtpModalComponent implements OnInit {
       this.forgotpasswordotp.NewPassword = this.otpform.get('new_password').value;
       this.forgotpasswordotp.OTP = this.otpform.get('otp').value;
       this.getservice.changePasswordUsingOTP(this.forgotpasswordotp).subscribe((z: any) => {
-        
+        this.toast.pwdchangedsuccess();
         this.modalCtrl.dismiss();
         this.loading.loadingController.dismiss()
          

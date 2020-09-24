@@ -166,6 +166,44 @@ export class GetService{
    }
  }
 
+ getLateDeliveryInvoices(data:string,userid:string,role:string,stdate:string,enddate:string,plant:string,division:string,org:string):Observable<any>{
+  if(role=="Customer"){
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterLateDeliveryInvoicesByUser?UserCode="+data+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+      retry(5),
+      catchError(this.handleError<any>('getHeroes', []))
+    );
+   }
+   else{
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterLateDeliveryInvoices?UserID="+userid+"&Organization="+org+"&Division="+division+"&Plant="+plant+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+   }
+ }
+
+ getOnTimeDeliveryInvoices(data:string,userid:string,role:string,stdate:string,enddate:string,plant:string,division:string,org:string):Observable<any>{
+  if(role=="Customer"){
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterOnTimeDeliveryInvoicesByUser?UserCode="+data+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+      retry(5),
+      catchError(this.handleError<any>('getHeroes', []))
+    );
+   }
+   else{
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterOnTimeDeliveryInvoices?UserID="+userid+"&Organization="+org+"&Division="+division+"&Plant="+plant+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+   }
+ }
+
+
+
  getItemDescription(username:string,userid:string,role:string,headerid:string):Observable<any>{
    if(role=="Customer"){
     return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserCode="+username+"&ID="+headerid).pipe(

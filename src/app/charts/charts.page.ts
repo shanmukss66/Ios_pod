@@ -185,110 +185,7 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
   
   
 
-  // ngOnInit() {
-    
-    
-  //   this.loading.presentLoading().then(()=>{
-  //     this.m.getpart().subscribe((x:any)=>{
-  //       this.userdetails = x.tok;
-  //       this.dataservice.SignedInUser(this.userdetails);
-  //     this.displayname = this.userdetails.displayName;
-  //       this.deliverychartdata = x.del;
-  //       this.invoicechartdata = x.inv;
-       
-  //       this.doughnutChartMethod()
-  //       this.doughnutChartMethod1()
-  //       this.loading.loadingController.dismiss();
-  //     } )
-       
-  //      })
-        
-    
- // }
-
   
- 
-  
-  
-  // doughnutChartMethod() {
-  //   this.doughnutChart1 = new Chart(this.doughnutCanvas1.nativeElement, {
-  //     type: 'doughnut',
-  //     options: {
-  //       responsive:false,
-  //       cutoutPercentage: 60,
-  //       legend : {position:'right',
-        
-  //       labels:{
-  //         usePointStyle:true,
-  //         fontFamily : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
-  //         fontSize : 10,
-          
-  //       },
-  //     }
-  //     },
-  //     data: {
-  //       labels: ['Approved'+"  "+"("+this.deliverychartdata.InLineDelivery+")",'Pending'+"  "+"("+this.deliverychartdata.DelayedDelivery+")"] ,
-  //       datasets: [{
-          
-  //         data: [this.deliverychartdata.InLineDelivery, this.deliverychartdata.DelayedDelivery],
-  //         backgroundColor: [
-
-  //           '#52de97',
-  //           '#eff54f',
-
-  //         ],
-
-  //       }]
-  //     }
-  //   });
-  // }
-  
-  // doughnutChartMethod1() {
-  //   this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-  //     type: 'doughnut',
-
-      
-  //     data: {
-  //       labels :['INVOICE DISPATCHED'+"  "+"("+this.invoicechartdata.PendingInvoices+")",'PARTIALLY CONFIRMED'+"  "+"("+this.invoicechartdata.PartiallyConfirmedInvoices+")",'POD CONFIRMED'+"  "+"("+this.invoicechartdata.ConfirmedInvoices+")"],
-        
-  //       datasets: [{
-          
-  //         data: [this.invoicechartdata.ConfirmedInvoices,this.invoicechartdata.PartiallyConfirmedInvoices ,this.invoicechartdata.PendingInvoices],
-      
-  //         backgroundColor: [
-  //           '#fb7800',
-  //           '#44c0b6',
-  //           '#4452c6'
-  //         ],
-
-  //       }]
-  //     },
-  //     options: {
-  //       responsive:false,
-  //       cutoutPercentage: 60,
-        
-  //       legend : {position:'right',
-       
-  //       labels:{
-  //         usePointStyle:true,
-  //         fontFamily : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
-  //         fontSize : 10
-  //       },
-  //     },onClick : (e,i:any)=>{
-  //       if(i[0]!=null){
-  //         console.log(i[0]._index);
-  //       this.loading.presentLoading().then(()=>{
-  //         this.router.navigate(['/invoice',JSON.stringify(this.userdetails),JSON.stringify(i[0]._index)]).then(()=>{
-  //           this.loading.loadingController.dismiss();
-  //         })
-  //       })
-  //       }
-        
-  //     }
-  //     }
-  //   });
-  // }
-  // events
   
 
   doughnutChart1Clicked(e: any): void {
@@ -304,6 +201,14 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
             const value = chart.data.datasets[0].data[clickedElementIndex];
             console.log(clickedElementIndex, label, value);
             if (label.toLowerCase() === "on time delivery") {
+
+                this.loading.presentLoading().then(()=>{
+                    this.router.navigate(['/on-time-and-late-invs',JSON.stringify(this.userdetails),JSON.stringify(1)]).then(()=>{
+                      this.loading.loadingController.dismiss();
+                    })
+                     
+                    
+                 })
                 // this.currentLabel = 'ON TIME DELIVERY';
                 // if (this.currentUserRole === "Amararaja User") {
                 //     this.FilterOnTimeDeliveryInvoices();
@@ -312,6 +217,14 @@ public colors1: any[] = [{ backgroundColor: ["#52de97", "#eff54f"] }];
                 // }
             }
             else if (label.toLowerCase() === "late delivery") {
+
+                this.loading.presentLoading().then(()=>{
+                    this.router.navigate(['/on-time-and-late-invs',JSON.stringify(this.userdetails),JSON.stringify(0)]).then(()=>{
+                      this.loading.loadingController.dismiss();
+                    })
+                     
+                    
+                 })
                 // this.currentLabel = 'LATE DELIVERY';
                 // if (this.currentUserRole === "Amararaja User") {
                 //     this.FilterLateDeliveryInvoices();

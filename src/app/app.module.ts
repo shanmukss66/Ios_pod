@@ -29,6 +29,7 @@ import {FilePath} from '@ionic-native/file-path/ngx'
 import {File} from '@ionic-native/file/ngx'
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
+
 @NgModule({
   declarations: [AppComponent,PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],
   entryComponents: [PendingdailogComponent,DescriptiondailogComponent,PopoverComponent,ChangePasswordComponent,ForgotPasswordComponent,ForgotPasswordOTPComponent],

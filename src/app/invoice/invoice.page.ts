@@ -146,12 +146,12 @@ export class InvoicePage implements OnInit {
             
           }
 
-        }
+        })
        
 
 
 
-      )
+      
     })
     
   }

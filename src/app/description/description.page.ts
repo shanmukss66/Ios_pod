@@ -38,9 +38,12 @@ export class DescriptionPage implements OnInit {
   Forder: number = 0;
   dataFromDailog: invUpdateandformdata;
   disableSelect = false;
+  hide_custnameDiv=true;
   inv_dt:string="";
   lr_dt:string="";
+  prop_dt:string="";
   dtpipe:DatePipe;
+  disable_save=false;
   
   header_id: InvoiceHeaderDetail;
   displayedColumns = ["material_code", "invoice_qty", "recieved_qty", "reason"];
@@ -77,6 +80,15 @@ export class DescriptionPage implements OnInit {
       this.dtpipe = new DatePipe('en-US');
       this.lr_dt = this.dtpipe.transform(this.lr_dt,'dd-MM-yyyy')
     }
+    if(this.invoicedetails.PROPOSED_DELIVERY_DATE!=null){
+      this.prop_dt=this.invoicedetails.PROPOSED_DELIVERY_DATE.slice(0,10);
+      this.dtpipe = new DatePipe('en-US');
+      this.prop_dt = this.dtpipe.transform(this.prop_dt,'dd-MM-yyyy')
+    }
+    if(this.userdetails.userRole==='Customer'){
+      this.hide_custnameDiv=false;
+    }
+    
     let urlTree = this.router.parseUrl(this.router.url);
     urlTree.queryParams = {}; 
     let urlcurrent= urlTree.toString();
@@ -158,7 +170,7 @@ export class DescriptionPage implements OnInit {
         mat: [z.mat],
         qty: [z.qty],
         uom: [z.uom],
-        rcvd: [z.rcvd, [Validators.required, Validators.max(parseInt(z.qty))]]
+        rcvd: [z.rcvd, [Validators.required, Validators.max(parseInt(z.qty)),Validators.min(0)]]
 
       })
       this.items.push(ctrl);
@@ -171,8 +183,20 @@ export class DescriptionPage implements OnInit {
     for (let h in formvalues) {
       this.onChangeQty(formvalues[h].rcvd, h);
     }
+    this.disableFormControlsForAM_User();
   }
 
+  disableFormControlsForAM_User(){
+    let formvalues = this.dataForm.get('items').value;
+    if(this.userdetails.userRole!='Customer'){
+      for (let h in formvalues) {
+        (<FormArray>this.dataForm.get('items')).controls[h].get('rcvd').disable();
+        (<FormArray>this.dataForm.get('items')).controls[h].get('key').disable();
+      }
+      this.disable_save=true;
+    }
+    
+  }
 
 
   onFormSubmit() {

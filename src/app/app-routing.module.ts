@@ -5,7 +5,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { GetAllInvoiceResolver } from './services/ApprovedInvoiceResolver.service';
 
 import { InvoiceDescriptionResolver } from './services/InvoiceDescriptionResolver.service';
-
+import {OnTimeAndLateInvResolver} from './services/OnTimeAndLateInvResolver.service'
 import { AuthGuardService } from './services/AuthGuardService.service';
 import { AuthGuard } from './auth.guard';
 import { DeliveryResolver } from './services/chartresolver.service';
@@ -45,7 +45,15 @@ const routes: Routes = [
     
     resolve:{descrptn:InvoiceDescriptionResolver},
     canActivate :[AuthGuard]
+  },
+  {
+    path: 'on-time-and-late-invs/:user_data/:selected_id',
+    loadChildren: () => import('./on-time-and-late-invs/on-time-and-late-invs.module').then( m => m.OnTimeAndLateInvsPageModule),
+    canActivate:[AuthGuard],
+    resolve:{OnTimeAndLateInv:OnTimeAndLateInvResolver}
+
   }
+
 ];
 
 @NgModule({
