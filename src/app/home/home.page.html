@@ -27,7 +27,7 @@
           <fieldset class="passfeild">
             <legend class="password">Password</legend>
             <diV style="width: 100%; display: flex;  justify-content: space-between; align-items: center;">
-              <ion-input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" required class="passinput"></ion-input>
+              <ion-input [type]="fieldTextType ? 'text' : 'password'" clear-on-edit="false" formControlName="password" required class="passinput"></ion-input>
               <img src="../../assets/img/eye@3x.png" class="passlogo" (click)="showpassword()">
             </diV>
           </fieldset>

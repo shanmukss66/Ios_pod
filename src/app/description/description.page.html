@@ -144,11 +144,11 @@
                 </div>
               </div>
      
-              <div fxLayout="row" *ngIf="!hide_custnameDiv" fxFlex style="height: 100%;">
+              <div fxLayout="row" *ngIf="!hide_custnameDiv" fxFlex  fxLayoutGap="10px" style="height: 100%;">
                 <div fxFlex="40" style="height: 100%;" fxLayoutAlign="end center"><img class="div1img"
                   src="../../assets/img/calendar.svg"></div>
                 <div fxFlex="60" style="height: 100%;" fxLayoutAlign="center start" fxLayout="column">
-                  <ion-label class="div1txt">PROP DELIVERY</ion-label>
+                  <ion-label class="div1txt">PROPOSED DELIVERY DT</ion-label>
                   <ion-label style="width: 85%;" class="div1det">{{prop_dt}}</ion-label>
                 </div>
               </div>
@@ -185,65 +185,7 @@
     <div style="width:89.2%; overflow: auto;">
 
 
-      <!-- <mat-table  [dataSource]="description_data" class="mat-elevation-z8">
-        
-
-        
-        
-        <ng-container matColumnDef="material_code">
-          <mat-header-cell *matHeaderCellDef>Material Code</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.MATERIAL_CODE}} </mat-cell>
-        </ng-container>
-
       
-        <ng-container  matColumnDef="invoice_qty">
-          <mat-header-cell  *matHeaderCellDef> Invoice Qty </mat-header-cell>
-          <mat-cell   *matCellDef="let element"> {{element.QUANTITY}} {{element.QUANTITY_UOM}} </mat-cell>
-        </ng-container>
-
-        
-        <ng-container   matColumnDef="recieved_qty">
-          <mat-header-cell *matHeaderCellDef> Recieved Qty </mat-header-cell>
-          <mat-cell    *matCellDef="let element">
-            <ion-item >
-              <ion-input  >{{element.RECEIVED_QUANTITY? element.RECEIVED_QUANTITY:element.QUANTITY }}</ion-input>
-            </ion-item>
-
-
-          </mat-cell>
-        </ng-container>
-
-
-        <ng-container  matColumnDef="reason">
-          <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
-          <mat-cell formArrayName="items" *matCellDef="let element;let j=index" >
-            <mat-form-field  appearance="fill">
-             
-              <mat-select formControlName="key">
-                <mat-option *ngFor="let reason of reasons;let i = index" [value]="reason.value">
-                  {{reason.viewValue}}
-                </mat-option>
-
-              
-
-              </mat-select>
-            
-            </mat-form-field>
-           <button mat-button [matMenuTriggerFor]="menu">
-              {{element.REASON? element.REASON:selected_reason}}
-            </button> 
-          </mat-cell>
-        </ng-container>
-
-
-
-
-        
-
-        <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row   style="padding-left:2%;padding-right:2% ;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      
-      </mat-table> -->
       <form style="overflow: auto;" [formGroup]="dataForm">
         <table class="table">
 
