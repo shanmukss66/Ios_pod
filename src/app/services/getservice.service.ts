@@ -20,8 +20,8 @@ import { ForgotPasswordOTP } from '../models/ForgotPasswordOTP.model';
 
 export class GetService{
   
-  //  baseUrl="http://210.212.229.104:8001";
-  baseUrl ="http://210.212.229.106:8090/"
+  //  baseUrl="http://210.212.229.104:8001/";
+   baseUrl ="http://210.212.229.106:8090/"
  constructor(private http:HttpClient,private dataservice:DataService, private route:ActivatedRoute,private toast:ToastMaker){
 
   
@@ -220,7 +220,13 @@ export class GetService{
    }
    
  }
-
+  
+ getDescriptionReasons(){
+    return this.http.get<any>(this.baseUrl+"/api/Master/GetAllReasons").pipe(
+      retry(5),
+      catchError(this.handleError<any>('getHeroes', []))
+    );
+ }
 
  confirmInvoiceItems(data:InvoiceUpdation1):Observable<any>{
    return this.http.post<any>(this.baseUrl+"/api/PODConfirmation/ConfirmInvoiceItems" , data).pipe(

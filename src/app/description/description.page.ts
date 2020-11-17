@@ -47,21 +47,24 @@ export class DescriptionPage implements OnInit {
   
   header_id: InvoiceHeaderDetail;
   displayedColumns = ["material_code", "invoice_qty", "recieved_qty", "reason"];
-  reasons: reasonSelectOption[] = [
-    { id: 1, value: '1', viewValue: 'Completely received' },
-    { id: 2, value: '2', viewValue: 'Partially received' },
-    { id: 3, value: '3', viewValue: 'Damaged' },
-    { id: 4, value: '4', viewValue: 'Others' }
-  ];
+  // reasons: reasonSelectOption[] = [
+  //   { id: 1, value: '1', viewValue: 'Completely received' },
+  //   { id: 2, value: '2', viewValue: 'Partially received' },
+  //   { id: 3, value: '3', viewValue: 'Damaged' },
+  //   { id: 4, value: '4', viewValue: 'Others' }
+  // ];
+  reasons: reasonSelectOption[] =[]
   selected = "1";
  backButtonSub
   constructor(private router: Router, private platform: Platform,private formBuilder: FormBuilder, public loadingcontroller: LoadingController, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, private storage: StorageService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private getservice: GetService, private activatedRoute: ActivatedRoute,private modalCtrl:ModalController ,private dialog: MatDialog) {
    
-    this.menuCtrl.enable(true)
+    this.menuCtrl.enable(true);
+    
   }
   
   ionViewWillLeave() {
     this.dataArr = [];
+    this.reasons=[];
   }
 
   
@@ -116,10 +119,19 @@ export class DescriptionPage implements OnInit {
       this.cnfbtn_hidden = false;
     }
     this.activatedRoute.data.subscribe((x: { descrptn: any }) => {
-      console.log(x.descrptn);
-      this.description_data = x.descrptn;
+      console.log(x.descrptn[0]);
+      this.description_data = x.descrptn[0];
       this.copydescription_data = this.description_data;
-      this.CreateFormControls()
+ 
+        console.log(x.descrptn[1]);
+        x.descrptn[1].forEach(element => {
+          this.reasons.push({id:element.ReasonID,value:(element.ReasonID).toString(),viewValue:element.Description}) 
+        });
+        console.log(this.reasons);
+        
+        this.CreateFormControls()
+     
+      
     },
       (catchError) => {
 

@@ -1,6 +1,6 @@
 import {Resolve, ActivatedRouteSnapshot , RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import {Injectable} from '@angular/core';
-import { Observable, empty ,of } from 'rxjs';
+import { Observable, empty ,of, forkJoin } from 'rxjs';
 import { GetService } from 'src/app/services/getservice.service';
 
 import { take, mergeMap, catchError, filter } from 'rxjs/operators'
@@ -26,7 +26,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
      
      
      
-    return  this.getservice.getItemDescription(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole,JSON.stringify(header_id.HEADER_ID));
+    return  forkJoin([this.getservice.getItemDescription(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole,JSON.stringify(header_id.HEADER_ID)),this.getservice.getDescriptionReasons()])
     
 }
 
