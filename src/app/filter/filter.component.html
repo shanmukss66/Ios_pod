@@ -26,7 +26,14 @@
           </ion-label>
         </div>
         <div>
-          <input [(ngModel)]="plant" class="inpt">
+          <!-- <input [(ngModel)]="plant" class="inpt"> -->
+          <mat-form-field style="width: 150px;" appearance="fill">
+            <mat-label>Plant</mat-label>
+            <mat-select [formControl]="plant" multiple>
+              
+              <mat-option *ngFor="let plants of PlantList" [value]="plants.PlantCode">{{plants.PlantCode}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div style="justify-content: space-between;width: 100%; display: flex;align-items: center;" >

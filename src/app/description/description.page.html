@@ -214,7 +214,7 @@
                   *ngIf="(dataForm.get('items').controls[i].get('rcvd').errors?.required)||(dataForm.get('items').controls[i].get('rcvd').errors?.max)||(dataForm.get('items').controls[i].get('rcvd').errors?.min)">
                   Invalid Qty</p>
               </td>
-              <td s [formGroupName]="i">
+              <td  [formGroupName]="i">
                 <!-- <mat-form-field style="width: 50%;"  appearance="fill">
                   <mat-select  formControlName="key">
                     <mat-option *ngFor="let reason of reasons;" [value]="reason.value">

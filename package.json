@@ -46,6 +46,7 @@
     "cordova-plugin-filechooser": "^1.2.0",
     "cordova-plugin-filepath": "^1.5.8",
     "cordova-plugin-ionic-webview": "^5.0.0",
+    "guid-typescript": "^1.0.9",
     "ng2-charts": "^2.3.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",

@@ -1,6 +1,6 @@
 export class FilterParam{
     status:string;
-    plant:string;
+    plant:string[];
     invno:string;
     stdate:string;
     enddate:string;

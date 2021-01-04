@@ -7,7 +7,20 @@ const routes: Routes = [
   {
     path: '',
     component: InvoicePage
+  },
+  {
+    path: 'pending-invoices',
+    loadChildren: () => import('./pending-invoices/pending-invoices.module').then( m => m.PendingInvoicesPageModule)
+  },
+  {
+    path: 'partial-confirmed-invoices',
+    loadChildren: () => import('./partial-confirmed-invoices/partial-confirmed-invoices.module').then( m => m.PartialConfirmedInvoicesPageModule)
+  },
+  {
+    path: 'confirmed-invoices',
+    loadChildren: () => import('./confirmed-invoices/confirmed-invoices.module').then( m => m.ConfirmedInvoicesPageModule)
   }
+
 ];
 
 @NgModule({

@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Platform, ModalController, NavParams } from '@ionic/angular';
 import { FilterParam } from '../models/FilterParam.model';
+import { PlantStructure } from '../models/PlantStruct.model';
 
 @Component({
   selector: 'app-filter',
@@ -14,18 +16,22 @@ export class FilterComponent implements OnInit {
   end_date:string="";
   customer_name:string="";
   invoice_number:string="";
-  plant:string="";
+  plant = new FormControl();
   flag = "yes";
   userRole="";
   hideforCustomer=true;
  @Input()  hidestatus=false;
  @Input() temphide="no"
  @Input() segment :number
+ @Input() PlantList:PlantStructure[];
   filterdata:FilterParam = new FilterParam();
   constructor(private modalCtrl:ModalController,private navPrams:NavParams) {
     this.userRole=this.navPrams.get('usr_role'),
     this.temphide=this.navPrams.get('hide_status')
     this.segment=this.navPrams.get('segment')
+    this.PlantList = this.navPrams.get('PlantList') as PlantStructure[]
+    console.log(this.PlantList);
+    
    }
 
   ngOnInit() {
@@ -42,7 +48,10 @@ export class FilterComponent implements OnInit {
       this.hidestatus=true
     }
 
-    
+    this.plant.valueChanges.subscribe(f=>{
+      console.log(f);
+      
+    })
 
   }
 
@@ -56,11 +65,11 @@ export class FilterComponent implements OnInit {
       this.status="Confirmed"
 
     }
-   
+  
    
     this.filterdata.status=this.status;
     this.filterdata.invno= this.invoice_number;
-    this.filterdata.plant=this.plant;
+    this.filterdata.plant=this.plant.value;
     this.filterdata.stdate=this.start_date;
     this.filterdata.enddate=this.end_date;
     this.filterdata.customername=this.customer_name;

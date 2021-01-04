@@ -13,6 +13,7 @@ import { ToastController } from '@ionic/angular';
 import { ToastMaker } from '../Toast/ToastMaker.service';
 import { ChangePassword } from '../models/ChangePassword.model';
 import { ForgotPasswordOTP } from '../models/ForgotPasswordOTP.model';
+import { FilterClass } from '../models/FilterClass.model';
 
 @Injectable({
     providedIn:"root"
@@ -20,8 +21,9 @@ import { ForgotPasswordOTP } from '../models/ForgotPasswordOTP.model';
 
 export class GetService{
   
-  //  baseUrl="http://210.212.229.104:8001/";
-   baseUrl ="http://210.212.229.106:8090/"
+    baseUrl="http://210.212.229.104:8001/";
+  // baseUrl ="http://210.212.229.106:8090/"
+   headers = new HttpHeaders({'Content-Type':'application/json'});
  constructor(private http:HttpClient,private dataservice:DataService, private route:ActivatedRoute,private toast:ToastMaker){
 
   
@@ -116,30 +118,30 @@ export class GetService{
    }
  }
 
- getApprovedInvoice(data:string,userid:string,role:string):Observable<any>{
+ getApprovedInvoice(data:string,userid:string,role:string,pgno:string,rc_cnt:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetConfirmedInvoiceDetailByUser?UserCode="+data).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterConfirmedInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetConfirmedInvoiceDetails?UserID="+userid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetConfirmedInvoiceDetails?UserID="+userid+"&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );;
    }
  }
 
- getPendingInvoice(data:string,userid:string,role:string):Observable<any>{
+ getPendingInvoice(data:string,userid:string,role:string,pgno:string,rc_cnt:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetOpenAndSavedInvoiceDetailByUser?UserCode="+data).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPendingInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetOpenAndSavedInvoiceDetails?UserID="+userid).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetOpenAndSavedInvoiceDetails?UserID="+userid+"&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
 
     
     retry(5),
@@ -149,15 +151,15 @@ export class GetService{
    }
  }
 
- getPartiallyConfirmedInvoice(data:string,userid:string,role:string):Observable<any>{
+ getPartiallyConfirmedInvoice(data:string,userid:string,role:string,pgno:string,rc_cnt:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=").pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoicesByUser?UserCode="+data+"&StartDate=&EndDate=&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate=").pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterPartiallyConfirmedInvoices?UserID="+userid+"&Organization=&Division=&Plant=&StartDate=&EndDate="+"&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
 
     
     retry(5),
@@ -167,15 +169,15 @@ export class GetService{
    }
  }
 
- getLateDeliveryInvoices(data:string,userid:string,role:string,stdate:string,enddate:string,plant:string,division:string,org:string):Observable<any>{
+ getLateDeliveryInvoices(data:string,userid:string,role:string,stdate:string,enddate:string,division:string,org:string,pgno:number,rc_cnt:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterLateDeliveryInvoicesByUser?UserCode="+data+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterLateDeliveryInvoicesByUser?UserCode="+data+"&StartDate="+stdate+"&EndDate="+enddate+"&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterLateDeliveryInvoices?UserID="+userid+"&Organization="+org+"&Division="+division+"&Plant="+plant+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterLateDeliveryInvoices?UserID="+userid+"&Organization="+org+"&Division="+division+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
 
     
     retry(5),
@@ -185,15 +187,15 @@ export class GetService{
    }
  }
 
- getOnTimeDeliveryInvoices(data:string,userid:string,role:string,stdate:string,enddate:string,plant:string,division:string,org:string):Observable<any>{
+ getOnTimeDeliveryInvoices(data:string,userid:string,role:string,stdate:string,enddate:string,division:string,org:string,pgno:number,rc_cnt:string):Observable<any>{
   if(role=="Customer"){
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterOnTimeDeliveryInvoicesByUser?UserCode="+data+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterOnTimeDeliveryInvoicesByUser?UserCode="+data+"&StartDate="+stdate+"&EndDate="+enddate+"&CurrentPage="+pgno+"&Records="+rc_cnt).pipe(
       retry(5),
       catchError(this.handleError<any>('getHeroes', []))
     );
    }
    else{
-    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterOnTimeDeliveryInvoices?UserID="+userid+"&Organization="+org+"&Division="+division+"&Plant="+plant+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/Dashboard/FilterOnTimeDeliveryInvoices?UserID="+userid+"&Organization="+org+"&Division="+division+"&StartDate="+stdate+"&EndDate="+enddate).pipe(
 
     
     retry(5),
@@ -203,8 +205,83 @@ export class GetService{
    }
  }
 
+// for Amararaja User
+getPendingInvoicesforAMuser(fc:FilterClass):Observable<any>{
+ console.log(fc);
+ 
+  return this.http.post<any>(this.baseUrl+"api/Dashboard/FilterPendingInvoices",fc,{headers:this.headers}).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
+
+getPartialInvoicesforAMuser(fc:FilterClass):Observable<any>{  
+
+  return this.http.post<any>(this.baseUrl+"api/Dashboard/FilterPartiallyConfirmedInvoices",fc,{headers:this.headers}).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
+
+getConfirmedInvoicesforAMuser(fc:FilterClass):Observable<any>{  
+
+  return this.http.post<any>(this.baseUrl+"api/Dashboard/FilterConfirmedInvoices",fc,{headers:this.headers}).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
 
 
+getLateInvoicesforAMuser(fc:FilterClass):Observable<any>{  
+
+  return this.http.post<any>(this.baseUrl+"api/Dashboard/FilterLateDeliveryInvoices",fc).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
+getOnTimeInvoicesforAMuser(fc:FilterClass):Observable<any>{  
+
+  return this.http.post<any>(this.baseUrl+"api/Dashboard/FilterOnTimeDeliveryInvoices",fc).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
+
+getFilteredInvoicesAMuser(fc:FilterClass,inv_cat):Observable<any>{
+
+  return this.http.post<any>(this.baseUrl+"api/PODConfirmation/FilterInvoices",fc,{headers:this.headers}).pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
+
+getPlantList():Observable<any>{
+  return this.http.get<any>(this.baseUrl+"api/Master/GetAllPlants").pipe(
+
+    
+    retry(5),
+    catchError(this.handleError<any>('getHeroes', []))
+    
+    );
+}
  getItemDescription(username:string,userid:string,role:string,headerid:string):Observable<any>{
    if(role=="Customer"){
     return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/GetInvoiceItemDetailsByUserAndID?UserCode="+username+"&ID="+headerid).pipe(
@@ -251,24 +328,16 @@ export class GetService{
  }
 
 
- getFilteredInvoice(usercode:string,status:string,sdate:string,edate:string,inumber:string,custname:string,plant:string,userID:string,userRole:string):Observable<any>{
+ getFilteredInvoiceForUser(usercode:string,status:string,sdate:string,edate:string,inumber:string,userRole:string):Observable<any>{
    if(userRole == "Customer"){
      
      
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+usercode+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber).pipe(
+    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetailByUser?UserCode="+usercode+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&CurrentPage=1&Records=500").pipe(
       retry(5),
       
     );;
    }
-   else{
-     
-     
-     
-    return this.http.get<any>(this.baseUrl+"/api/PODConfirmation/FilterInvoiceDetail?UserID="+userID+"&Status="+status+"&StartDate="+sdate+"&EndDate="+edate+"&InvoiceNumber="+inumber+"&Plant="+plant+"&CustomerName="+custname).pipe(
-      retry(5),
-      
-    );;
-   }
+   
     
  }
  sendEmailforOTP(data:string):Observable<any>{

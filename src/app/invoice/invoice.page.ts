@@ -15,10 +15,12 @@ import { invUpdateandformdata } from '../models/invUpdateandformdata.model';
 import { LoadingAnimation } from '../LoadingAnimation/LoadingAnimation.service';
 import { ToastMaker } from '../Toast/ToastMaker.service';
 import { catchError } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { forkJoin, pipe } from 'rxjs';
 import { StorageService } from '../services/storage.service';
 import { async } from '@angular/core/testing';
 import { FilterParam } from '../models/FilterParam.model';
+import { FilterClass } from '../models/FilterClass.model';
+import { PlantStructure } from '../models/PlantStruct.model';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.page.html',
@@ -34,6 +36,8 @@ export class InvoicePage implements OnInit {
   filteredPartiallyApprovedInvoices: InvoiceHeaderDetail[];
   invoiceupdation: InvoiceUpdation1 = new InvoiceUpdation1();
   segment:number= 1;
+  AmFliterObj:FilterClass ;
+  switchFlag:boolean = false;
   filterdata: FilterParam = new FilterParam();
   filteredInvoices: InvoiceHeaderDetail[];
   hideConfirm:false;
@@ -42,14 +46,15 @@ export class InvoicePage implements OnInit {
   dataFromDailog: invUpdateandformdata;
   ewaybillno: string = "";
   hidesearchstatus="yes";
-  
+  pgno=1;
+  cpgno=1;
   userdetails: TokenResponse = new TokenResponse();
   @ViewChild('slides', { static: true }) slider: IonSlides;
   @ViewChild('pageTop') pageTop: IonContent;
   constructor(private loadingController: LoadingController,private modalCtrl:ModalController,private platform: Platform,private storage:StorageService, private toast: ToastMaker, private loading: LoadingAnimation, private dataservice: DataService, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private router: Router, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private getservice: GetService) {
    
     this.menuCtrl.enable(true)
-   
+   this.switchFlag = false;
   }
 
   ngOnInit() {
@@ -82,7 +87,8 @@ export class InvoicePage implements OnInit {
   
       this.activatedRoute.data.subscribe((y: { approved: any }) => {
         console.log(y.approved);
-       
+        this.pgno = 1;
+        this.cpgno = 1;
         this.approvedinvoicedata = y.approved[0];
         if (this.filteredInvoices == null) {
           this.filteredApprovedInvoices = y.approved[0];
@@ -157,57 +163,320 @@ export class InvoicePage implements OnInit {
   }
 
   
+  loadMoreInvoices(event){
+   if(this.switchFlag){
+    this.pgno++;
+    this.getAllInvoices_loadmore(this.userdetails.userCode, this.filterdata.status, this.filterdata.stdate, this.filterdata.enddate, this.filterdata.invno, this.filterdata.customername,this.filterdata.plant ,this.userdetails.userID, this.userdetails.userRole,event)
+    
+  }
+   else{
+    this.pgno++;
+    this.cpgno = this.pgno;
+    if(this.userdetails.userRole!="Customer"){
+      this.AmFliterObj= new FilterClass();
+    
+      this.AmFliterObj.CurrentPage = this.pgno;
+        this.AmFliterObj.Records = 10;
+        this.AmFliterObj.UserID = this.userdetails.userID;
+        this.AmFliterObj.StartDate = null;
+        this.AmFliterObj.EndDate =null;
+        this.AmFliterObj.Organization ="";
+        this.AmFliterObj.Division ="";
+        this.AmFliterObj.PlantList =[];
+        forkJoin([this.getservice.getConfirmedInvoicesforAMuser(this.AmFliterObj),this.getservice.getPartialInvoicesforAMuser(this.AmFliterObj),this.getservice.getPendingInvoicesforAMuser(this.AmFliterObj)]).subscribe(x=>{
+        if(x[2]!=null){
+          this.filteredPendingInvoices.push(...x[2]);
+          this.pendinginvoicedata = this.filteredApprovedInvoices;
+        }
+        if(x[0]!=null){
+          this.filteredApprovedInvoices.push(...x[0]);
+          this.approvedinvoicedata = this.filteredApprovedInvoices;
+        }
+        if(x[1]!=null){
+          this.filteredPartiallyApprovedInvoices.push(...x[1]);
+          this.partiallinvoicedata = this.filteredPartiallyApprovedInvoices
+        }
+        
+        
+        
+         console.log(this.filteredPendingInvoices,this.filteredPendingInvoices,this.filteredApprovedInvoices);
+         
+        if(event){
+          event.target.complete();
+        }
+      })
+    }else{
+      forkJoin([this.getservice.getApprovedInvoice(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole,this.pgno.toString(),"10"),(this.getservice.getPartiallyConfirmedInvoice(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole,this.pgno.toString(),"10")),(this.getservice.getPendingInvoice(this.userdetails.userCode,this.userdetails.userID,this.userdetails.userRole,this.pgno.toString(),"10"))]).subscribe(x=>{
+        if(x[2]!=null){
+          this.filteredPendingInvoices.push(...x[2]);
+          this.pendinginvoicedata = this.filteredPendingInvoices;
+        }
+        if(x[0]!=null){
+          this.filteredApprovedInvoices.push(...x[0]);
+          this.approvedinvoicedata = this.filteredApprovedInvoices;
+        }
+        if(x[1]!=null){
+          this.filteredPartiallyApprovedInvoices.push(...x[1]);
+          this.partiallinvoicedata = this.filteredPartiallyApprovedInvoices;
+        }
+        
+        
+        
+       //  console.log(this.filteredPendingInvoices,this.filteredPendingInvoices,this.filteredApprovedInvoices);
+         
+         if(event){
+          event.target.complete();
+        }
+      })
+    }
+   
+   }
+   
+  } 
 
-  getAllInvoices(usercode,status:string,stdate:string,endate:string,invnum:string,custname:string,plant:string,usrid:string,usrrole:string){
+  getAllInvoices_loadmore(usercode,status:string,stdate:string,endate:string,invnum:string,custname:string,plant:string[],usrid:string,usrrole:string,event?:any){
+    
+      if(usrrole =="Customer"){
+        this.getservice.getFilteredInvoiceForUser(usercode, status, stdate, endate, invnum,usrrole).subscribe((data: any) => {
+          this.filteredInvoices = data;
+          console.log(data);
+         this.filteredApprovedInvoices=[];
+         this.filteredPartiallyApprovedInvoices=[];
+         this.filteredPendingInvoices=[];
+          this.filteredInvoices.forEach(z =>{
+            if(z.STATUS=="Confirmed"){
+              this.filteredApprovedInvoices.push(z)
+            }
+             if(z.STATUS =="PartiallyConfirmed"){
+                 this.filteredPartiallyApprovedInvoices.push(z); 
+            }
+             if(z.STATUS =="Saved"||z.STATUS=="Open"){
+              this.filteredPendingInvoices.push(z);
+            }
+          })
+          
+          if (this.filteredApprovedInvoices.length==0 && this.segment!=2) {
+            this.filteredApprovedInvoices = this.approvedinvoicedata;
+            
+          }
+          if(this.filteredPartiallyApprovedInvoices.length==0 && this.segment!=1){
+               this.filteredPartiallyApprovedInvoices = this.partiallinvoicedata;
+               
+          }
+          if(this.filteredPendingInvoices.length==0 && this.segment!=0) {
+            this.filteredPendingInvoices = this.pendinginvoicedata;
+            
+          }
+    
+         
+         
+          
+         if(event){
+      event.target.complete();
+    } 
+        },
+        (catchError) => {
+          
+         
+    
+          if (catchError.status == 0) {
+    
+            this.toast.internetConnection();
+          }
+          else {
+            this.toast.wentWrong();
+          }
+        });
+      }
+      else{
+        let filterAmData = new FilterClass();
+        filterAmData.CurrentPage = ++this.pgno;
+        filterAmData.Records = 500;
+        filterAmData.CustomerName = custname;
+        filterAmData.PlantList = plant!=null?plant:[];
+        
+        filterAmData.InvoiceNumber = invnum;
+        filterAmData.StartDate = stdate;
+        filterAmData.EndDate = endate;
+        filterAmData.UserID = this.userdetails.userID;
+        console.log(filterAmData);
+        
+       let inv_cat = ""
+       if(this.segment == 2){
+          filterAmData.Status = "Confirmed"
+       }
+       else if(this.segment == 1){
+          filterAmData.Status ="PartiallyConfirmed"
+       }
+       else{
+          filterAmData.Status = status;
+       }
+        this.getservice.getFilteredInvoicesAMuser(filterAmData,inv_cat).subscribe((fd:InvoiceHeaderDetail[])=>{
+          console.log(fd);
+          if(fd!=null){
+            if(this.segment == 2){
+              this.filteredApprovedInvoices.push(...fd)
+           }
+           else if(this.segment == 1){
+              this.filteredPartiallyApprovedInvoices.push(...fd);
+           }
+           else{
+              this.filteredPendingInvoices.push(...fd);
+           }
+           if(event){
+            event.target.complete();
+          }
+          }
+          else{
+            if(event){
+              event.target.complete();
+            }
+          }
+        
+          
+          
+        },
+        (catchError) => {
+          
+         
+    
+          if (catchError.status == 0) {
+    
+            this.toast.internetConnection();
+          }
+          else {
+            this.toast.wentWrong();
+          }
+        }
+        )
+      }
+    
+    
+  }
+
+  getAllInvoices(usercode,status:string,stdate:string,endate:string,invnum:string,custname:string,plant:string[],usrid:string,usrrole:string){
     this.loading.presentChartAnimation().then(()=>{
-      this.getservice.getFilteredInvoice(usercode, status, stdate, endate, invnum, custname,plant ,usrid, usrrole).subscribe((data: any) => {
-        this.filteredInvoices = data;
-        console.log(data);
-       this.filteredApprovedInvoices=[];
-       this.filteredPartiallyApprovedInvoices=[];
-       this.filteredPendingInvoices=[];
-        this.filteredInvoices.forEach(z =>{
-          if(z.STATUS=="Confirmed"){
-            this.filteredApprovedInvoices.push(z)
+      if(usrrole =="Customer"){
+        this.getservice.getFilteredInvoiceForUser(usercode, status, stdate, endate, invnum,usrrole).subscribe((data: any) => {
+          this.filteredInvoices = data;
+          console.log(data);
+         this.filteredApprovedInvoices=[];
+         this.filteredPartiallyApprovedInvoices=[];
+         this.filteredPendingInvoices=[];
+          this.filteredInvoices.forEach(z =>{
+            if(z.STATUS=="Confirmed"){
+              this.filteredApprovedInvoices.push(z)
+            }
+             if(z.STATUS =="PartiallyConfirmed"){
+                 this.filteredPartiallyApprovedInvoices.push(z); 
+            }
+             if(z.STATUS =="Saved"||z.STATUS=="Open"){
+              this.filteredPendingInvoices.push(z);
+            }
+          })
+          
+          if (this.filteredApprovedInvoices.length==0 && this.segment!=2) {
+            this.filteredApprovedInvoices = this.approvedinvoicedata;
+            this.loadingController.dismiss();
           }
-           if(z.STATUS =="PartiallyConfirmed"){
-               this.filteredPartiallyApprovedInvoices.push(z); 
+          if(this.filteredPartiallyApprovedInvoices.length==0 && this.segment!=1){
+               this.filteredPartiallyApprovedInvoices = this.partiallinvoicedata;
+               this.loadingController.dismiss();
           }
-           if(z.STATUS =="Saved"||z.STATUS=="Open"){
-            this.filteredPendingInvoices.push(z);
+          if(this.filteredPendingInvoices.length==0 && this.segment!=0) {
+            this.filteredPendingInvoices = this.pendinginvoicedata;
+            this.loadingController.dismiss();
           }
-        })
+    
+         
+         
+          this.loading.loadingController.dismiss();
         
-        if (this.filteredApprovedInvoices.length==0 && this.segment!=2) {
-          this.filteredApprovedInvoices = this.approvedinvoicedata;
-          this.loadingController.dismiss();
-        }
-        if(this.filteredPartiallyApprovedInvoices.length==0 && this.segment!=1){
-             this.filteredPartiallyApprovedInvoices = this.partiallinvoicedata;
-             this.loadingController.dismiss();
-        }
-        if(this.filteredPendingInvoices.length==0 && this.segment!=0) {
-          this.filteredPendingInvoices = this.pendinginvoicedata;
-          this.loadingController.dismiss();
-        }
-  
-       
-       
-        this.loading.loadingController.dismiss();
-       
-      },
-      (catchError) => {
+        },
+        (catchError) => {
+          
+          this.loading.loadingController.dismiss();
+    
+          if (catchError.status == 0) {
+    
+            this.toast.internetConnection();
+          }
+          else {
+            this.toast.wentWrong();
+          }
+        });
+      }
+      else{
+        let filterAmData = new FilterClass();
+        filterAmData.StartDate = stdate;
+        filterAmData.EndDate = endate;
+        filterAmData.Organization ="";
+        filterAmData.CustomerName = custname;
+        filterAmData.PlantList = plant!=null?plant:[];
+        filterAmData.Status = status;
+        filterAmData.InvoiceNumber = invnum;
         
-        this.loading.loadingController.dismiss();
-  
-        if (catchError.status == 0) {
-  
-          this.toast.internetConnection();
+        filterAmData.UserID = this.userdetails.userID;
+        filterAmData.CurrentPage = 1;
+        filterAmData.Records = 500;
+        
+       let inv_cat = ""
+       
+       if(this.segment == 2){
+          filterAmData.Status = "Confirmed"
+       }
+       else if(this.segment == 1){
+          filterAmData.Status ="PartiallyConfirmed"
+       }
+       else{
+          filterAmData.Status = status;
+       }
+       console.log(filterAmData);
+        this.getservice.getFilteredInvoicesAMuser(filterAmData,inv_cat).subscribe((fd)=>{
+          console.log(fd);
+          
+            if(this.segment == 2){
+              this.filteredApprovedInvoices =[]
+              if(fd!=null){
+                this.filteredApprovedInvoices.push(...fd)
+              }
+              
+           }
+           else if(this.segment == 1){
+             this.filteredPartiallyApprovedInvoices =[]
+             if(fd!=null){
+              this.filteredPartiallyApprovedInvoices.push(...fd);
+            }
+              
+           }
+           else{
+             this.filteredPendingInvoices =[]
+             if(fd!=null){
+              this.filteredPendingInvoices.push(...fd);
+            }
+              
+           }
+           this.loading.loadingController.dismiss();
+        
+          
+          
+
+          
+        },
+        (catchError) => {
+          
+          this.loading.loadingController.dismiss();
+    
+          if (catchError.status == 0) {
+    
+            this.toast.internetConnection();
+          }
+          else {
+            this.toast.wentWrong();
+          }
         }
-        else {
-          this.toast.wentWrong();
-        }
-      });
+        )
+      }
     })
     
   }
@@ -256,118 +525,7 @@ export class InvoicePage implements OnInit {
 
 
 
-  // openDailog(x: number, y: string) {
-  //   const dialogConfig = new MatDialogConfig();
-
-
-
-
-  //   this.getservice.getItemQuanttity(x).subscribe((data: any) => {
-  //     dialogConfig.autoFocus = true;
-      
-  //     dialogConfig.data = {
-  //       qnty: data,
-  //       headerid: x,
-  //       createdby: y
-  //     };
-  //     const dialogRef = this.dialog.open(PendingdailogComponent, dialogConfig);
-  //     this.loading.presentLoading().then(() => {
-  //     dialogRef.afterClosed().subscribe(
-  //       (data: invUpdateandformdata) => {
-  //         this.dataFromDailog = data
-          
-  //           if (data != null) {
-  //             this.invoiceupdation.HEADER_ID = x;
-  //             this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data.reportdate);
-  //             console.log(this.invoiceupdation);
-
-  //             //update invoice
-  //             this.getservice.confirmInvoiceItems(this.invoiceupdation).subscribe((z: any) => {   
-  //               console.log(z);
-                
-  //               //upload files
-  //               this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x: any) => {
-  //                 console.log(x);
-                  
-  //                           if(!this.dataFromDailog.isfileEmpty){
-  //                             this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
-  //                             this.loadingController.dismiss();
-  //                           }
-            
-            
-            
-  //               },
-  //               (catchError) => {
-  //                 this.loadingController.dismiss();
-            
-            
-  //                 if (catchError.status == 0) {
-            
-  //                   this.toast.internetConnection();
-  //                 }
-  //                 else {
-  //                   this.toast.wentWrongWithUpdatingInvoices();
-  //                 }
-  //               })
-                
-  //               if(this.dataFromDailog.isfileEmpty){
-  //                 this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
-  //                 this.loadingController.dismiss();
-  //               }
-
-                
-               
-  //             },
-          
-          
-  //             (catchError) => {
-  //               this.loadingController.dismiss();
-          
-          
-  //               if (catchError.status == 0) {
-          
-  //                 this.toast.internetConnection();
-  //               }
-  //               else {
-  //                 this.toast.wentWrongWithUpdatingInvoices();
-  //               }
-  //             }
-          
-              
-  //             )
-              
-
-  //           }
-            
-              
-  //             this.loadingController.dismiss();
-  //             this.toast.confirmationCancelled();
-  //       },
-  //       () => {
-  //         this.loadingController.dismiss();
-  //         this.toast.wentWrongWithUpdatingInvoices();
-
-  //       }
-        
-  //     );
-  //   })
-
-  //   },
-  //   (catchError) => {
-      
-
-
-  //     if (catchError.status == 0) {
-
-  //       this.toast.internetConnection();
-  //     }
-  //     else {
-  //       this.toast.wentWrong();
-  //     }
-  //   })
-
-
-  // }
+  
 
  async OpenDialogModal(x: number, y: string,i:string,i_dt,l_dt){
    let tempQty=0;
@@ -410,7 +568,7 @@ export class InvoicePage implements OnInit {
                
                          if(!this.dataFromDailog.isfileEmpty){
                           setTimeout(()=>{
-                            this.getAllInvoices(this.userdetails.userCode, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
+                            this.getAllInvoices(this.userdetails.userCode, "", "", "", "", "",null ,this.userdetails.userID, this.userdetails.userRole);
                             this.loadingController.dismiss();
                            this.toast.itemDetailsUpdationSuccess();
                           },2000)
@@ -435,7 +593,7 @@ export class InvoicePage implements OnInit {
              
              if(this.dataFromDailog.isfileEmpty){
                setTimeout(()=>{
-                this.getAllInvoices(this.userdetails.userName, "", "", "", "", "","" ,this.userdetails.userID, this.userdetails.userRole);
+                this.getAllInvoices(this.userdetails.userName, "", "", "", "", "",null ,this.userdetails.userID, this.userdetails.userRole);
                 this.loadingController.dismiss();
                 this.toast.itemDetailsUpdationSuccess();
               },2000)
@@ -513,109 +671,61 @@ export class InvoicePage implements OnInit {
 
 
 
-  // onClickFilter() {
-    
-  //   const filterconfig = new MatDialogConfig();
-  //   filterconfig.autoFocus = true;
-  //   filterconfig.hasBackdrop = true;
-  //   filterconfig.data = {
-  //     x: this.userdetails.userRole,
-  //     hidestatus:this.hidesearchstatus
-  //   }
-  //   const filter = this.dialog.open(FilterComponent, filterconfig);
-  //   filter.afterClosed().subscribe((y: any) => {
-  //     this.filterdata = y;
-     
-      
-  //     this.loading.presentLoading().then(() => {
-  //       try {
-  //           if(y!=null){
-  //             if (this.filterdata.get('flag').toString() == "yes") {
-  //               this.loadingController.dismiss();
-  //               this.getAllInvoices(this.userdetails.userName, this.filterdata.get('status').toString(), this.filterdata.get('start_date').toString(), this.filterdata.get('end_date').toString(), this.filterdata.get('invoice_number').toString(), this.filterdata.get('CustomerName').toString(),this.filterdata.get('plant').toString() ,this.userdetails.userID, this.userdetails.userRole)
-    
-                
-    
-  //             }
-  //             else {
-  //               this.loadingController.dismiss();
-  //               this.filteredApprovedInvoices = this.approvedinvoicedata;
-  //               this.filteredPendingInvoices = this.pendinginvoicedata;
-  //               this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
-  //             }
-  //           }
-  //           else {
-  //             this.loadingController.dismiss();
-  //             this.filteredApprovedInvoices = this.approvedinvoicedata;
-  //             this.filteredPendingInvoices = this.pendinginvoicedata;
-  //             this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
-  //           }
-         
+  
 
-  //       } catch (error) {
-          
-  //        this.loadingController.dismiss()
-         
-  //       }
-
-  //     }
-
-
-
-  //     )
-
-
-  //   }
-
-  //   )
-  // }
-
- async onClickFilterModal(){
-    const filterModal = await this.modalCtrl.create({
-      component:FilterComponent,
-      cssClass:"filter-modal",
-      componentProps:{
-        'usr_role':this.userdetails.userRole,
-        'hide_status':this.hidesearchstatus,
-        'segment':this.segment
-      }
-    })
-    await filterModal.present();
-    const {data} = await filterModal.onWillDismiss();
-   this.filterdata = data
-   this.loading.presentLoading().then(() => {
-    try {
-        if(this.filterdata!=null){
-          
-          console.log(this.filterdata.status);
-          
-          
-            this.loadingController.dismiss();
-            this.getAllInvoices(this.userdetails.userCode, this.filterdata.status, this.filterdata.stdate, this.filterdata.enddate, this.filterdata.invno, this.filterdata.customername,this.filterdata.plant ,this.userdetails.userID, this.userdetails.userRole)
-
+  onClickFilterModal(){
+   
+    this.getservice.getPlantList().subscribe(async (g:PlantStructure[])=>{
+      const filterModal = await this.modalCtrl.create({
+        component:FilterComponent,
+        cssClass:"filter-modal",
+        componentProps:{
+          'usr_role':this.userdetails.userRole,
+          'hide_status':this.hidesearchstatus,
+          'segment':this.segment,
+          'PlantList':g
+        }
+      })
+      await filterModal.present();
+      const {data} = await filterModal.onWillDismiss();
+     this.filterdata = data
+     this.loading.presentLoading().then(() => {
+      try {
+          if(this.filterdata!=null){
             
-
-         
-         
-        }
-        else {
-          this.loadingController.dismiss();
-          this.filteredApprovedInvoices = this.approvedinvoicedata;
-          this.filteredPendingInvoices = this.pendinginvoicedata;
-          this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
-        }
-     
-
-    } catch (error) {
-      
-     this.loadingController.dismiss()
-     
+            console.log(this.filterdata);
+            this.pgno=1;
+            this.switchFlag = true;
+            
+              this.loadingController.dismiss();
+              this.getAllInvoices(this.userdetails.userCode, this.filterdata.status, this.filterdata.stdate, this.filterdata.enddate, this.filterdata.invno, this.filterdata.customername,this.filterdata.plant ,this.userdetails.userID, this.userdetails.userRole)
+  
+              
+           
+           
+          }
+          else {
+            this.switchFlag = false;
+            this.pgno = this.cpgno
+            this.loadingController.dismiss();
+            this.filteredApprovedInvoices = this.approvedinvoicedata;
+            this.filteredPendingInvoices = this.pendinginvoicedata;
+            this.filteredPartiallyApprovedInvoices=this.partiallinvoicedata;
+          }
+       
+  
+      } catch (error) {
+        
+       this.loadingController.dismiss()
+       
+      }
+  
     }
-
-  }
-
-
-
-  )
+  
+  
+  
+    )
+    })
+    
   }
 }

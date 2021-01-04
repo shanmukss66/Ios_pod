@@ -211,6 +211,34 @@ export class DescriptionPage implements OnInit {
   }
 
 
+  refreshTableData(){
+    let reasonctrl = (<FormArray>this.dataForm.get('items'));
+    if (reasonctrl.valid) {
+      for (let h in this.copydescription_data) {
+
+        reasonctrl.controls[h].get('key').enable();
+
+
+      }
+      let formvalues = this.dataForm.get('items').value;
+
+      for (let h in this.copydescription_data) {
+        this.copydescription_data[h].REASON = (this.reasons.find(x => x.value === formvalues[h].key)).viewValue;
+        this.copydescription_data[h].RECEIVED_QUANTITY = formvalues[h].rcvd;
+        this.copydescription_data[h].STATUS = "Saved"
+      }
+      console.log(this.copydescription_data);
+      
+      this.invoiceupdation.InvoiceItems = this.copydescription_data;
+      return true;
+    }
+    else{
+      this.toast.checkTable();
+      return false;
+    }
+
+  }
+
   onFormSubmit() {
     let reasonctrl = (<FormArray>this.dataForm.get('items'));
     if (reasonctrl.valid) {
@@ -268,114 +296,6 @@ export class DescriptionPage implements OnInit {
 
   }
 
-
-
-  onChangeQty(s: number, i) {
-    let reasonctrl = (<FormArray>this.dataForm.get('items')).controls[i].get('key')
-    if (this.description_data[i].QUANTITY == s) {
-      reasonctrl.disable();
-      reasonctrl.setValue('1');
-    }
-    else {
-      reasonctrl.enable();
-    }
-
-  }
-
-  // openDailog(x: number) {
-  //   const dialogConfig = new MatDialogConfig();
-
-
-  //   dialogConfig.autoFocus = true;
-  //   dialogConfig.hasBackdrop = true;
-  //   dialogConfig.data = {
-
-  //     headerid: this.invoicedetails.HEADER_ID,
-  //     createdby: this.invoicedetails.CREATED_BY
-  //   };
-  //   const dialogRef = this.dialog.open(DescriptiondailogComponent, dialogConfig);
-    
-  //   this.loading.presentLoading().then(() => {
-  //     dialogRef.afterClosed().subscribe(
-
-  //       (data: invUpdateandformdata) => {
-  //         this.dataFromDailog = data
-  //         console.log("Dialog output:", data)
-
-  //         if (data != null) {
-
-  //           this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(data.reportdate);
-  //           this.invoiceupdation.InvoiceItems = this.description_data;
-  //           console.log(this.invoiceupdation);
-  //           this.invoiceupdation.InvoiceItems.forEach(element => {
-  //             element.STATUS = "Confirmed";
-
-  //           });
-
-  //           //update Invoice
-  //           this.getservice.updateInvoiceItems(this.invoiceupdation).subscribe((z: any) => {
-  //             console.log(z);
-  //             //upload files 
-  //             this.getservice.addInvoiceAttachment(this.dataFromDailog.files).subscribe((x: any) => {
-  //               console.log(x);
-  //             },
-  //               (catchError) => {
-  //                 this.loadingcontroller.dismiss();
-
-
-  //                 if (catchError.status == null) {
-
-  //                   this.toast.internetConnection();
-  //                 }
-  //                 else {
-  //                   this.toast.wentWrongWithUpdatingInvoices();
-  //                 }
-  //               })
-
-
-  //             this.loading.loadingController.dismiss().then(() => {
-  //               this.router.navigate(['/invoice', JSON.stringify(this.userdetails),"2"])
-  //             });
-
-  //           },
-  //             (catchError) => {
-  //               this.loadingcontroller.dismiss();
-
-
-  //               if (catchError.status == null) {
-
-  //                 this.toast.internetConnection();
-  //               }
-  //               else {
-  //                 this.toast.wentWrongWithUpdatingInvoices();
-  //               }
-  //             }
-
-
-  //           )
-
-  //         }
-  //         else{
-  //           this.loadingcontroller.dismiss();
-  //           this.toast.confirmationCancelled();
-  //         }
-
-
-
-
-  //       },
-  //       () => {
-  //         this.loadingcontroller.dismiss();
-  //         this.toast.wentWrongWithUpdatingInvoices();
-
-  //       }
-
-  //     );
-  //   })
-  // }
-
-
-
 async descriptionConfirmModal(){
   const descripModal = await this.modalCtrl.create({
     component:DescriptiondailogComponent,
@@ -395,10 +315,13 @@ async descriptionConfirmModal(){
 
 this.loading.presentLoading().then(()=>{
 
-  if (this.dataFromDailog != null) {
+  if (this.dataFromDailog != null && this.refreshTableData()) {
 
     this.invoiceupdation.VEHICLE_REPORTED_DATE = new Date(this.dataFromDailog.reportdate);
-    this.invoiceupdation.InvoiceItems = this.description_data;
+    
+    console.log(this.invoiceupdation.InvoiceItems);
+    
+   // this.invoiceupdation.InvoiceItems = this.description_data;
     console.log(this.invoiceupdation);
     this.invoiceupdation.InvoiceItems.forEach(element => {
       element.STATUS = "Confirmed";
@@ -474,7 +397,17 @@ this.loading.presentLoading().then(()=>{
 
 
 
+onChangeQty(s: number, i) {
+  let reasonctrl = (<FormArray>this.dataForm.get('items')).controls[i].get('key')
+  if (this.description_data[i].QUANTITY == s) {
+    reasonctrl.disable();
+    reasonctrl.setValue('1');
+  }
+  else {
+    reasonctrl.enable();
+  }
 
+}
 
 
 
